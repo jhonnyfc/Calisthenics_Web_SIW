@@ -50,3 +50,37 @@ body {
 	margin-top: 5%;
 }
 
+#Resenas{
+	margin-right: 5%; 
+	margin-left: 10%;
+	margin-top: 10%;
+	font-size: 120%;
+
+}
+#Resenas h1{
+	font-size: 30px;
+    margin-top: 40px;
+    margin-left: 0px;
+}
+
+
+#Resenas .card{
+	margin-right: 5%; 
+	margin-left: 5%;
+	margin-top: 5%;
+/*
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+*/
+	background-color: white;
+}
+/*
+.card-text{
+    font-size:19px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+*/
