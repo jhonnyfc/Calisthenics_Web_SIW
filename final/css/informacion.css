@@ -1,3 +1,8 @@
+#card-text{
+	overflow: hidden !important;
+
+}
+/*
 .navbar{
 	box-shadow: 2px 2px 5px #000;
 }
@@ -84,3 +89,7 @@ body {
     overflow: hidden;
 }
 */
+#card2 {
+	margin-top: 50px;
+
+}
