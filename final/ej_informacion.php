@@ -41,6 +41,7 @@
 	$pagina = isset($_GET['pagina']) ? $_GET['pagina'] : 1;
 	$indice = $pagina * 2;
 
+	
 
 	if ($pagina<$numero_pagina && $pagina==1) {
 		$boton_anterior=$pagina;
