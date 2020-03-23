@@ -1,4 +1,15 @@
 <?php 
+	function vmontarbarra_inicio($cadena) {
+		$menu = file_get_contents("barra_inicio.html");
+		$cadena = str_replace("##barra_inicio##", $menu, $cadena);
+		return $cadena;
+	}
+
+	function vmontarbarra_final($cadena) {
+		$menu = file_get_contents("barra_final.html");
+		$cadena = str_replace("##barra_final##", $menu, $cadena);
+		return $cadena;
+	}
 
 	function vmostrarinformacion($resultado, $pagina){
 		if (is_object($resultado)) {
@@ -16,7 +27,7 @@
 				$cont++;
 			}
 
-			$fichero=file_get_contents("informacion.html");
+			$fichero = file_get_contents("informacion.html");
 			$fichero = vmontarbarra_inicio($fichero);
 			$fichero = vmontarbarra_final($fichero);
 			$trozos=explode("##tarjetaInfo##", $fichero);
@@ -118,19 +129,29 @@
 
 	}
 
-
-	function vmontarbarra_inicio($cadena) {
-		$menu = file_get_contents("barra_inicio.html");
-		$cadena = str_replace("##barra_inicio##", $menu, $cadena);
-		return $cadena;
+	function vmostrarcontacto(){
+		$fichero = file_get_contents("contacto.html");
+		$fichero = vmontarbarra_inicio($fichero);
+		$fichero = vmontarbarra_final($fichero);
+		echo $fichero;
 	}
 
-	function vmontarbarra_final($cadena) {
-		$menu = file_get_contents("barra_final.html");
-		$cadena = str_replace("##barra_final##", $menu, $cadena);
-		return $cadena;
-	}
+	function vmostrarcontactook($resultado){
+		$fichero = file_get_contents("mensaje.html");
+		$fichero = vmontarbarra_inicio($fichero);
+		$fichero = vmontarbarra_final($fichero);
+		if ($resultado==1) {
+			$fichero = str_replace("##titulo_mensaje##", "Mensaje enviado correctamente.", $fichero);
+			$fichero = str_replace("##contenido_mensaje##","El mensaje ha sido enviado correctamente. Gracias por confiar en calisteniaweb.com" , $fichero);
+		}
+		elseif ($resultado==-1) {
+			$fichero = str_replace("##titulo_mensaje##", "Error en el envio del mensaje.", $fichero);
+			$fichero = str_replace("##contenido_mensaje##","Ha ocurrido un error a la hora de enviar en el mensaje. Compruebe su conexióna internet y vuelva a intentarlo más tarde. Gracias por confiar en calisteniaweb.com" , $fichero);
+		}
+		
 
+		echo $fichero;
+	}
 
 
 

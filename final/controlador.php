@@ -20,14 +20,25 @@
 	} else {
 		$pagina=1;
 	}
-		
-
 
 	if ($accion == "informacion") {
 		switch ($id) {
 			case '1':
 				//Mostrar informacion
 				vmostrarinformacion(mdatospublicaciones(),$pagina);
+				break;
+		}
+	}
+
+	if ($accion=="contacto") {
+		switch ($id) {
+			case '1':
+				//Mostrar contacto
+				vmostrarcontacto();
+				break;
+			case '2':
+				//Enviar email y mostrar mensaje OK
+				vmostrarcontactook(mdatoscorreo());
 				break;
 		}
 	}
