@@ -1,0 +1,1 @@
+Puede k haga falta una tabla auxiliar para unir rutina y usuario puesto k es una relacion N:M.
