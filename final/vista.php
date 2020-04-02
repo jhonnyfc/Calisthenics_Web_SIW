@@ -1,16 +1,34 @@
 <?php 
+	
+	/**
+	Funcion encargada de mostrar la barra de inicio
+	Recibe
+		cadena --> El archivo donde hay que montar la barra de inicio 
+	**/
 	function vmontarbarra_inicio($cadena) {
 		$menu = file_get_contents("barra_inicio.html");
 		$cadena = str_replace("##barra_inicio##", $menu, $cadena);
 		return $cadena;
 	}
 
+	/**
+	Funcion encargada de mostrar la barra de inicio
+	Recibe
+		cadena --> El archivo donde hay que montar la barra del final  
+	**/
 	function vmontarbarra_final($cadena) {
 		$menu = file_get_contents("barra_final.html");
 		$cadena = str_replace("##barra_final##", $menu, $cadena);
 		return $cadena;
 	}
 
+	/**
+	Funcion encargada de mostrar la informacion.html
+	Recibe
+		pagina --> El numero de paginas que hay para las publicaciones
+		resultado --> La informacion de las publicaciones
+		-1 --> Si existe algun error con la bases de datos
+	**/
 	function vmostrarinformacion($resultado, $pagina){
 		if (is_object($resultado)) {
 			
@@ -123,12 +141,20 @@
 
 		} else {
 			if ($resultado == -1) {
-				//vmostrarmensaje("Listado de personas", "No se puede realizar el listado de personas");
+				$fichero = file_get_contents("mensaje.html");
+				$fichero = vmontarbarra_inicio($fichero);
+				$fichero = vmontarbarra_final($fichero);
+				$fichero = str_replace("##titulo_mensaje##", "Listado de personas.", $fichero);
+				$fichero = str_replace("##contenido_mensaje##","Ha ocurrido un error con la base de datos.<br> Pruebe de nuevo en unos minuos." , $fichero);
+				echo $fchero;
 			}		
 		}
 
 	}
 
+	/**
+	Funcion encargada de mostrar el contacto.html
+	**/
 	function vmostrarcontacto(){
 		$fichero = file_get_contents("contacto.html");
 		$fichero = vmontarbarra_inicio($fichero);
@@ -136,23 +162,64 @@
 		echo $fichero;
 	}
 
+	/**
+	Funcion encargada de mostrar la el estado del envio del correo electronico
+	Recibe
+		 1 --> Se ha mandado correctamente
+		-1 --> Ha ocurrido algun error 
+		-2 --> El nombre esta mal definido
+		-3 --> El email esta mal definido
+		-4 --> El telefono esta mal definido
+		-5 --> El mensaje esta mal definido
+	**/
 	function vmostrarcontactook($resultado){
 		$fichero = file_get_contents("mensaje.html");
 		$fichero = vmontarbarra_inicio($fichero);
 		$fichero = vmontarbarra_final($fichero);
-		if ($resultado==1) {
-			$fichero = str_replace("##titulo_mensaje##", "Mensaje enviado correctamente.", $fichero);
-			$fichero = str_replace("##contenido_mensaje##","El mensaje ha sido enviado correctamente. Gracias por confiar en calisteniaweb.com" , $fichero);
+
+		switch ($resultado) {
+			case '1':
+				$fichero = str_replace("##titulo_mensaje##", "Mensaje enviado correctamente.", $fichero);
+				$fichero = str_replace("##contenido_mensaje##","El mensaje ha sido enviado correctamente. Gracias por confiar en calisteniaweb.com" , $fichero);
+				break;
+			case '-1':
+				$fichero = str_replace("##titulo_mensaje##", "Error en el envio del mensaje.", $fichero);
+				$fichero = str_replace("##contenido_mensaje##","Ha ocurrido un error a la hora de enviar en el mensaje. Compruebe su conexióna internet y vuelva a intentarlo más tarde. Gracias por confiar en calisteniaweb.com" , $fichero);
+				break;
+			case '-2':
+				$fichero = str_replace("##titulo_mensaje##", "Error en el nombre.", $fichero);
+				$fichero = str_replace("##contenido_mensaje##","El nombre debe estar compuesto unicamente por letras y espacios en blanco.<br> Por favor corrija este error para porder mandarnos su correo." , $fichero);
+				break;
+			case '-3':
+				$fichero = str_replace("##titulo_mensaje##", "Error en el email.", $fichero);
+				$fichero = str_replace("##contenido_mensaje##","El email esta mal escrito.<br> Por favor corrija este error para porder mandarnos su correo." , $fichero);
+				break;
+			case '-4':
+				$fichero = str_replace("##titulo_mensaje##", "Error en el telefono.", $fichero);
+				$fichero = str_replace("##contenido_mensaje##","El telefono debe estar compuesto unicamente por numeros sin espacios en blanco.<br> Por favor corrija este error para porder mandarnos su correo." , $fichero);
+				break;
+			case '-5':
+				$fichero = str_replace("##titulo_mensaje##", "Error en el mensaje.", $fichero);
+				$fichero = str_replace("##contenido_mensaje##","El mensaje debe estar formado unicamente por letras y espacios en blanco. Sin caracteres especiales. <br> Por favor corrija este error para porder mandarnos su correo." , $fichero);
+				break;
 		}
-		elseif ($resultado==-1) {
-			$fichero = str_replace("##titulo_mensaje##", "Error en el envio del mensaje.", $fichero);
-			$fichero = str_replace("##contenido_mensaje##","Ha ocurrido un error a la hora de enviar en el mensaje. Compruebe su conexióna internet y vuelva a intentarlo más tarde. Gracias por confiar en calisteniaweb.com" , $fichero);
-		}
-		
 
 		echo $fichero;
 	}
 
+	/**
+	Funcion encargada de mostrar el listado de ejercicios
+	Recibe
+		resultado --> Si se ha realizado la consulta correctamente
+		-1 --> Si existe algun problema con la base de datos
+	**/
+	function vmostrarejercicios($resultado){
+		$fichero = file_get_contents("lista_ejercicios.html");
+		$fichero = vmontarbarra_inicio($fichero);
+		$fichero = vmontarbarra_final($fichero);
+		echo $fichero;
 
+
+	}
 
 ?>

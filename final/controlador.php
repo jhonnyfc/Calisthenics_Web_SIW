@@ -43,6 +43,18 @@
 		}
 	}
 
+	if ($accion=="ejercicios") {
+		switch ($id) {
+			case '1':
+				//Mostrar ejercicios
+				vmostrarejercicios(mdatosejercicios());
+				break;
+			case '2':
+
+				break;
+		}
+	}
+
 
 
 
