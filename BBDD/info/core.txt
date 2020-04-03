@@ -1,0 +1,7 @@
+id,Nombre,nivel,musculos,valoracion,descripcion,idFoto
+0;Elevaciones cruzadas en posicion de flexiones;Principiante;Core;null;En el suelo en posicion de flexiones, extiende un brazo y eleva la pierna contraria, luego vuelve a la posicion inicial y repite por el otro lado para completar una repeticion;c001
+1;Elevacines de pierna alternas en posicion de flexiones;Principiante;Core;null;En el suelo en posicion de flexiones, eleva una pierna manteniendola estirada, luego vuleve a la posicion inicial y repite por el por rl otro lado para completar una repeticion;c002
+2;Isometrico Knne raises;Principiante;Core;null;Colocate colgado en la barra, flexiona las piernas y elevalas hasta que tus muslos formen un angulo recto con respecto a tu tronco. Aguanta en esa posicion por un tiempo determinado;c003
+3;Leg raises en suelo;Principiante;Core;null;Acostado boca arriba, levanta ambas piernas, manteniendolas rectas, hasta formar un angulo de 90º con el suelo. Vuelve a bajarlas pero no llegues a tocar el suelo;c004
+4;Plancha abdominal;Principiante;Core;null;Colocate en el suelo apoyando las puntas de los pies y todo el antebrazo. manten esta posicion por un tiempo determiando. Manten la espalda recta con respecto las piernas y el cuello en posicion neutra;c005
+5;

@@ -1,0 +1,12 @@
+Nombre,nivel,musculos,valoracion,descripcion,idFoto
+0;Australian chin ups;Principiante;Espalda,biceps;null;En una barra baja, colócate debajo para hacer un movimiento de remo con agarre supino (las palmas de las manos mirando hacia arriba).;eb001
+1;Australian pull ups;Principiante;Espalda,biceps;null;En una barra baja colócate por debajo para hacer un movimiento de remo con agarre prono.;eb002
+2;Dead hang;Principiante;Espalda,biceps;null;En una barra alta, quédate colgado por un tiempo determinado.;eb003
+3;Dominada negativa;Principiante;Espalda,biceps;null;Salta hasta colocarte con la barbilla por encima de la barra y luego baja de forma lenta y controlada;eb004
+4;Pullover;Principiante;Espalda,biceps;null;En una barra baja, da un paso hacia adelante y un pequeño salto flexionando la cadera y elevando los pies por encima de la barra, mientras tanto tira fuerte con los brazos para que coloques tu cadera apoyada en la misma y realices un giro.;eb005
+5;Dominadas;Intermedio;Espalda,biceps;null;Cuelgate con los codos bloqueados y sube hasta pasar la barra con la barbilla.;eb006
+6;Dead hang a una mano;Intermedio;Espalda,biceps;null;Cuelgate de la barra con una mano durante un tiempo determinado;eb007
+7;Dominada búlgara en anilals;Intermedio;Espalda,biceps;null;Coloca las anilals en altura y cuelgate de las mismas. Realiza una dominada intentando mantener una anchura entre tus manos del doble de la de tus hombors.;eb008
+8;Bandera; Avanzado;Espalda,biceps;null;En unas barras tipo espaldera, coloca una mano a una altura superior a tu cabeza y la otra a la altura de tu cintura. Intenta colocarte en posición paralela al suelo utilizando el brazo de abajo como apoyo y tirando un poco con el de arriba.;eb009
+9;Dominadas a un brazo;Avanzado;Espalda,biceps;null;Estando completamente colgado de un brazo, realiza una dominada.;eb010
+10;Dominadas arqueras;Avanzado;Espalda,biceps;null;En cada repetición, lleva la barbilla a una de las manos mientrás mantienes el otro brazo estirado, sin doblarlo en ningún momento.;eb011
