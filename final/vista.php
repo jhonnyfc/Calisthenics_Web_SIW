@@ -23,6 +23,17 @@
 	}
 
 	/**
+	Funcion encargada de mostrar el inicio
+	**/
+	function vmostrarinicio() {
+		$fichero = file_get_contents("inicio_valpha.html");
+		$fichero = vmontarbarra_inicio($fichero);
+		$fichero = vmontarbarra_final($fichero);
+		echo $fichero;
+
+	}
+
+	/**
 	Funcion encargada de mostrar la informacion.html
 	Recibe
 		pagina --> El numero de paginas que hay para las publicaciones
@@ -214,12 +225,79 @@
 		-1 --> Si existe algun problema con la base de datos
 	**/
 	function vmostrarejercicios($resultado){
-		$fichero = file_get_contents("lista_ejercicios.html");
-		$fichero = vmontarbarra_inicio($fichero);
-		$fichero = vmontarbarra_final($fichero);
-		echo $fichero;
+		if (is_object($resultado)) {
+			$fichero = file_get_contents("lista_ejercicios.html");
+			$fichero = vmontarbarra_inicio($fichero);
+			$fichero = vmontarbarra_final($fichero);
+			$trozos=explode("##carta_ejercicio##", $fichero);
 
+			$lista_ejercicios = "";
+			$aux = "";
+			
+			while($fila = mysqli_fetch_assoc($resultado)) {	
+				$aux = $trozos[1];
+				$aux=str_replace("##nombreejercicio##", $fila["NOMBRE"], $aux);
+				$aux=str_replace("##nombre_nivel##", $fila["NIVEL"], $aux);
+				$aux=str_replace("##nombre_musculo##", $fila["NOMBRE_MUSCULO"], $aux);
+				$aux=str_replace("##idfoto##", $fila["IDFOTO"], $aux);
+				$aux=str_replace("##idejercicio##", $fila["IDEJERCICIO"], $aux);
+				
+				if ($fila["NIVEL"] == "Principiante") {
+					$aux=str_replace("##nombre_color##", "primary", $aux);
+				} else if ($fila["NIVEL"] == "Intermedio") {
+					$aux=str_replace("##nombre_color##", "warning", $aux);
+				} else {
+					$aux=str_replace("##nombre_color##", "danger", $aux);
+				}
+				
+				$lista_ejercicios.= $aux;
+			}
+			
 
+			echo $trozos[0] . $lista_ejercicios . $trozos[2];
+		} else {
+			$fichero = file_get_contents("mensaje.html");
+			$fichero = vmontarbarra_inicio($fichero);
+			$fichero = vmontarbarra_final($fichero);
+			$fichero = str_replace("##titulo_mensaje##", "Listado de ejericicios.", $fichero);
+			$fichero = str_replace("##contenido_mensaje##","Ha ocurrido un error con la base de datos a la hora de mostrar el listado de ejercicios.<br> Pruebe de nuevo en unos minutos." , $fichero);
+			echo $fchero;
+		}
 	}
 
+	/**
+	Funcion encargada de mostrar la informacion de un ejercicio
+	Recibe
+		resultado --> Si se ha realizado la consulta correctamente
+		-1 --> Si existe algun problema con la base de datos
+	**/
+	function vmostrarejercicioinformacion($resultado) {
+		if (is_object($resultado)) {
+			$fichero = file_get_contents("info_ejercicio.html");
+			$fichero = vmontarbarra_inicio($fichero);
+			$fichero = vmontarbarra_final($fichero);
+
+			$fila = mysqli_fetch_assoc($resultado);
+			$fichero=str_replace("##ejercicio_nombre##", $fila["NOMBRE"], $fichero);
+			$fichero=str_replace("##ejercicio_descripcion##", $fila["DESCRIPCION"], $fichero);
+			$fichero=str_replace("##ejercicio_idfoto##", $fila["IDFOTO"], $fichero);
+			/*
+			if ($fila["NIVEL"] == "Principiante") {
+				$aux=str_replace("##nombre_color##", "primary", $aux);
+			} else if ($fila["NIVEL"] == "Intermedio") {
+				$aux=str_replace("##nombre_color##", "warning", $aux);
+			} else {
+				$aux=str_replace("##nombre_color##", "danger", $aux);
+			}
+			*/
+			echo $fichero;
+		} else {
+			$fichero = file_get_contents("mensaje.html");
+			$fichero = vmontarbarra_inicio($fichero);
+			$fichero = vmontarbarra_final($fichero);
+			$fichero = str_replace("##titulo_mensaje##", "informacion del ejercicio.", $fichero);
+			$fichero = str_replace("##contenido_mensaje##","Ha ocurrido un error con la base de datos a la hora de mostrar la infromacion del ejrecicios.<br> Pruebe de nuevo en unos minutos." , $fichero);
+			echo $fichero;	
+		}
+	}
 ?>

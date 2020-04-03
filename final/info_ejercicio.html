@@ -25,28 +25,41 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
     <!--Nuestra carpeta css-->
-    <link rel="stylesheet" href="css/lista_ejercicios.css">
-    
+
 </head>
 <body>
   <!-- header section strats -->
   ##barra_inicio##
   <!-- end header section -->
 
-
-  <div class="container_lista_ejercicios">
-    ##carta_ejercicio##
-        <div class="card">
-            <img src="BBDD/fotos/##idfoto##">
-            <h4>##nombreejercicio##</h4>
-            <p class="text-##nombre_color##">##nombre_nivel##</p>
-            <p class="text-dark">##nombre_musculo##</p>
-            <a href="index.php?accion=ejercicios&id=2&idejercicio=##idejercicio##">Leer más </a>
+  
+  <section class="about_section layout_padding">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="detail-box">
+            <div class="custom_heading-container">
+              <h2>
+                ##ejercicio_nombre##
+              </h2>
+              <hr>
+            </div>
+            <p>
+              ##ejercicio_descripcion##
+            </p>
+          </div>
         </div>
-    ##carta_ejercicio##
-    </div>  
+        <div class="col-md-6">
+          <div class="img-box">
+            <img src="BBDD/fotos/##ejercicio_idfoto##">
+          </div>
+        </div>
+      </div>
 
+    </div>
+  </section>
 
+  
   <!-- Parte final -->
     ##barra_final##
   <!-- Fin parte final -->
@@ -54,3 +67,4 @@
 
 </body>
 </html>
+

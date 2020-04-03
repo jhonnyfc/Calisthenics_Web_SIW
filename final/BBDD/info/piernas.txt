@@ -1,0 +1,17 @@
+﻿Id,Nombre,nivel,musculos,valoracion,descripcion,idFoto
+0;Elevaciones de gemelos;Principiante;Piernas;nullColocarse en el borde de un escalón o barra baja. Contraer el gemelo para ponerse de puntillas y luego volver a bajar.;p001
+1;Isométrico de sentadilla;Principiante;Piernas;null;Colocarse en  posición de sentadilla con las rodillas flexionadas a 90º y aguantar un tiempo determinado. Puedes utilizar una pared de apoyo.;p002
+2;Puentes femorales;Principiante;Piernas;null;Colocarse tumbado en el suelo boca arriba, flexionar rodillas y levantar la cadera hasta que la espalda quede alineada con los muslos.;p003
+3;Sentadilla;Principiante;Piernas;null;Colocar las piernas con una apertura un poco mayor que la de los hombros, puntas de los pies ligeramente hacia fuera, flexionar rodillas para bajar hasta los 90º y volver a subir. Mantener la espalda recta.;p004
+4;Zancadas;Principiante;Piernas;null;Adelantar una pierna dejando la otra atrás y flexionar la rodilla hasta un ángulo de 90º, volver a la posición inicial y cambiar de piernas.;p005
+5;Bulgarian squat;Intermedio;Piernas;null;Con el empeine apoyado en un banco o barra baja, colocarse en posición de zancada y realizar repeticiones.;p006
+6;Sentadilla parcial a una pierna;Intermedio;Piernas,null;Colocate en equilibrio a la pata coja y realiza repeticiones cortas, bajando hasta los 45º.;p007
+7;Sentadilla sumo;Intermedio;Piernas;null;Realizar sentadillas con una apertura de piernas superior a la normal y con las puntas de losp ies mirando hacia fuera.;p008
+8;Pistol squat;Avanzado;Piernas;null;De pie a la pata coja, baja con una pierna estirada. Los glúteos deben llegar a rozar el suelo y no se debe levantar el talón en ningún momento. Puedes ayudarte apoyando la mano en la pared o alguna barra.;p009
+9;Pistol squat explosiva;Avanzado;Piernas;null;Realzia un pistol squat pero de manera explosiva, saltando al estirar la pierna.;p010
+10;Saltos a la plataforma;Avanzado;Piernas;null;Colócate frente una plataforma o banco que esté a la altura de tu cintura aproximadamente y realiza una sentadilla explosiva y sube a dicha plataforma con los pies a la vez, baja de un salto hacia atrás y repite.;p011
+11;Isométrico contra la pared a una pierna;Avanzado;Piernas;null;Colócate sentado contra la pared con una pierna en el suelo y la otra estirada hacia el frente, aguanta durante un tiempo determinado y mantén un ángulo de 90º en la pierna flexionada.;p012
+
+
+
+
