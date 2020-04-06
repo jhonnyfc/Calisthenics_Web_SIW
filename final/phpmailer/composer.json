@@ -1,0 +1,13 @@
+{
+    "name": "usuario/phpmailer",
+    "description": "Envio de emails.",
+    "authors": [
+        {
+            "name": "Daniel",
+            "email": "danieldbg1Calisteniaweb@gmail.com"
+        }
+    ],
+    "require": {
+        "phpmailer/phpmailer": "^6.1"
+    }
+}
