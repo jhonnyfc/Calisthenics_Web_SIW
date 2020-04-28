@@ -161,7 +161,7 @@
 				$fichero = vmontarbarra_final($fichero);
 				$fichero = str_replace("##titulo_mensaje##", "Listado de personas.", $fichero);
 				$fichero = str_replace("##contenido_mensaje##","Ha ocurrido un error con la base de datos.<br> Pruebe de nuevo en unos minuos." , $fichero);
-				echo $fchero;
+				echo $fichero;
 			}		
 		}
 
