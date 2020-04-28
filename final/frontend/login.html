@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <title>Login</title>
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="css/login.css">
+
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+<body>
+
+    <div class="main">
+        <section class="signup">
+            <div class="container">
+                <div class="signup-content">
+                    <form action="index.php" method="POST">
+                        <h2 class="form-title">Login</h2>
+                        <div class="form-group">
+                            <input type="text" class="form-input" name="nickname" id="nickname" placeholder="Nickname" required />
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-input" name="password" id="password" placeholder="Contraseña" required/>
+                            <span toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" name="submit" id="submit" class="form-submit" value="Enviar"/>
+                        </div>
+                        <input type="hidden" name="accion" value="login">
+                        <input type="hidden" name="id" value="4">
+                    </form>
+                    <p class="loginhere">
+                        ¿Ha olvidado su contraseña? <a href="index.php?accion=login&id=5" class="loginhere-link">Cambiar contraseña</a>
+                    </p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- JS -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/eye_password.js"></script>
+
+
+</body>
+</html>
