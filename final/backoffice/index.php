@@ -22,10 +22,13 @@
 
     if ($accion == "ini_sesi") {
 		switch ($id) {
-			case '1':
-				//Mostrar inicio
-				vmostrarinicio();
-				break;
+            case '1':# mostrar inicio sesion por primer vez
+				echo mostrar_iniSesion(null);
+                break;
+            case '2':# veridficacion de los datos de sesion
+                break;
+            case '3': # abrir vista de ventana para recuperar contraseña
+                break;
 		}
 	} 
 
@@ -33,6 +36,5 @@
     if (isset($_SESSION["logged"])){
         echo mostrar_iniSesion($_SESSION["id"],$_SESSION["key"]);
     } else {
-        echo mostrar_iniSesion(null,null);
     }
 ?>

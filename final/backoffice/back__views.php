@@ -1,9 +1,11 @@
 <?php
-    function mostrar_iniSesion($_id,$_key){
-        if ($_id == null){
+    function mostrar_iniSesion($_iniOk){
+        if ($_iniOk == null){
             $viewIni = file_get_contents("back_temp_inisesion.html");
             return $viewIni;
-        } else {
+        } else if ($_iniOk == 1){
+
+        }else{
             
         }
     }
