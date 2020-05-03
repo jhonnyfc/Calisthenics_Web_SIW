@@ -10,15 +10,23 @@
     function mo_conexionbasedatos() {
 		$conexion = mysqli_connect("http://webalumnos.tlm.unavarra.es:10800/", "grupo33","KaNgiga9to","db_grupo33");
 		return $conexion;
-	}
+    }
 
     # Cambio de contraseña de usuario
-    #  1: contraseña cambiada correctamente
-    # -1: error de conexion con bbdd
-    # -2: usuario con encontrado en la base de datos
-    # -3: error ala actualizar la contraseña
+    #IN:
+    # email: String con el correo
+    #OUT:
+    #   1: contraseña cambiada correctamente
+    #  -1: error de conexion con bbdd
+    #  -2: correo electornico errono O usuario no encontrado en la base de datos
+    #  -3: error ala actualizar la contraseña
     # -54: erro al enviar el correo
     function mo_resetConstraseña($email){
+        $email =  $_POST["email"];
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+			return -2;
+        }
+        
         $bbdd = conexionbasedatos();
         if (!$bbdd) {
             return -1;
@@ -35,16 +43,20 @@
                 } else {
                     return -3;
                 }
-            } else{
+            } else {
                 return -2;
             }
         }
     }
 
     # Envio de mensaje
-    #  1: enviado correctamente
+    #IN:
+    # emailDes: String con correo destino
+    # bodyTx: String con el mensaje acepta html
+    #OUT:
+    #   1: enviado correctamente
     # -54: erro al enviar
-    function mo_send_mail($maildes,$bodyTx){
+    function mo_send_mail($emailDes,$bodyTx){
         $mail = new PHPMailer(true);
         try {
             //Server settings
@@ -56,7 +68,7 @@
             $mail->Password = "123456789diez"; // "The password"
             $mail->Port = 465; // "The port"
             $mail->setFrom('calistenia.web@gmail.com', 'Vadim Bot');
-            $mail->addAddress($maildes);
+            $mail->addAddress($emailDes);
             $mail->isHTML(true);
             $mail->Subject = 'Calistenia Web _ New Pass';
             $mail->Body    = $bodyTx;
@@ -68,6 +80,10 @@
     }
 
     # Creacion de una nueva contraseña random
+    #IN:
+    # length: longitud de la contraseña a generar
+    #OUT:
+    # randomString: nueva contraseña genrada
     function mo_getRandomKey($length) {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $randomString = '';

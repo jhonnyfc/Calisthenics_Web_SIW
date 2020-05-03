@@ -10,7 +10,7 @@
 	}
 
 	/**
-	Funcion encargada de recoger la informacion de la tabla final_publicacion
+	Funcion encargada de recoger la informacion de la tabla final_FT_publicacion
 	Envia
 		resultado --> Si se ha realizado la consulta correctamente
 		-1 --> Si existe algun problema con la base de datos
@@ -18,7 +18,7 @@
 	function mdatosPublicaciones(){
 		$conexion = conexionbasedatos();
 
-		$consulta = "select * from final_publicacion";
+		$consulta = "select * from final_FT_publicacion";
 		if ($resultado = $conexion->query($consulta)) {
 			return $resultado;
 		} else {
@@ -96,7 +96,7 @@
 	}
 
 	/**
-	Funcion encargada de recoger la informacion de la tabla final_ejercicio
+	Funcion encargada de recoger la informacion de la tabla final_FT_ejercicio
 	Envia
 		resultado --> Si se ha realizado la consulta correctamente
 		-1 --> Si existe algun problema con la base de datos
@@ -105,7 +105,7 @@
 		$conexion = conexionbasedatos();
 
 		$consulta = "select FE.IDEJERCICIO, FE.NOMBRE_EJERCICIO, FG.NOMBRE_MUSCULO , FE.NIVEL_EJERCICIO, FE.DESCRIPCION, FE.IDFOTO
-					from final_ejercicio FE, final_grupo FG
+					from final_FT_ejercicio FE, final_FT_grupo FG
 					where FE.MUSCULO = FG.IDGRUPO;";
 
 		if ($resultado = $conexion->query($consulta)) {
@@ -128,7 +128,7 @@
 		$idejercicio = $_GET["idejercicio"];
 
 		$consulta = "select FE.IDEJERCICIO, FE.NOMBRE_EJERCICIO, FG.NOMBRE_MUSCULO , FE.NIVEL_EJERCICIO, FE.DESCRIPCION, FE.IDFOTO
-					from final_ejercicio FE, final_grupo FG
+					from final_FT_ejercicio FE, final_FT_grupo FG
 					where FE.MUSCULO = FG.IDGRUPO AND FE.IDEJERCICIO = '$idejercicio';";
 
 		if ($resultado = $conexion->query($consulta)) {
@@ -156,7 +156,7 @@
 		$contraseña = md5($contraseña);
 
 		$consulta = "select * 
-					from final_usuario 
+					from final_FT_usuario 
 					where nickname = '$nickname'; ";
 
 		if ($resultado = $conexion->query($consulta)) {
@@ -164,7 +164,7 @@
 				return -2;
 			}
 			else {
-				$consulta = "insert into final_USUARIO values ('$nickname', '$nombre', '$apellido1', '$email', '$contraseña');";
+				$consulta = "insert into final_FT_USUARIO values ('$nickname', '$nombre', '$apellido1', '$email', '$contraseña');";
 				if ($resultado = $conexion->query($consulta)) {
 					$_SESSION["nickname"] = $nickname;
 					$_SESSION["contraseña"] = $contraseña;
@@ -194,7 +194,7 @@
 		$contraseña = md5($contraseña);
 
 		$consulta = "select * 
-					 from final_USUARIO
+					 from final_FT_USUARIO
 					 where nickname = '$nickname';";
 
 		if ($resultado = $conexion->query($consulta)) {
@@ -229,7 +229,7 @@
 		$contraseña = $_SESSION["contraseña"];
 
 		$consulta = "select * 
-					 from final_USUARIO
+					 from final_FT_USUARIO
 					 where nickname = '$nickname';";
 
 		if ($resultado = $conexion->query($consulta)) {
@@ -270,7 +270,7 @@
 
 		$conexion = conexionbasedatos();
 		$consulta = "select *
-					 from final_USUARIO
+					 from final_FT_USUARIO
 					 where NICKNAME = '$nickname' and CORREO = '$email';";
 		if ($resultado = $conexion->query($consulta)) {
 			if ($datos = $resultado->fetch_assoc()) {
@@ -281,7 +281,7 @@
 				}
 				$nueva_contraseña_usuario = $nueva_contraseña;
 				$nueva_contraseña = md5($nueva_contraseña);
-				$consulta = "update final_USUARIO SET CONTRASEÑA = '$nueva_contraseña' where nickname = '$nickname';";
+				$consulta = "update final_FT_USUARIO SET CONTRASEÑA = '$nueva_contraseña' where nickname = '$nickname';";
 				if ($resultado = $conexion->query($consulta)) {
 					$mail = new PHPMailer(true);
 
