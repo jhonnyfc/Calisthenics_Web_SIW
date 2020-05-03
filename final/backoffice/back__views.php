@@ -1,12 +1,18 @@
 <?php
-    function mostrar_iniSesion($_iniOk){
-        if ($_iniOk == null){
+    function viw_mostrar_iniSesion($iniOk){
+        if ($iniOk == null){
             $viewIni = file_get_contents("back_temp_inisesion.html");
-            return $viewIni;
-        } else if ($_iniOk == 1){
+            echo $viewIni;
+        } else if ($iniOk == 1){
 
         }else{
-            
+
         }
     }
+
+    function viw_mostrar_recuperarKey(){
+        $viewRecu = file_get_contents("back_temp_forgot-password.html");
+        echo $viewRecu;
+    }
+
 ?>
