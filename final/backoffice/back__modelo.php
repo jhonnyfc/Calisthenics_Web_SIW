@@ -6,29 +6,18 @@
     // Load Composer's autoloader
     require 'vendor/autoload.php';
 
+    set_error_handler(function($errno, $errstr, $errfile, $errline, $errcontext) {
+        // error was suppressed with the @-operator
+        return "xd";
+    });
+
     # Conexion con la base de datos
     function mo_conexionbasedatos() {
-        $mysqli = new mysqli("http://webalumnos.tlm.unavarra.es:10800/", "grupo33","KaNgiga9to","db_grupo33");
-        
-        if ($mysqli->connect_errno) {
-            // La conexión falló. ¿Que vamos a hacer? 
-            // Se podría contactar con uno mismo (¿email?), registrar el error, mostrar una bonita página, etc.
-            // No se debe revelar información delicada
-        
-            // Probemos esto:
-            echo "Lo sentimos, este sitio web está experimentando problemas.<br>";
-        
-            // Algo que no se debería de hacer en un sitio público, aunque este ejemplo lo mostrará
-            // de todas formas, es imprimir información relacionada con errores de MySQL -- se podría registrar
-            echo "Error: Fallo al conectarse a MySQL debido a: \n<br>";
-            echo "Errno: " . $mysqli->connect_errno . "\n<br>";
-            echo "Error: " . $mysqli->connect_error . "\n<br>";
-            
-            // Podría ser conveniente mostrar algo interesante, aunque nosotros simplemente saldremos
-            exit;
+        try{
+            return new mysqli("http://webalumnos.tlm.unavarra.es:10800/", "grupo33","KaNgiga9to","db_grupo33");
+        }catch (Throwable $t) {
+            return False;
         }
-         die();
-		return $mysqli;
     }
 
     # Cambio de contraseña de usuario

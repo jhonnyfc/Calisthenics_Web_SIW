@@ -23,25 +23,20 @@
     if ($accion == "ini_sesi") {
 		switch ($id) {
             case '1':# mostrar inicio sesion por primer vez
-                viw_mostrar_iniSesion(null,null);
+                viw_mostrar_iniSesion(-1);
                 break;
             case '2':# verificacion de los datos de sesion
                 $code; # puede ser 1, -1 corro no encontrado, -2 contrseña erronea
-                if ($code == 1) {
-                    # Sesion correcta mostrar dashBoard
-                } else {
-                    # Error con los datos ingrasados Mostrar POPUP con el error
-                    viw_mostrar_iniSesion($code,null);
-                }
-                break;
-            case '3': # abrir vista de ventana para recuperar contraseña
-                viw_mostrar_resetKey();
+                viw_mostrar_iniSesion($code);
                 break;
 		}
 	} elseif ($accion == "recuperarKey"){
         switch ($id) {
             case '1':# Comprobar si existe el email introducido y eviar un email con la nueva contraseña
-                viw_mostrar_iniSesion(null,mo_resetConstraseña());
+                viw_mostrar_resetKey(null);
+                break;
+            case '2':# Comprobar si existe el email introducido y eviar un email con la nueva contraseña
+                viw_mostrar_resetKey(mo_resetConstraseña());
                 break;
 		}
     }

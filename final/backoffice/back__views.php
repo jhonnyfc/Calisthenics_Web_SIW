@@ -1,43 +1,68 @@
 <?php
-    # Mostrar plantilla inicio sesion
+    # Mostrar plantilla inicio sesion o Registro
     #IN:
-    #    iniOk: integer codigo de comprobacion de inicion de sesion
-    # restPass: indeger codigo de comporbacion de cambion de contraseñ
-    function viw_mostrar_iniSesion($iniOk,$restPass){
-        $viewIni = file_get_contents("back_temp_inisesion.html");
-        if ($iniOk == null and $restPass == null){
-            //echo $viewIni;
-        } else {
-            if ($iniOk != null){
-                switch ($iniOk){
-                    case 1:
-                        break;
-                    case -1:
-                        break;
-                    case -2:
-                        break;
-                }
-            }elseif ($restPass != null){
-                echo $restPass;
-                switch ($restPass){
-                    case 1:
-                        break;
-                    case -1:
-                        break;
-                    case -2:
-                        break;
-                    case -3:
-                        break;
-                    case -54:
-                        break;
-                }
+    #  iniCode: integer codigo de comprobacion de inicion de sesion
+    function viw_mostrar_iniSesion($iniCode){
+        $view = file_get_contents("back_temp_inisesion.html");
+        if ($iniCode != null){
+            switch ($iniCode){
+                case 1:############## Mostrar dashboard
+                    break;
+                case -1:
+                    $alert = vi_createAlert("Error","Correo erroneo","error");
+                    break;
+                case -2:
+                    $alert = vi_createAlert("Error","Contraseña incorrecta","error");
+                    break;
+                default:
+                    $alert = "";
+                    break;
             }
         }
-        echo $viewIni;
+        echo $alert;
+        $trozos = explode("##PutAlterHere##",$view);
+        echo $trozos[0].$alert.$trozos[1];
     }
 
-    function viw_mostrar_resetKey(){
-        $viewRecu = file_get_contents("back_temp_forgot-password.html");
-        echo $viewRecu;
+    # Crea la vista para recuperar la contraseña
+    #IN:
+    # resetPass: Integer con el codigo de la vista
+    function viw_mostrar_resetKey($restCode){
+        $view = file_get_contents("back_temp_forgot-password.html");
+        $alert = "";
+        if ($restCode != null){
+            switch ($restCode){
+                case 1:
+                    $view = file_get_contents("back_temp_inisesion.html");
+                    $alert = vi_createAlert("Succes","Contraseña camibada correctamente","succes");
+                    break;
+                case -1:
+                    $alert = vi_createAlert("Error","Erorr de conxion con la BBDD","error");
+                    break;
+                case -2:
+                    $alert = vi_createAlert("Error","Usuario no registrado / Correo erroneo","error");
+                    break;
+                case -3:
+                    $alert = vi_createAlert("Error","Error al actualizar la contraseña","error");
+                    break;
+                case -54:
+                    $alert = vi_createAlert("Error","Error al enviar el correro, realice de nuevo la operacion","error");
+                    break;
+            }
+        }
+        $trozos = explode("##PutAlterHere##",$view);
+        echo $trozos[0].$alert.$trozos[1];
+    }
+
+    # Crador de Alertas
+    #IN:
+    #     titulo: String con el texto
+    #    mensaje: String con el texto
+    # tipoAlerta: String con el tipo {error,succes,info,warning}
+    #OUT:
+    # String: con la alerta
+    function vi_createAlert($titulo,$mesaje,$tipoAlerta){
+        $alert = "<script> swal(\"".$titulo."\",\"".$mesaje."\",\"". $tipoAlerta."\");</script>";
+        return $alert;
     }
 ?>
