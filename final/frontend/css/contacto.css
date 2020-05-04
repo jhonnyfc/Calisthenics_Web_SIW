@@ -11,3 +11,10 @@ textarea{
 	max-height: 200px;
 	max-width: 100%;
 }
+
+iframe{
+	width:600px;
+	height:300px;
+	border:0; 
+	width: 100%;"
+}

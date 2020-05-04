@@ -4,8 +4,8 @@
 	require 'phpmailer/vendor/autoload.php';
 
 	function conexionbasedatos() {
-		//$conexion = mysqli_connect("http://webalumnos.tlm.unavarra.es:10800/", "grupo33", "KaNgiga9to", "db_grupo33");
-		$conexion = mysqli_connect("localhost", "root", "", "grupo33");
+		$conexion = mysqli_connect("http://webalumnos.tlm.unavarra.es:10800/", "grupo33", "KaNgiga9to", "db_grupo33");
+		//$conexion = mysqli_connect("localhost", "root", "", "grupo33");
 
 		return $conexion;
 	}
@@ -89,6 +89,8 @@
 
 		    $mail->send();
 
+		    //header("Refresh:0; url=index.php?accion=contacto&id=3");
+		    //header('Location: index.php?accion=inicio&id=1');
 		//} catch (Exception $exception) {
 		  // return -1;
 		   // echo 'Algo salio mal', $exception->getMessage();
