@@ -44,6 +44,7 @@
 .container_lista_ejercicios .card img{
     width: auto;
     height: auto;/*altura:250*/
+    margin-bottom: 10px;
 }
 
 .container_lista_ejercicios .card h4{
@@ -58,7 +59,7 @@
 }
 
 .container_lista_ejercicios .card a {
-    font-weight: 500;
+    font-size: 17px;
     text-decoration: none;
     color: #3498db;
     margin-top: 5px;
