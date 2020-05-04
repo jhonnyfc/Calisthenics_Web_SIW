@@ -3,7 +3,7 @@
     include "back__modelo.php";
     include "back__views.php";
     
-    if (!isset($_GET["accion"])) {
+    if (!isset($_GET["accion"]) and !isset($_POST["accion"])) {
 		$accion = "ini_sesi";
 		$id = 1;
 	} else{
@@ -30,11 +30,10 @@
                 if ($code == 1) {
                     # Sesion correcta mostrar dashBoard
                 } else {
-                    # Error con los datos ingrasados Mostrar POPUP
+                    # Error con los datos ingrasados Mostrar POPUP con el error
                     viw_mostrar_iniSesion($code,null);
                 }
                 break;
-
             case '3': # abrir vista de ventana para recuperar contraseña
                 viw_mostrar_resetKey();
                 break;
@@ -42,7 +41,7 @@
 	} elseif ($accion == "recuperarKey"){
         switch ($id) {
             case '1':# Comprobar si existe el email introducido y eviar un email con la nueva contraseña
-                viw_mostrar_iniSesion(null,null);
+                viw_mostrar_iniSesion(null,mo_resetConstraseña());
                 break;
 		}
     }

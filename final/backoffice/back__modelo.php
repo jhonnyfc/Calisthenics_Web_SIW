@@ -8,8 +8,19 @@
 
     # Conexion con la base de datos
     function mo_conexionbasedatos() {
-		$conexion = mysqli_connect("http://webalumnos.tlm.unavarra.es:10800/", "grupo33","KaNgiga9to","db_grupo33");
-		return $conexion;
+        $enlace = mysqli_connect("http://webalumnos.tlm.unavarra.es:10800/", "grupo33","KaNgiga9to","db_grupo33");
+        
+        if (!$enlace) {
+            echo "Error: No se pudo conectar a MySQL." . PHP_EOL;
+            echo "errno de depuración: " . mysqli_connect_errno() . PHP_EOL;
+            echo "error de depuración: " . mysqli_connect_error() . PHP_EOL;
+            exit;
+        }
+        
+        echo "Éxito: Se realizó una conexión apropiada a MySQL! La base de datos mi_bd es genial." . PHP_EOL;
+        echo "Información del host: " . mysqli_get_host_info($enlace) . PHP_EOL;
+        die();
+		return $enlace;
     }
 
     # Cambio de contraseña de usuario
@@ -21,16 +32,16 @@
     #  -2: correo electornico errono O usuario no encontrado en la base de datos
     #  -3: error ala actualizar la contraseña
     # -54: erro al enviar el correo
-    function mo_resetConstraseña($email){
+    function mo_resetConstraseña(){
         $email =  $_POST["email"];
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 			return -2;
         }
         
-        $bbdd = conexionbasedatos();
+        $bbdd = mo_conexionbasedatos();
         if (!$bbdd) {
             return -1;
-        }else{
+        } else {
             $queryTx = "select * from final_BK_ADMINISTRADORES AD WHERE AD.CORREO LIKE ".$email;
             if ($bbdd->query($queryTx)){
                 // $newKey = mo_getRandomKey(8);
