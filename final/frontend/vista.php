@@ -8,10 +8,43 @@
 	function vmontarbarra_inicio($cadena) {
 		$menu = file_get_contents("barra_inicio.html");
 		$cadena = str_replace("##barra_inicio##", $menu, $cadena);
-		/*$cadena = str_replace("##registrar##","<li class='nav-item'><a class='nav-link' href='index.php?accion=login&id=1'>Registrarse</a></li>" , $cadena);
+		if (isset($_SESSION["nickname"]) and isset($_SESSION["contraseña"]) ) {
+			$nickname = $_SESSION["nickname"];
+			$cadena = str_replace("##registrar##", "
+				<li class='nav-item'>
+					<a class='nav-link' href='index.php?accion=perfil&id=1'>$nickname</a>
+				</li>"
+				, $cadena);
+			
+				/*
+			$cadena = str_replace("##registrar##", "
+			<li class='nav-item'>
+				<script LANGUAGE='JavaScript'>
+			    function abreSitio(){
+			      var sitio = document.form1.sitio.options[document.form1.sitio.selectedIndex].value;
+			      
+			      location.href= sitio;
+			    }
+			  </script>
+
+			  <form name='form1' target='_blank' action='index.php'>
+			    <select name='sitio' onChange='javascript:abreSitio()'>
+			      <option>$nickname</option>
+			      <option value='Perfil'>Perfil</option>
+			      <option value='Cambiar contraseña'>Cambiar contraseña</option>
+			      <option value='index.php?accion=cerrarSesion&id=1'>Cerrar sesion</option>
+			    </select>
+			  </form>
+			</li>"
+			, $cadena);
+			*/
+		} else {
+			$cadena = str_replace("##registrar##","<li class='nav-item'><a class='nav-link' href='index.php?accion=login&id=3'>Login</a></li>" , $cadena);
+		}
+		
         
-		$cadena = str_replace("##registrar##", "", $cadena);
-		*/
+		
+		
 		return $cadena;
 	}
 
@@ -382,7 +415,7 @@
 		echo $fichero;	
 	}
 
-	function mcambiarContraseña() {
+	function vcambiarContraseña() {
 		$fichero = file_get_contents("cambiar_contrasena.html");
 		echo $fichero;
 	}
@@ -425,5 +458,26 @@
 		}
 		
 		echo $fichero;	
+	}
+
+	function vmensajeRegistrarse(){
+		$fichero = file_get_contents("mensaje.html");
+		$fichero = vmontarbarra_inicio($fichero);
+		$fichero = vmontarbarra_final($fichero);
+
+		$fichero = str_replace("##titulo_mensaje##", "Necesitas estar registrado.", $fichero);
+		$fichero = str_replace("##contenido_mensaje##","Para poder disfrutar de todas las ventajas que ofrece nuestra página web, deberás estar registrado y haber iniciado sesión previamente.<br> Puedo iniciar sesión en el haciendo click <a href='index.php?accion=login&id=3' >aquí.</a>" , $fichero);
+
+		echo $fichero;
+	}
+
+	function vmostrarPerfil(){
+		$fichero = file_get_contents("perfil.html");
+		$fichero = vmontarbarra_inicio($fichero);
+		$fichero = vmontarbarra_final($fichero);
+
+
+
+		echo $fichero;
 	}
 ?>

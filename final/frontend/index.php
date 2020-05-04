@@ -32,7 +32,6 @@
 	} 
 	//Poner antes del else los sitios donde se puede acceder sin estar logueado
 	/*
-	else {
 		$valor = mcomprobarUsuarioSesion();
 		if ($valor ==1) {
 			//Meter todos los sitios donde hay que acceder estando logueado
@@ -63,9 +62,15 @@
 				vmostrarContacto();
 				break;
 			case '2':
-				//Enviar email y mostrar mensaje OK
-				vmostrarEstadoContacto(mdatosCorreo());
-				break;
+				if (mcomprobarUsuarioSesion()==1) {
+					//Enviar email y mostrar mensaje OK
+					echo "HOLAAAAA";
+					vmostrarEstadoContacto(mdatosCorreo());
+					break;
+				} else {
+					vmensajeRegistrarse();
+				}
+				
 		}
 	}
 
@@ -105,7 +110,7 @@
 				break;
 			case '5':
 				//Cambiar contraseña
-				mcambiarContraseña();
+				vcambiarContraseña();
 				break;
 			case '6':
 				//Enviar la contraseña
@@ -114,7 +119,21 @@
 		}
 	}
 
+	if ($accion=="cerrarSesion") {
+		switch ($id) {
+			case '1':
+				vmostrarinicio(mCerrarSesion());
+				break;
+		}
+	}
 
+	if ($accion=="perfil") {
+		switch ($id) {
+			case '1':
+				vmostrarPerfil(mDatosUsuario());
+				break;
+		}
+	}
 
 
 ?>
