@@ -4,6 +4,7 @@
 	require 'phpmailer/vendor/autoload.php';
 
 	function conexionbasedatos() {
+		//$conexion = mysqli_connect("http://webalumnos.tlm.unavarra.es:10800/", "grupo33", "KaNgiga9to", "db_grupo33");
 		$conexion = mysqli_connect("localhost", "root", "", "grupo33");
 
 		return $conexion;
@@ -224,27 +225,31 @@
 	**/
 	function mcomprobarUsuarioSesion() {
 		$conexion = conexionbasedatos();
+		if (isset($_SESSION["nickname"]) and isset($_SESSION["contraseña"]) ) {
+			$nickname = $_SESSION["nickname"];
+			$contraseña = $_SESSION["contraseña"];
 
-		$nickname = $_SESSION["nickname"];
-		$contraseña = $_SESSION["contraseña"];
+			$consulta = "select * 
+						 from final_USUARIO
+						 where nickname = '$nickname';";
 
-		$consulta = "select * 
-					 from final_USUARIO
-					 where nickname = '$nickname';";
-
-		if ($resultado = $conexion->query($consulta)) {
-			if ($datos = $resultado->fetch_assoc()) {
-				if ($contraseña == $datos["CONTRASEÑA"]) {
-					return 1;
+			if ($resultado = $conexion->query($consulta)) {
+				if ($datos = $resultado->fetch_assoc()) {
+					if ($contraseña == $datos["CONTRASEÑA"]) {
+						return 1;
+					} else {
+						return -3;
+					}
 				} else {
-					return -3;
+					return -2;
 				}
-			} else {
-				return -2;
+			}else {
+				return -1;
 			}
-		}else {
-			return -1;
+		} else {
+			return -2;
 		}
+		
 	}
 
 	/**
@@ -373,8 +378,28 @@
 		} else {
 			return -1;
 		}
-		
+	}
 
+	function mDatosUsuario() {
+		$conexion = conexionbasedatos();
+		
+		$nickname = $_SESSION["nickname"];
+
+		$consulta = "select *
+					from final_USUARIO
+					where nickname='$nickname';";
+
+		if ($resultado = $conexion->query($consulta)) {
+			return $resultado;
+		} else {
+			return -1;
+		}
+	}
+
+	function mCerrarSesion(){
+		@session_start();
+		session_destroy();
+		header("Location: index.php");
 	}
 	
 ?>
