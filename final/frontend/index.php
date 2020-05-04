@@ -64,7 +64,6 @@
 			case '2':
 				if (mcomprobarUsuarioSesion()==1) {
 					//Enviar email y mostrar mensaje OK
-					echo "HOLAAAAA";
 					vmostrarEstadoContacto(mdatosCorreo());
 					break;
 				} else {
