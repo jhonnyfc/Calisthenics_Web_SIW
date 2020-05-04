@@ -14,8 +14,8 @@
     # Conexion con la base de datos
     function mo_conexionbasedatos() {
         try{
-            return new mysqli("http://webalumnos.tlm.unavarra.es:10800/", "grupo33","KaNgiga9to","db_grupo33");
-        }catch (Throwable $t) {
+            return mysqli_connect("http://webalumnos.tlm.unavarra.es:10800/", "grupo33","KaNgiga9to","db_grupo33");
+        }catch (Exception $t) {
             return False;
         }
     }

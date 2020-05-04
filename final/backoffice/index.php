@@ -23,7 +23,7 @@
     if ($accion == "ini_sesi") {
 		switch ($id) {
             case '1':# mostrar inicio sesion por primer vez
-                viw_mostrar_iniSesion(-1);
+                viw_mostrar_iniSesion(null);
                 break;
             case '2':# verificacion de los datos de sesion
                 $code; # puede ser 1, -1 corro no encontrado, -2 contrseña erronea
