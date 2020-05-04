@@ -8,19 +8,27 @@
 
     # Conexion con la base de datos
     function mo_conexionbasedatos() {
-        $enlace = mysqli_connect("http://webalumnos.tlm.unavarra.es:10800/", "grupo33","KaNgiga9to","db_grupo33");
+        $mysqli = new mysqli("http://webalumnos.tlm.unavarra.es:10800/", "grupo33","KaNgiga9to","db_grupo33");
         
-        if (!$enlace) {
-            echo "Error: No se pudo conectar a MySQL." . PHP_EOL;
-            echo "errno de depuración: " . mysqli_connect_errno() . PHP_EOL;
-            echo "error de depuración: " . mysqli_connect_error() . PHP_EOL;
+        if ($mysqli->connect_errno) {
+            // La conexión falló. ¿Que vamos a hacer? 
+            // Se podría contactar con uno mismo (¿email?), registrar el error, mostrar una bonita página, etc.
+            // No se debe revelar información delicada
+        
+            // Probemos esto:
+            echo "Lo sentimos, este sitio web está experimentando problemas.<br>";
+        
+            // Algo que no se debería de hacer en un sitio público, aunque este ejemplo lo mostrará
+            // de todas formas, es imprimir información relacionada con errores de MySQL -- se podría registrar
+            echo "Error: Fallo al conectarse a MySQL debido a: \n<br>";
+            echo "Errno: " . $mysqli->connect_errno . "\n<br>";
+            echo "Error: " . $mysqli->connect_error . "\n<br>";
+            
+            // Podría ser conveniente mostrar algo interesante, aunque nosotros simplemente saldremos
             exit;
         }
-        
-        echo "Éxito: Se realizó una conexión apropiada a MySQL! La base de datos mi_bd es genial." . PHP_EOL;
-        echo "Información del host: " . mysqli_get_host_info($enlace) . PHP_EOL;
-        die();
-		return $enlace;
+         die();
+		return $mysqli;
     }
 
     # Cambio de contraseña de usuario
