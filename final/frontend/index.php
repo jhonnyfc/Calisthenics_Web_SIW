@@ -79,6 +79,9 @@
 				//Mostrar ejercicio individual
 				vmostrarEjercicioInformacion(mdatosEjercicioInformacion());
 				break;
+			case '3':				//Actualizar la lista de ejercicios
+				vmostrarEjercicios(mdatosEjercicioActualizar());
+				break;
 		}
 	}
 

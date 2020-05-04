@@ -1,3 +1,22 @@
+
+.navbar{
+    height: 0px;
+}
+
+.nav-link{
+    font-size: 16px;
+    text-align: center;
+    margin-top: 25px;
+}
+.navbar img{
+    margin-top: 25px;
+}
+.filtrar select{/*No lo aplica*/
+    margin-left: 500px;
+    height: 50px;
+    margin-top: 10px;
+    
+}
 .container_lista_ejercicios{
     width: 100%;
     max-width: 1200px;
@@ -23,8 +42,8 @@
 }
 
 .container_lista_ejercicios .card img{
-    width: 330px;
-    height: 220px;
+    width: auto;
+    height: auto;/*altura:250*/
 }
 
 .container_lista_ejercicios .card h4{
@@ -42,7 +61,7 @@
     font-weight: 500;
     text-decoration: none;
     color: #3498db;
-    margin-top: 20px;
+    margin-top: 5px;
 }
 
 
