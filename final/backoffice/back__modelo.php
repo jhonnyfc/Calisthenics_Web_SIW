@@ -15,7 +15,7 @@
     function mo_conexionbasedatos() {
         try{
             // return mysqli_connect("dbserver", "grupo33","KaNgiga9to","db_grupo33");
-            return mysqli_connect("dbserver", "grupo33","KaNgiga9to","db_grupo33");
+            return mysqli_connect("localhost", "root","", "grupo33");
         }catch (Exception $t) {
             return False;
         }
@@ -30,21 +30,22 @@
     #  -2: correo electornico errono O usuario no encontrado en la base de datos
     #  -3: error ala actualizar la contraseña
     # -54: erro al enviar el correo
-    function mo_resetConstraseña(){
+    function mo_resetConstrasena(){
         $email =  $_POST["email"];
-        // if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-		// 	return -2;
-        // }
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+			return -2;
+        }
 
         $bbdd = mo_conexionbasedatos();
         if (!$bbdd) {
             return -1;
         } else {
             $queryTx = "select * from final_BK_ADMINISTRADORES AD WHERE AD.CORREO LIKE '$email';";
-            if ($bbdd->query($queryTx)){
-                // $newKey = mo_getRandomKey(8);
-                $newKey = "123456abc";
-                $updateTx = "UPDATE final_BK_ADMINISTRADORES AD SET AD.PASSWORDA = '$newKey' WHERE AD.CORREO LIKE '$email';";
+            $resu = $bbdd->query($queryTx);
+            if ($resu-> num_rows == 1){
+                $newKey = mo_getRandomKey(8);
+                $passHass = password_hash($newKey, PASSWORD_DEFAULT);
+                $updateTx = "UPDATE final_BK_ADMINISTRADORES AD SET AD.PASSWORDA = '$passHass' WHERE AD.CORREO LIKE '$email';";
                 if ($bbdd->query($updateTx)) {
                     $body = "<h2>Calistenia Web</h2> <br>
                             Se le envia esta nueva contraseña para acceder al BackOffice se recomienda cambiarla: <b>".$newKey."</>";
@@ -100,5 +101,34 @@
             $randomString .= $characters[rand(0, strlen($characters) - 1)];
         }
         return $randomString;
+    }
+
+    function mo_verificaConstrasena(){
+        $email =  $_POST["email"];
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+			return -2;
+        }
+
+        $bbdd = mo_conexionbasedatos();
+        if (!$bbdd) {
+            return -1;
+        } else {
+            $queryTx = "select * from final_BK_ADMINISTRADORES AD WHERE AD.CORREO LIKE '$email';";
+            $resu = $bbdd->query($queryTx);
+            if ($resu-> num_rows == 1){
+                $newKey = mo_getRandomKey(8);
+                $passHass = password_hash($newKey, PASSWORD_DEFAULT);
+                $updateTx = "UPDATE final_BK_ADMINISTRADORES AD SET AD.PASSWORDA = '$passHass' WHERE AD.CORREO LIKE '$email';";
+                if ($bbdd->query($updateTx)) {
+                    $body = "<h2>Calistenia Web</h2> <br>
+                            Se le envia esta nueva contraseña para acceder al BackOffice se recomienda cambiarla: <b>".$newKey."</>";
+                    return mo_send_mail($email,$body);
+                } else {
+                    return -3;
+                }
+            } else {
+                return -2;
+            }
+        }
     }
 ?>

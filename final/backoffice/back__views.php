@@ -29,7 +29,7 @@
         switch ($restCode) {
             case 1:
                 $view = file_get_contents("back_temp_inisesion.html");
-                $alert = vi_createAlert("Succes","Contraseña camibada correctamente","succes");
+                $alert = vi_createAlert("Succes","Contraseña cambiada correctamente revise su bandeja de entrada ","success");
                 break;
             case -1:
                 $alert = vi_createAlert("Error","Erorr de conxion con la BBDD","error");
@@ -55,11 +55,11 @@
     #IN:
     #     titulo: String con el texto
     #    mensaje: String con el texto
-    # tipoAlerta: String con el tipo {error,succes,info,warning}
+    # tipoAlerta: String con el tipo {error,success,info,warning}
     #OUT:
     # String: con la alerta
     function vi_createAlert($titulo,$mesaje,$tipoAlerta){
-        $alert = "<script> swal(\"".$titulo."\",\"".$mesaje."\",\"". $tipoAlerta."\");</script>";
+        $alert = "<script> swal(\"$titulo\", \"$mesaje\", \"$tipoAlerta\");</script>";
         return $alert;
     }
 ?>

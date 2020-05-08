@@ -36,7 +36,7 @@
                 viw_mostrar_resetKey(null);
                 break;
             case '2':# Comprobar si existe el email introducido y eviar un email con la nueva contraseña
-                viw_mostrar_resetKey(mo_resetConstraseña());
+                viw_mostrar_resetKey(mo_resetConstrasena());
                 break;
 		}
     }
