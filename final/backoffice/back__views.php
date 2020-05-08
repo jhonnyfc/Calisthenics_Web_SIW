@@ -6,11 +6,19 @@
         $view = file_get_contents("back_temp_inisesion.html");
         switch ($iniCode){
             case 1:############## Mostrar dashboard
+                $alert = vi_createAlert("Succes","Session correcta ","success");
+                $view = file_get_contents("back_temp_dashboard.html");
                 break;
             case -1:
-                $alert = vi_createAlert("Error","Correo erroneo","error");
+                $alert = vi_createAlert("Error","Erro con la conexion con la BBDD","error");
                 break;
             case -2:
+                $alert = vi_createAlert("Error","Correo electornico errono O contraseña no validos. Formato Erroneo","error");
+                break;
+            case -3:
+                $alert = vi_createAlert("Error","Usuario no registrado","error");
+                break;
+            case -4:
                 $alert = vi_createAlert("Error","Contraseña incorrecta","error");
                 break;
             default:

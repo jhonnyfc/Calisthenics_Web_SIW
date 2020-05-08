@@ -65,13 +65,15 @@
     #OUT:
     #   1: sesion correcta
     #  -1: error de conexion con bbdd
-    #  -2: correo electornico errono O usuario no encontrado en la base de datos
-    #  -3: contraseña erronea
+    #  -2: correo electornico errono O contraseña no validos
+    #  -3: correo no encontrado
+    #  -4: contraseña erronea
     function mo_verificaConstrasena(){
         $email =  $_POST["log_email"];
         $pass = $_POST["log_pass"];
+        $check = $_POST["log_check"];# Toma el valor 'on' si esta activado
 
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL) or !preg_match("/^[a-zA-Z0-9]*$/",$pass)) {
 			return -2;
         }
 
@@ -79,19 +81,20 @@
         if (!$bbdd) {
             return -1;
         } else {
-            $queryTx = "select AD.PASSWORDA from final_BK_ADMINISTRADORES AD WHERE AD.CORREO LIKE '$email';";
+            $queryTx = "select * from final_BK_ADMINISTRADORES AD WHERE AD.CORREO LIKE '$email';";
             $resu = $bbdd->query($queryTx);
             if ($resu-> num_rows == 1){
-                $newKey = mo_getRandomKey(8);
-                $passHass = password_hash($newKey, PASSWORD_DEFAULT);
-                $updateTx = "select * from final_BK_ADMINISTRADORES AD WHERE AD.CORREO LIKE '$email';";
-                if ($bbdd->query($updateTx)) {
-                    
+                $row = $resu->fetch_array(MYSQLI_ASSOC);
+                if (password_verify($pass, $row["PASSWORDA"])) {
+                    if ($check == 'on'){
+                        $_SESSION["id"] = $email;
+                    }
+                    return 1;
                 } else {
-                    return -3;
+                    return -4;
                 }
             } else {
-                return -2;
+                return -3;
             }
         }
     }
