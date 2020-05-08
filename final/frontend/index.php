@@ -83,7 +83,8 @@
 				//Mostrar ejercicio individual
 				vmostrarEjercicioInformacion(mdatosEjercicioInformacion());
 				break;
-			case '3':				//Actualizar la lista de ejercicios
+			case '3':
+				//Actualizar la lista de ejercicios
 				vmostrarEjercicios(mdatosEjercicioActualizar());
 				break;
 		}
@@ -131,8 +132,28 @@
 			case '1':
 				vmostrarPerfil(mDatosUsuario());
 				break;
+			case '2':
+				//El usuario añade un ejercicio
+
+				break;
+			case '3':
+				//El usuario añade un ejercicio
+			
+				break;
 		}
 	}
 
+	if ($accion=="rutinas") {
+		switch ($id) {
+		case '1':
+			//Mostrar rutinas
+			vmostrarRutinas(mDatosRutinas());
+			break;
+		case '2':
+			//Mostrar informacion rutinas
+
+			break;
+		}
+	}
 
 ?>

@@ -107,7 +107,7 @@
 	function mdatosEjercicios(){
 		$conexion = conexionbasedatos();
 
-		$consulta = "select FE.IDEJERCICIO, FE.NOMBRE_EJERCICIO, FG.NOMBRE_MUSCULO , FE.NIVEL_EJERCICIO, FE.DESCRIPCION, FE.IDFOTO, FE.FAVORITO
+		$consulta = "select FE.IDEJERCICIO, FE.NOMBRE_EJERCICIO, FG.NOMBRE_MUSCULO , FE.NIVEL_EJERCICIO, FE.DESCRIPCION, FE.IDFOTO
 					from final_ejercicio FE, final_grupo FG
 					where FE.MUSCULO = FG.IDGRUPO;";
 
@@ -132,7 +132,7 @@
 
 		$consulta = "select FE.IDEJERCICIO, FE.NOMBRE_EJERCICIO, FG.NOMBRE_MUSCULO , FE.NIVEL_EJERCICIO, FE.DESCRIPCION, FE.IDFOTO
 					from final_ejercicio FE, final_grupo FG
-					where FE.MUSCULO = FG.IDGRUPO AND FE.IDEJERCICIO = '$idejercicio';";
+					where FE.MUSCULO = FG.IDGRUPO AND FE.IDEJERCICIO = $idejercicio;";
 
 		if ($resultado = $conexion->query($consulta)) {
 			return $resultado;
@@ -170,7 +170,6 @@
 				$consulta = "insert into final_USUARIO values ('$nickname', '$nombre', '$apellido1', '$email', '$contraseña');";
 				if ($resultado = $conexion->query($consulta)) {
 					$_SESSION["nickname"] = $nickname;
-					$_SESSION["contraseña"] = $contraseña;
 					return 1;
 				} else {
 					return -1;
@@ -204,7 +203,6 @@
 			if ($datos = $resultado->fetch_assoc()) {
 				if ($contraseña == $datos["CONTRASEÑA"]) {
 					$_SESSION["nickname"] = $nickname;
-					$_SESSION["contraseña"] = $contraseña;
 					return 1;
 				} else {
 					return -3;
@@ -227,9 +225,8 @@
 	**/
 	function mcomprobarUsuarioSesion() {
 		$conexion = conexionbasedatos();
-		if (isset($_SESSION["nickname"]) and isset($_SESSION["contraseña"]) ) {
+		if (isset($_SESSION["nickname"]) ) {
 			$nickname = $_SESSION["nickname"];
-			$contraseña = $_SESSION["contraseña"];
 
 			$consulta = "select * 
 						 from final_USUARIO
@@ -237,11 +234,7 @@
 
 			if ($resultado = $conexion->query($consulta)) {
 				if ($datos = $resultado->fetch_assoc()) {
-					if ($contraseña == $datos["CONTRASEÑA"]) {
-						return 1;
-					} else {
-						return -3;
-					}
+					return 1;
 				} else {
 					return -2;
 				}
@@ -404,4 +397,19 @@
 		header("Location: index.php");
 	}
 	
+	function mDatosRutinas() {
+		$conexion = conexionbasedatos();
+
+		$consulta = "select FR.NOMBRE_RUTINA, FR.INTERVALO_TIEMPO, FR.NIVEL_RUTINA, FG.NOMBRE_MUSCULO, FR.IDRUTINA 
+					from final_rutina Fr, final_grupo FG
+					where FG.IDGRUPO =FR.IDGRUPO;";
+
+		if ($resultado = $conexion->query($consulta)) {
+
+			return $resultado;
+		} else {
+			return -1;
+		}
+
+	}	
 ?>

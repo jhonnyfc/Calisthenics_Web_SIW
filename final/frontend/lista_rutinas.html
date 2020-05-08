@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <title>Lista Rutinas</title>
+
+   <!-- slider stylesheet -->
+    <link rel="stylesheet" type="text/css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.3/assets/owl.carousel.min.css" />
+
+    <!-- bootstrap core css -->
+    <link rel="stylesheet" type="text/css" href="musica/elements-master/css/bootstrap.css" />
+
+    <!-- fonts style -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,700|Roboto:400,700&display=swap" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="musica/elements-master/css/style.css" rel="stylesheet" />
+    <!-- responsive style -->
+    <link href="musica/elements-master/css/responsive.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <!--Nuestra carpeta css-->
+    <link rel="stylesheet" href="css/lista_rutinas.css">
+
+    <!--Para el select-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
+    
+
+
+</head>
+<body>
+
+
+  <!-- header section strats -->
+  ##barra_inicio##
+  <!-- end header section --> 
+<!--
+  <div class="filtrar col-md-3" style="margin-left:500px; margin-top: 10px;">
+        <form method="post" action="index.php">
+          <select name="filtrar" id="filtrar" class="form-control selectpicker" data-live-search="true" multiple>
+            <optgroup label="Grupo muscular">
+              <option value="Full Body">Full Body</option>
+              <option value="Pecho y Triceps">Pecho - Triceps</option>
+              <option value="Espalda y Biceps">Espalda - Biceps</option>
+              <option value="Core">Core</option>
+              <option value="Piernas">Piernas</option>
+              <option value="Hombros">Hombros</option>
+            </optgroup>
+            <optgroup label="Dificultad">
+              <option value="Principiante">Principiante</option>>Principiante</option>
+              <option value="Intermedio">Intermedio</option>
+              <option value="Avanzado">Avanzado</option>
+            </optgroup>
+          </select>
+          <br /><br />
+          <input type="hidden" name="accion" value="ejercicios">
+          <input type="hidden" name="id" value="3">
+          <input type="hidden" name="valores" id="valores" />
+          <input type="submit" name="submit" class="btn btn-info" value="Submit" />
+        </form>
+      <br />
+  </div>
+-->
+
+  <div class="container_lista_rutinas">
+  ##carta_rutina##
+    <div class="card">
+        <!-- <img src="fotos_ejercicios/original2/##idfoto##"> -->
+        <h4>##nombreRutina##</h4>
+        <p id="nombreEjercicio" class="text-##nombre_color##">##nombre_nivel##</p>
+        <p class="text-dark">##nombre_musculo##</p>
+        <a href="index.php?accion=rutinas&id2&idrutina=##idrutina##">Leer más </a>
+    </div>
+  ##carta_rutina##
+  </div>  
+
+
+  <!-- Parte final -->
+    ##barra_final##
+  <!-- Fin parte final -->
+
+
+
+  <script>
+    $(document).ready(function(){
+      $('.selectpicker').selectpicker();
+
+      $('#filtrar').change(function(){
+        $('#valores').val($('#filtrar').val());
+      });
+
+      $('#multiple_select_form').on('submit', function(event){
+        event.preventDefault();
+        if($('#filtrar').val() != ''){
+          var form_data = $(this).serialize();
+          $.ajax({
+            url:"index.php?accion=ejercicios&id=3",
+            method:"POST",
+            data:form_data,
+            success:function(data){
+
+              $('#valores').val('');
+              $('.selectpicker').selectpicker('val', '');
+              alert(data);
+            }
+          })
+        }
+        else
+        {
+         alert("Selecciona una opcion");
+         return false;
+        }
+        });
+    });
+  </script>
+
+</body>
+</html>
