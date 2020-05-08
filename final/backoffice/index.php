@@ -26,7 +26,7 @@
                 viw_mostrar_iniSesion(null);
                 break;
             case '2':# verificacion de los datos de sesion
-                $code; # puede ser 1, -1 corro no encontrado, -2 contrseña erronea
+                $code = null; # puede ser 1, -1 corro no encontrado, -2 contrseña erronea
                 viw_mostrar_iniSesion($code);
                 break;
 		}

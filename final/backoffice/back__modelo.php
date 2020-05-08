@@ -8,13 +8,14 @@
 
     set_error_handler(function($errno, $errstr, $errfile, $errline, $errcontext) {
         // error was suppressed with the @-operator
-        return "xd";
+        return 'xd';
     });
 
     # Conexion con la base de datos
     function mo_conexionbasedatos() {
         try{
-            return mysqli_connect("http://webalumnos.tlm.unavarra.es:10800/", "grupo33","KaNgiga9to","db_grupo33");
+            // return mysqli_connect("dbserver", "grupo33","KaNgiga9to","db_grupo33");
+            return mysqli_connect("dbserver", "grupo33","KaNgiga9to","db_grupo33");
         }catch (Exception $t) {
             return False;
         }
@@ -31,19 +32,19 @@
     # -54: erro al enviar el correo
     function mo_resetConstraseña(){
         $email =  $_POST["email"];
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-			return -2;
-        }
-        
+        // if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+		// 	return -2;
+        // }
+
         $bbdd = mo_conexionbasedatos();
         if (!$bbdd) {
             return -1;
         } else {
-            $queryTx = "select * from final_BK_ADMINISTRADORES AD WHERE AD.CORREO LIKE ".$email;
+            $queryTx = "select * from final_BK_ADMINISTRADORES AD WHERE AD.CORREO LIKE '$email';";
             if ($bbdd->query($queryTx)){
                 // $newKey = mo_getRandomKey(8);
                 $newKey = "123456abc";
-                $updateTx = "UPDATE final_BK_ADMINISTRADORES AD SET AD.PASSWORDA = ".$newKey." WHERE AD.CORREO LIKE ".$email;
+                $updateTx = "UPDATE final_BK_ADMINISTRADORES AD SET AD.PASSWORDA = '$newKey' WHERE AD.CORREO LIKE '$email';";
                 if ($bbdd->query($updateTx)) {
                     $body = "<h2>Calistenia Web</h2> <br>
                             Se le envia esta nueva contraseña para acceder al BackOffice se recomienda cambiarla: <b>".$newKey."</>";
