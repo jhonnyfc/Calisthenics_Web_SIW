@@ -471,12 +471,18 @@
 		echo $fichero;
 	}
 
-	function vmostrarPerfil(){
+	function vmostrarPerfil($resultado){
 		$fichero = file_get_contents("perfil.html");
 		$fichero = vmontarbarra_inicio($fichero);
 		$fichero = vmontarbarra_final($fichero);
 
+		$fila = mysqli_fetch_assoc($resultado);
+		$fichero=str_replace("##nickname##", $fila["NICKNAME"], $fichero);
+		$fichero=str_replace("##nombre##", $fila["NOMBRE"], $fichero);
+		$fichero=str_replace("##apellidos##", $fila["APELLIDO"], $fichero);
+		$fichero=str_replace("##email##", $fila["CORREO"], $fichero);
 
+		
 
 		echo $fichero;
 	}

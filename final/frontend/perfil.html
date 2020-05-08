@@ -3,6 +3,10 @@
 <head>
 	<title></title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+	 <!--Nuestra carpeta css-->
+    <link rel="stylesheet" type="text/css" href="css/perfil.css" />
+
 </head>
 <body>
 
@@ -10,17 +14,32 @@
 	  ##barra_inicio##
   	<!-- end header section -->
 
-	<h1>Perfil</h1>
+  	<div id="perfil_foto" class="col-md">
+  		<h2>Perfil de ##nickname##</h2>
+  		<img class="rounded-circle"  src="final_fotos/foto_perfil.jpg" data-holder-rendered="true">
+
+  	</div>
 
 
-	  <div name='buttons'>
-	  		<input type="button" value="Cambiar contraseña(no operativo)" onClick="location.href= 'index.php?accion=login&id=5'">
-		  	<input type="button" value="Cerrar sesion" onClick="location.href= 'index.php?accion=cerrarSesion&id=1'">
-	  </div>
+	<div id='buttons'>
+		<input type="button" value="Cambiar contraseña" onClick="location.href= 'index.php?accion=login&id=5'">
+		<input type="button" value="Cerrar sesion" onClick="location.href= 'index.php?accion=cerrarSesion&id=1'">
+	</div>
+
+	<div id="datos_personales">
+		<label>Nombre</label>
+		<p>##nombre##</p>
+		<label>Apellidos</label>
+		<p>##apellidos##</p>
+		<label>Correo electrónico</label>
+		<p>##email##</p>
+		
+	</div>
+	
 
 
 	<!-- Parte final -->
    		##barra_final##
-  	<!-- Fin parte final -->
+  	<!-- Fisn parte final -->
 </body>
 </html>
