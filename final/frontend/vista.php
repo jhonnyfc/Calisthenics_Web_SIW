@@ -7,8 +7,12 @@
 	**/
 	function vmontarbarra_inicio($cadena) {
 		$menu = file_get_contents("barra_inicio.html");
-		$cadena = str_replace("##barra_inicio##", $menu, $cadena);
-		if (isset($_SESSION["nickname"]) and isset($_SESSION["contraseña"]) ) {
+
+		$trozos = explode("##barra_inicio##", $menu);
+
+		$cadena = str_replace("##barra_inicio##", $trozos[1], $cadena);
+		
+		if (isset($_SESSION["nickname"]) ) {
 			$nickname = $_SESSION["nickname"];
 			$cadena = str_replace("##registrar##", "
 				<li class='nav-item'>
@@ -55,7 +59,10 @@
 	**/
 	function vmontarbarra_final($cadena) {
 		$menu = file_get_contents("barra_final.html");
-		$cadena = str_replace("##barra_final##", $menu, $cadena);
+		$trozos = explode("##barra_final##", $menu);
+
+		$cadena = str_replace("##barra_final##", $trozos[1], $cadena);
+		
 		return $cadena;
 	}
 
@@ -482,8 +489,49 @@
 		$fichero=str_replace("##apellidos##", $fila["APELLIDO"], $fichero);
 		$fichero=str_replace("##email##", $fila["CORREO"], $fichero);
 
-		
-
 		echo $fichero;
+	}
+
+
+	function vmostrarRutinas($resultado) {
+
+		if (is_object($resultado)) {
+			$fichero = file_get_contents("lista_rutinas.html");
+			$fichero = vmontarbarra_inicio($fichero);
+			$fichero = vmontarbarra_final($fichero);
+			$trozos=explode("##carta_rutina##", $fichero);
+
+			$lista_rutinas = "";
+			$aux = "";
+			while($fila = mysqli_fetch_assoc($resultado)) {	
+				$aux = $trozos[1];
+				$aux=str_replace("##nombreRutina##", $fila["NOMBRE_RUTINA"], $aux);
+				$aux=str_replace("##nombre_nivel##", $fila["NIVEL_RUTINA"], $aux);
+				$aux=str_replace("##nombre_musculo##", $fila["NOMBRE_MUSCULO"], $aux);
+				//$aux=str_replace("##intervalo_tiempo##", $fila["INTERVALO_TIEMPO"], $aux);
+				//$aux=str_replace("##idfoto##", $fila["IDFOTO"], $aux);
+				$aux=str_replace("##idrutina##", $fila["IDRUTINA"], $aux);
+				
+				if ($fila["NIVEL_RUTINA"] == "Principiante") {
+					$aux=str_replace("##nombre_color##", "primary", $aux);
+				} else if ($fila["NIVEL_RUTINA"] == "Intermedio") {
+					$aux=str_replace("##nombre_color##", "warning", $aux);
+				} else {
+					$aux=str_replace("##nombre_color##", "danger", $aux);
+				}
+				
+				$lista_rutinas.= $aux;
+			}
+			
+
+			echo $trozos[0] . $lista_rutinas . $trozos[2];
+		} else {
+			$fichero = file_get_contents("mensaje.html");
+			$fichero = vmontarbarra_inicio($fichero);
+			$fichero = vmontarbarra_final($fichero);
+			$fichero = str_replace("##titulo_mensaje##", "Listado de rutinas.", $fichero);
+			$fichero = str_replace("##contenido_mensaje##","Ha ocurrido un error con la base de datos a la hora de mostrar el listado de rutinas.<br> Pruebe de nuevo en unos minutos." , $fichero);
+			echo $fichero;
+		}
 	}
 ?>
