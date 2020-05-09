@@ -67,9 +67,7 @@
           <input type="hidden" name="valores" id="valores" />
           <input type="submit" name="submit" class="btn btn-info" value="Submit" />
         </form>
-      <br />
-
-    
+      <br/>
   </div>
 
 
@@ -93,36 +91,36 @@
 
 
   <script>
-    $(document).ready(function(){
-      $('.selectpicker').selectpicker();
+  $(document).ready(function(){
+    $('.selectpicker').selectpicker();
 
-      $('#filtrar').change(function(){
+    $('#filtrar').change(function(){
         $('#valores').val($('#filtrar').val());
-      });
+    });
 
-      $('#multiple_select_form').on('submit', function(event){
+    $('#multiple_select_form').on('submit', function(event){
         event.preventDefault();
         if($('#filtrar').val() != ''){
-          var form_data = $(this).serialize();
-          $.ajax({
+            var form_data = $(this).serialize();
+            $.ajax({
             url:"index.php?accion=ejercicios&id=3",
             method:"POST",
             data:form_data,
             success:function(data){
 
-              $('#valores').val('');
-              $('.selectpicker').selectpicker('val', '');
-              alert(data);
+            $('#valores').val('');
+            $('.selectpicker').selectpicker('val', '');
+            alert(data);
             }
-          })
+            })
         }
         else
         {
-         alert("Selecciona una opcion");
-         return false;
+            alert("Selecciona una opcion");
+        return false;
         }
-        });
     });
+  });
   </script>
 
 </body>

@@ -156,6 +156,10 @@
 		$contraseña = $_POST["password"];
 		$nickname = $_POST["nickname"];
 		$apellido1 = $_POST["apellido1"];
+		$sexo = $_POST["sexo"];
+
+		//echo "SEXO: ".$sexo;
+		
 		$contraseña = md5($contraseña);
 
 		$consulta = "select * 
@@ -167,7 +171,8 @@
 				return -2;
 			}
 			else {
-				$consulta = "insert into final_USUARIO values ('$nickname', '$nombre', '$apellido1', '$email', '$contraseña');";
+				$consulta = "insert into final_USUARIO values ('$nickname', '$nombre', '$apellido1', '$email', '$contraseña', '$sexo');";
+
 				if ($resultado = $conexion->query($consulta)) {
 					$_SESSION["nickname"] = $nickname;
 					return 1;

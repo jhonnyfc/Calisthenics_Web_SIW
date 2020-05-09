@@ -4,8 +4,9 @@
 
     <title>Registrar usuario</title>
 
-    <!-- Main css -->
+    <!-- Nuestro css -->
     <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="css/registrar_usuario.css">
 
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -32,12 +33,22 @@
                             <input type="email" class="form-input" name="email" id="email" placeholder="Email" required/>
                         </div>
                         <div class="form-group">
+                            <select name="select" id="select" onchange="ShowSelected();" required>
+                                <option value="" disabled selected>Sexo</option>
+                                <option value = 'H'>Hombre</option>
+                                <option value = 'F'>Mujer</option>
+                                <option value = 'Otro'>Otro</option>
+                                <option value = 'PND'>Prefiero no contestar</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <input type="password" class="form-input" name="password" id="password" placeholder="Contraseña" required/>
                             <span toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password"></span>
                         </div>
                         <div class="form-group">
                             <input type="submit" name="submit" id="submit" class="form-submit" value="Enviar"/>
                         </div>
+                        <input type="hidden" name="sexo" id="sexo">
                         <input type="hidden" name="accion" value="login">
                         <input type="hidden" name="id" value="2">
                     </form>
@@ -54,6 +65,15 @@
     <script src="js/main.js"></script>
     <script src="js/eye_password.js"></script>
 
+
+    <script type="text/javascript">
+        function ShowSelected(){
+            var select = document.getElementById("select").value;
+
+            document.getElementById("sexo").value=select;
+            
+        }
+    </script>
 
 </body>
 </html>
