@@ -16,7 +16,7 @@ INSERT INTO final_GRUPO VALUES ('6','Personalizado');
 
 
 CREATE TABLE final_EJERCICIO(
-    IDEJERCICIO int(10),
+    IDEJERCICIO INT(10) NOT NULL AUTO_INCREMENT,
     NOMBRE_EJERCICIO VARCHAR(20) NOT NULL,
     MUSCULO int(1) NOT NULL,
     NIVEL_EJERCICIO VARCHAR(20) NOT NULL CHECK (NIVEL_EJERCICIO in ('Principiante', 'Intermedio', 'Avanzado')),
@@ -29,7 +29,7 @@ CREATE TABLE final_EJERCICIO(
 
 
 CREATE TABLE final_RUTINA(
-    IDRUTINA int(10),
+    IDRUTINA INT(10) NOT NULL AUTO_INCREMENT,
     NOMBRE_RUTINA VARCHAR(20) NOT NULL,
     IDGRUPO int(1) NOT NULL,
     IDUSUARIO VARCHAR(10) NOT NULL,
@@ -68,7 +68,7 @@ CREATE TABLE final_USUARIO(
     
 
 CREATE TABLE final_VALORACION(
-    IDRUTINA int(10),
+    IDRUTINA INT(10) NOT NULL AUTO_INCREMENT,
     VALORACION int(1) DEFAULT NULL CHECK (VALORACION IN (0,1,2,3,4,5)),
     NICKNAME VARCHAR(20),
     
@@ -78,7 +78,7 @@ CREATE TABLE final_VALORACION(
 );
 
 CREATE TABLE final_TEMA(
-    IDTEMA int(10),
+    IDTEMA INT(10) NOT NULL AUTO_INCREMENT,
     NICKNAME VARCHAR(20),
     FECHA_PUBLICACION TIMESTAMP DEFAULT NOW(),
     NOMBRE VARCHAR(50) NOT NULL,
@@ -88,7 +88,7 @@ CREATE TABLE final_TEMA(
 );
 
 CREATE TABLE final_MENSAJE(
-    IDMENSAJE int(10),
+    IDMENSAJE INT(10) NOT NULL AUTO_INCREMENT,
     NICKNAME VARCHAR(20) NOT NULL,
     IDTEMA int(10) NOT NULL,
     CONTENIDO VARCHAR(500) DEFAULT NULL,
@@ -99,7 +99,7 @@ CREATE TABLE final_MENSAJE(
 );
 
 CREATE TABLE final_PUBLICACION(
-    IDPUBLICACION int(10),
+    IDPUBLICACION INT(10) NOT NULL AUTO_INCREMENT,
     TITULO VARCHAR(50) NOT NULL,
     FECHA_PUBLICACION TIMESTAMP DEFAULT NOW(),
     CONTENIDO VARCHAR(500) NOT NULL,
@@ -110,36 +110,35 @@ CREATE TABLE final_PUBLICACION(
 );
 
 
-INSERT INTO final_EJERCICIO VALUES (001,'Dominadas',3,'Principiante','Subir y bajar.','eb004.jpg');
-INSERT INTO final_EJERCICIO VALUES (002,'FLEXIONES',1,'Principiante','Subir y bajar.','pt001.jpg');
-INSERT INTO final_EJERCICIO VALUES (003,'bandera humana',3,'Avanzado','Bandera.','eb009.jpg');
-INSERT INTO final_EJERCICIO VALUES (004,'Plancha abdominal',5,'Principiante','Subir y bajar.','pt012.jpg');
-INSERT INTO final_EJERCICIO VALUES (005,'FLEXIONES diamante',1,'Principiante','Subir y bajar.','pt007.jpg');
-INSERT INTO final_EJERCICIO VALUES (006,'pino',6,'Principiante','pino.','h002.jpg');
-INSERT INTO final_EJERCICIO VALUES (007,'Dominadas arqueras',3,'Principiante','Subir y bajar.','eb011.jpg');
-INSERT INTO final_EJERCICIO VALUES (008,'Flexiones inclinadas',1,'Principiante','Subir y bajar.','pt002.jpg');
-INSERT INTO final_EJERCICIO VALUES (009,'Pistol squat',2,'Avanzado','Subir y bajar.','p009.jpg');
-INSERT INTO final_EJERCICIO VALUES (010,'Back lever',1,'Intermedio','Subir y mantener.','h008.jpg');
-INSERT INTO final_EJERCICIO VALUES (011,'Sentadillas sumo',2,'Principiante','Subir y bajar.','p008.jpg');
-
+INSERT INTO final_EJERCICIO ( nombre_ejercicio, musculo, nivel_ejercicio, descripcion, idfoto) VALUES ('Dominadas',3,'Principiante','Subir y bajar.','eb004.jpg');
+INSERT INTO final_EJERCICIO ( nombre_ejercicio, musculo, nivel_ejercicio, descripcion, idfoto) VALUES ('FLEXIONES',1,'Principiante','Subir y bajar.','pt001.jpg');
+INSERT INTO final_EJERCICIO ( nombre_ejercicio, musculo, nivel_ejercicio, descripcion, idfoto) VALUES ('Plancha abdominal',5,'Principiante','Subir y bajar.','pt012.jpg');
+INSERT INTO final_EJERCICIO ( nombre_ejercicio, musculo, nivel_ejercicio, descripcion, idfoto) VALUES ('FLEXIONES diamante',1,'Principiante','Subir y bajar.','pt007.jpg');
+INSERT INTO final_EJERCICIO ( nombre_ejercicio, musculo, nivel_ejercicio, descripcion, idfoto) VALUES ('pino',6,'Principiante','pino.','h002.jpg');
+INSERT INTO final_EJERCICIO ( nombre_ejercicio, musculo, nivel_ejercicio, descripcion, idfoto) VALUES ('Flexiones inclinadas',1,'Principiante','Subir y bajar.','pt002.jpg');
+INSERT INTO final_EJERCICIO ( nombre_ejercicio, musculo, nivel_ejercicio, descripcion, idfoto) VALUES ('Pistol squat',2,'Avanzado','Subir y bajar.','p009.jpg');
+INSERT INTO final_EJERCICIO ( nombre_ejercicio, musculo, nivel_ejercicio, descripcion, idfoto) VALUES ('Back lever',1,'Intermedio','Subir y mantener.','h008.jpg');
+INSERT INTO final_EJERCICIO ( nombre_ejercicio, musculo, nivel_ejercicio, descripcion, idfoto) VALUES ('Sentadillas sumo',2,'Principiante','Subir y bajar.','p008.jpg');
+INSERT INTO final_EJERCICIO ( nombre_ejercicio, musculo, nivel_ejercicio, descripcion, idfoto) VALUES ('Dominadas',3,'Principiante','Subir y bajar.','eb004.jpg');
 
 
 INSERT INTO final_USUARIO VALUES ('danidbg','Dani', 'del Barrio','dani@gmail.com','dani123','M');
 
-INSERT INTO final_RUTINA VALUES (2,'RUTINA2',2,'Dani2',180, "Intermedio");
+INSERT INTO final_RUTINA (NOMBRE_RUTINA, IDGRUPO, IDUSUARIO, INTERVALO_TIEMPO, NIVEL_RUTINA) VALUES ('RUTINA2',2,'Dani2',180, "Intermedio");
 INSERT INTO final_EJERCICIO_RUTINA VALUES (2,004);
 INSERT INTO final_EJERCICIO_RUTINA VALUES (2,005);
 INSERT INTO final_EJERCICIO_RUTINA VALUES (2,006);
 
-INSERT INTO final_RUTINA VALUES (1,'RUTINA1',5,'DANI',200, "Principiante");
-INSERT INTO final_EJERCICIO_RUTINA VALUES (1,001);
-INSERT INTO final_EJERCICIO_RUTINA VALUES (1,002);
-INSERT INTO final_EJERCICIO_RUTINA VALUES (1,003);
+INSERT INTO final_RUTINA (NOMBRE_RUTINA, IDGRUPO, IDUSUARIO, INTERVALO_TIEMPO, NIVEL_RUTINA) VALUES ('RUTINA1',5,'DANI',200, "Principiante");
 
-INSERT INTO final_PUBLICACION (IDPUBLICACION,TITULO,CONTENIDO,AUTOR) VALUES ('1','Mi primera dominada','texto1','vadym1');
-INSERT INTO final_PUBLICACION (IDPUBLICACION,TITULO,CONTENIDO,AUTOR) VALUES ('2','MI PRIMER MUSCLE UP','texto2 ','vadym2');
-INSERT INTO final_PUBLICACION (IDPUBLICACION,TITULO,CONTENIDO,AUTOR) VALUES ('3','hola','texto3','vadym3');
-INSERT INTO final_PUBLICACION (IDPUBLICACION,TITULO,CONTENIDO,AUTOR) VALUES ('4','adiosssss','texto4','vadym4');
+INSERT INTO final_EJERCICIO_RUTINA VALUES (4,001);
+INSERT INTO final_EJERCICIO_RUTINA VALUES (4,002);
+INSERT INTO final_EJERCICIO_RUTINA VALUES (4,003);
+
+INSERT INTO final_PUBLICACION (TITULO,CONTENIDO,AUTOR) VALUES ('Mi primera dominada','texto1','vadym1');
+INSERT INTO final_PUBLICACION (TITULO,CONTENIDO,AUTOR) VALUES ('MI PRIMER MUSCLE UP','texto2 ','vadym2');
+INSERT INTO final_PUBLICACION (TITULO,CONTENIDO,AUTOR) VALUES ('hola','texto3','vadym3');
+INSERT INTO final_PUBLICACION (TITULO,CONTENIDO,AUTOR) VALUES ('adiosssss','texto4','vadym4');
 
 
 
