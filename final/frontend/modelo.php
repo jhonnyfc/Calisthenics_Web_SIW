@@ -417,4 +417,52 @@
 		}
 
 	}	
+
+	function mdatosRutinaActualizar() {
+		$conexion = conexionbasedatos();
+		
+		$musculos = "";
+		$nivel = "";
+		$valores = $_POST["valores"];
+
+		$valores = explode(',', $valores);
+
+		for ($i=0; $i < count($valores); $i++) { 
+			if ($valores[$i] == "Principiante" OR $valores[$i] == "Intermedio" OR $valores[$i] == "Avanzado") {
+				if ($nivel=="") {
+					$nivel.='"'.$valores[$i].'"';
+				} else {
+					$nivel.=','.'"'.$valores[$i].'"';
+				}
+			} else {
+				if ($musculos=="") {
+					$musculos.= '"'.$valores[$i].'"';
+				} else {
+					$musculos.=','.'"'.$valores[$i].'"';
+				}
+				
+			}
+
+		}
+
+		if ($nivel!="" and $musculos!="") {
+			$consulta ="select FR.NOMBRE_RUTINA, FR.INTERVALO_TIEMPO, FR.NIVEL_RUTINA, FG.NOMBRE_MUSCULO, FR.IDRUTINA 
+						from final_rutina Fr, final_grupo FG
+						where FG.IDGRUPO =FR.IDGRUPO and FR.NIVEL_RUTINA IN ($nivel) AND FG.NOMBRE_MUSCULO IN ($musculos) ;";
+		} else if ($nivel=="" and $musculos!="") {
+			$consulta ="select FR.NOMBRE_RUTINA, FR.INTERVALO_TIEMPO, FR.NIVEL_RUTINA, FG.NOMBRE_MUSCULO, FR.IDRUTINA 
+						from final_rutina Fr, final_grupo FG
+						where FG.IDGRUPO =FR.IDGRUPO and FG.NOMBRE_MUSCULO IN ($musculos) ;";
+		} else {
+			$consulta ="select FR.NOMBRE_RUTINA, FR.INTERVALO_TIEMPO, FR.NIVEL_RUTINA, FG.NOMBRE_MUSCULO, FR.IDRUTINA 
+						from final_rutina Fr, final_grupo FG
+						where FG.IDGRUPO =FR.IDGRUPO and FR.NIVEL_RUTINA IN ($nivel);";
+		}
+		
+		if ($resultado = $conexion->query($consulta)) {
+			return $resultado;
+		} else {
+			return -1;
+		}
+	}
 ?>

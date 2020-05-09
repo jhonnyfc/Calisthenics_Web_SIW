@@ -151,7 +151,7 @@
 			break;
 		case '2':
 			//Mostrar informacion rutinas
-
+			vmostrarRutinas(mdatosRutinaActualizar());
 			break;
 		}
 	}

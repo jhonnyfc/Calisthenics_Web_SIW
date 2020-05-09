@@ -402,20 +402,20 @@
 		switch ($resultado) {
 			case '1':
 				$fichero = str_replace("##titulo_mensaje##", "Login usuario.", $fichero);
-				$fichero = str_replace("##contenido_mensaje##","Ha iniciado sesion con éxito." , $fichero);
+				$fichero = str_replace("##contenido_mensaje##","Ha iniciado sesion con éxito<br><br><br><br><br><br><br><br><br>." , $fichero);
 				break;
 			case '-1':
 				$fichero = str_replace("##titulo_mensaje##", "Error al registrarse.", $fichero);
-				$fichero = str_replace("##contenido_mensaje##","Ha ocurrido un error con la base de datos a la hora de registrarse.<br> Pruebe de nuevo en unos minutos." , $fichero);
+				$fichero = str_replace("##contenido_mensaje##","Ha ocurrido un error con la base de datos a la hora de registrarse.<br> Pruebe de nuevo en unos minutos<br><br><br><br><br><br><br><br><br>." , $fichero);
 				break;
 			case '-2':
 				$nombre = $_POST["nickname"];
 				$fichero = str_replace("##titulo_mensaje##", "Error al registrarse.", $fichero);
-				$fichero = str_replace("##contenido_mensaje##","No existe el usuario con el nombre: '$nombre'.<br>Por favor revise el usuario introducido." , $fichero);
+				$fichero = str_replace("##contenido_mensaje##","No existe el usuario con el nombre: '$nombre'.<br>Por favor revise el usuario introducido<br><br><br><br><br><br><br><br><br>." , $fichero);
 				break;
 			case '-3':
 				$fichero = str_replace("##titulo_mensaje##", "Error al registrarse.", $fichero);
-				$fichero = str_replace("##contenido_mensaje##","No se ha encontrado ningún usuario con esa contraseña.<br> Por favor revise la contraseña introducida." , $fichero);
+				$fichero = str_replace("##contenido_mensaje##","No se ha encontrado ningún usuario con esa contraseña.<br> Por favor revise la contraseña introducida<br><br><br><br><br><br><br><br><br>." , $fichero);
 				break;
 		}
 
