@@ -58,7 +58,8 @@ CREATE TABLE final_USUARIO(
     APELLIDO VARCHAR(20) DEFAULT NULL,
     CORREO VARCHAR(50) NOT NULL,
     CONTRASEÑA VARCHAR(50) NOT NULL,
-    
+    SEXO VARCHAR(4) NOT NULL CHECK (SEXO in ('H', 'M', 'Otro', 'PND')),
+
     CONSTRAINT PK_NICKNAME_USUARIO PRIMARY KEY (NICKNAME)
 
 );
@@ -123,7 +124,7 @@ INSERT INTO final_EJERCICIO VALUES (011,'Sentadillas sumo',2,'Principiante','Sub
 
 
 
-INSERT INTO final_USUARIO VALUES ('danidbg','Dani', 'del Barrio','dani@gmail.com','dani123');
+INSERT INTO final_USUARIO VALUES ('danidbg','Dani', 'del Barrio','dani@gmail.com','dani123','M');
 
 INSERT INTO final_RUTINA VALUES (2,'RUTINA2',2,'Dani2',180, "Intermedio");
 INSERT INTO final_EJERCICIO_RUTINA VALUES (2,004);
