@@ -26,7 +26,12 @@
                 viw_mostrar_iniSesion(null);
                 break;
             case '2':# verificacion de los datos de sesion
-                viw_mostrar_iniSesion(mo_verificaConstrasena());
+                $code = mo_verificaConstrasena();
+                if ($code == 1){
+                    viw_mostrar_dashBoard();
+                } else {
+                    viw_mostrar_iniSesion($code);
+                }
                 break;
 		}
 	} elseif ($accion == "recuperarKey"){

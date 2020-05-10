@@ -61,6 +61,31 @@
         }
     }
 
+    # Obtención de los datos necesarios para la creacion del dashBoard
+    #OUT:
+    # null: no se a podido conctar con el servidor
+    # data: array con los datos necesarios
+    function mo_data_dashBoard(){
+        $bbdd = mo_conexionbasedatos();
+        if (!$bbdd) {
+            return -1;
+        } else {
+            $email = $_SESSION["id"];
+            $queryTx = "SELECT * FROM final_BK_ADMINISTRADORES AD WHERE AD.CORREO LIKE '$email';";
+            $resu = $bbdd->query($queryTx);
+            if ($resu-> num_rows == 1){
+                $resu = $resu->fetch_array(MYSQLI_ASSOC);
+
+                $conetoUsuarios = "SELECT COUNT(U.NICKNAME) FROM final_USUARIO U";
+                $conetoPosts = "SELECT COUNT(T.IDTEMA) FROM final_TEMA T";
+
+                
+            } else {
+                return -2;
+            }
+        }
+    }
+
     # Verificacion de la contraseña
     #OUT:
     #   1: sesion correcta
@@ -86,9 +111,9 @@
             if ($resu-> num_rows == 1){
                 $row = $resu->fetch_array(MYSQLI_ASSOC);
                 if (password_verify($pass, $row["PASSWORDA"])) {
-                    if ($check == 'on'){
+                    // if ($check == 'on'){
                         $_SESSION["id"] = $email;
-                    }
+                    // }
                     return 1;
                 } else {
                     return -4;

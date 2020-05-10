@@ -35,10 +35,6 @@
     function viw_mostrar_resetKey($restCode){
         $view = file_get_contents("back_temp_forgot-password.html");
         switch ($restCode) {
-            case 1:
-                $view = file_get_contents("back_temp_inisesion.html");
-                $alert = vi_createAlert("Succes","Contraseña cambiada correctamente revise su bandeja de entrada ","success");
-                break;
             case -1:
                 $alert = vi_createAlert("Error","Erorr de conxion con la BBDD","error");
                 break;
@@ -55,6 +51,16 @@
                 $alert = "";
                 break;
         }
+        $trozos = explode("##PutAlterHere##",$view);
+        echo $trozos[0].$alert.$trozos[1];
+    }
+
+    # Crea la vista principal
+    #IN:
+    # data: los datos necesarios para la creacion de la vista
+    function viw_mostrar_dashBoard($data){
+        $view = file_get_contents("back_temp_inisesion.html");
+        $alert = vi_createAlert("Succes","Contraseña cambiada correctamente revise su bandeja de entrada ","success");
         $trozos = explode("##PutAlterHere##",$view);
         echo $trozos[0].$alert.$trozos[1];
     }
