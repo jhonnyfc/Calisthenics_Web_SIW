@@ -84,7 +84,10 @@
 		resultado --> La informacion de las publicaciones
 		-1 --> Si existe algun error con la bases de datos
 	**/
+	//https://www.w3schools.com/howto/howto_js_read_more.asp
+	//para el read more
 	function vmostrarInformacion($resultado, $pagina){
+
 		if (is_object($resultado)) {
 			
 			$valores = array("IDPUBLICACION", "FECHA_PUBLICACION", "CONTENIDO", "AUTOR");
@@ -493,7 +496,7 @@
 	}
 
 
-	function vmostrarRutinas($resultado) {
+	function vmostrarRutinas($resultado1, $resultado2) {
 
 		if (is_object($resultado)) {
 			$fichero = file_get_contents("lista_rutinas.html");
@@ -534,4 +537,61 @@
 			echo $fichero;
 		}
 	}
+
+	function vmostrarForo(){
+		$fichero = file_get_contents("foro.html");
+		$fichero = vmontarbarra_inicio($fichero);
+		$fichero = vmontarbarra_final($fichero);
+
+		echo $fichero;
+	}
+
+	function vmostrarMensajesTema($resultado1, $resultado2){
+		
+		if (is_object($resultado1) and is_object($resultado2)) {
+			$fichero = file_get_contents("tema_informacion.html");
+			$fichero = vmontarbarra_inicio($fichero);
+			$fichero = vmontarbarra_final($fichero);
+			$trozos = explode("##cartaTema##", $fichero);
+
+			$lista_mensaje = "";
+			$aux = "";
+			while($fila = mysqli_fetch_assoc($resultado1)) {	
+				$aux = $trozos[1];
+				$aux=str_replace("##titulo##", $fila["NOMBRE"], $aux);
+				$aux=str_replace("##contenido##", $fila["CONTENIDO"], $aux);
+				$aux=str_replace("##idtema##", $fila["IDTEMA"], $aux);
+				$aux=str_replace("##idmensaje##", $fila["IDMENSAJE"], $aux);
+				
+				$x=0;
+				while($fila2 = mysqli_fetch_assoc($resultado2)) {	
+
+					if ( ($fila["NICKNAME"]==$fila2["NICKNAME"]) and ($fila["IDMENSAJE"]==$fila2["IDMENSAJE"]) ){
+						$aux=str_replace("##corazon##", "final_fotos/corazon_lleno.png", $aux);
+						$x=1;
+						break;
+					} 
+				}
+				if ($x==0) {
+					$aux=str_replace("##corazon##", "final_fotos/corazon.png", $aux);
+				}
+
+
+				$lista_mensaje.= $aux;
+			}
+
+			echo $trozos[0] . $lista_mensaje . $trozos[2];
+		} else {
+			$fichero = file_get_contents("mensaje.html");
+			$fichero = vmontarbarra_inicio($fichero);
+			$fichero = vmontarbarra_final($fichero);
+			$fichero = str_replace("##titulo_mensaje##", "Mensaje del foro.", $fichero);
+			$fichero = str_replace("##contenido_mensaje##","Ha ocurrido un error con la base de datos a la hora de mostrar la informacion de este tema.<br> Pruebe de nuevo en unos minutos.<br>" , $fichero);
+			
+			echo $fichero;
+		}
+		
+	}
+
+
 ?>

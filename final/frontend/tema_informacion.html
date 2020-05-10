@@ -1,0 +1,92 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Tema informacion</title>
+
+	<!-- slider stylesheet -->
+	<link rel="stylesheet" type="text/css"
+	href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.3/assets/owl.carousel.min.css" />
+
+	<!-- bootstrap core css -->
+	<link rel="stylesheet" type="text/css" href="musica/elements-master/css/bootstrap.css" />
+
+	<!-- fonts style -->
+	<link href="https://fonts.googleapis.com/css?family=Poppins:400,700|Roboto:400,700&display=swap" rel="stylesheet">
+	<!-- Custom styles for this template -->
+	<link href="musica/elements-master/css/style.css" rel="stylesheet" />
+	<!-- responsive style -->
+	<link href="musica/elements-master/css/responsive.css" rel="stylesheet" />
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+	<!--Nuestra carpeta css-->
+	<link rel="stylesheet" type="text/css" href="css/tema_informacion.css" />
+
+
+</head>
+<body>
+	<!-- header section strats -->
+    ##barra_inicio##
+    <!-- end header section -->
+
+      ##cartaTema## 
+
+	<div class="card" >
+		<div class="row no-gutters">
+			<div class="col-md-4">
+				<img src="final_fotos/foto_perfil.jpg" class="card-img" >
+			</div>
+			<div class="col-md-8">
+				<div class="card-body">
+					<h5 class="card-title">##titulo##</h5>
+					<p class="card-text">##contenido##</p>
+				</div>
+				<button id="corazon" type="submit"><img id="corazon_imagen##idmensaje##" src = ##corazon##  onclick="cambiarCorazon(##idmensaje##)"/></button>
+				
+				<button type="button" class="btn btn-secondary" onClick="location.href= 'index.php?accion=foro&id=2&idtema=##idtema##'">Responder</button>
+			</div>
+		</div>
+	</div>
+	
+
+	##cartaTema##
+
+
+	<!-- Parte final -->
+	##barra_final##
+	<!-- Fin parte final -->
+
+
+
+	<script type="text/javascript">
+		function cambiarCorazon(idMensaje){
+
+			var imagen = document.getElementById("corazon_imagen"+idMensaje).src;
+			
+			if (imagen=="http://localhost/final/frontend/final_fotos/corazon.png") {
+				$.ajax({
+					url:"index.php?accion=BBDD&id=1&idmensaje=idMensaje",
+					succes:function(){
+						alert("okey");
+					}
+				});
+				
+				document.getElementById("corazon_imagen"+idMensaje).src="final_fotos/corazon_lleno.png";
+			} else {
+				$.ajax({
+					url:"index.php?accion=BBDD&id=2&idmensaje=idMensaje",
+					succes:function(){
+						alert("okey1");
+					}
+				});
+				document.getElementById("corazon_imagen"+idMensaje).src="final_fotos/corazon.png";
+			}
+			
+		}
+
+	</script>
+
+</body>
+</html>

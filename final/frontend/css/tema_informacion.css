@@ -1,0 +1,28 @@
+.header_section{
+	margin-bottom: 80px;
+}
+.container_total{
+	margin-top: 300px;
+}
+
+.card{
+	width: 900px;
+	margin-left: 100px;
+	margin-bottom: 50px;
+}
+
+.btn{
+	width: 100px;
+	height: 40px;
+	font-size: 15px;
+	margin-left: 20PX;
+	
+}
+
+#corazon{
+	background-color: #FFFFFF;
+	background-image:none;
+	border: none; 
+	margin-left: 400px;
+	margin-bottom: 15px;
+}
