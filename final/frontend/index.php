@@ -43,7 +43,7 @@
 
 	if ($accion == "informacion") {
 		if (isset($_GET["pagina"])) {
-		$pagina = $_GET["pagina"];	
+			$pagina = $_GET["pagina"];	
 		} else {
 			$pagina=1;
 		}
@@ -152,6 +152,30 @@
 		case '2':
 			//Mostrar informacion rutinas
 			vmostrarRutinas(mdatosRutinaActualizar());
+			break;
+		}
+	}
+
+	if ($accion=="foro") {
+		switch ($id) {
+		case '1':
+			//Mostrar foro
+			vmostrarForo();
+			break;
+		case '2':
+			//Mostrar foro
+			vmostrarMensajesTema(mdatosTema(),mdatosLikes());
+			break;
+		}
+	}
+
+	if ($accion=="BBDD") {
+		switch ($id) {
+		case '1':
+			mInsertarLike();
+			break;
+		case '2':
+			mBorrarLike();
 			break;
 		}
 	}
