@@ -133,7 +133,7 @@
         $count = 0;
         $aux2 = "[";
         foreach ($pieData as $valor){
-            $dato = $valor/array_sum($pieData) * 100;
+            $dato = round($valor/array_sum($pieData) * 100, 1);
             if ($count < $resu -> num_rows-1){
                 $aux2 = $aux2.$dato.",";
             }else{
