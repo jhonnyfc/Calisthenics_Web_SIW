@@ -1,4 +1,6 @@
 <?php
+    # REVISAR GUARDAR SESION PROLAMGADA
+
     session_start();
     include "back__modelo.php";
     include "back__views.php";

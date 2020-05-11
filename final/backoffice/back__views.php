@@ -70,6 +70,12 @@
         
         $alert = vi_createAlert("Succes","Contraseña cambiada correctamente revise su bandeja de entrada ","success");
         $view = str_replace("##PutAlterHere##", $alert, $view);
+
+        $pieData = $data["pie"];
+        $view = str_replace("##LISTA_LABES##", $pieData["nombres"], $view);
+        $view = str_replace("##DIM_DON##", $pieData["dim"], $view);
+        $view = str_replace("##LISTA_DATA##", $pieData["numeros"], $view);
+
         echo $view;
     }
 

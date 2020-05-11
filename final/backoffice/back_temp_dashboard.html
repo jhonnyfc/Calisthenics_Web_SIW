@@ -202,33 +202,18 @@
 
 							<!-- Pie Chart -->
 							<div class="col-xl-4 col-lg-5">
-								<div class="card shadow mb-4">
+								<div class="card">
 									<!-- Card Header - Dropdown -->
 									<div class="card-header py-4 d-flex flex-row align-items-center justify-content-between">
 										<h6 class="m-0 font-weight-bold text-primary">Porcentaje d'Usuarios</h6>
 									</div>
 									<!-- Card Body -->
 									<div class="card-body">
-										<div class="chart-pie pt-4 pb-2">
-											<canvas id="myPieChart"></canvas>
-										</div>
-										<div class="mt-4 text-center small">
-											<span class="mr-2">
-												<i class="fas fa-circle text-primary"></i> Direct
-											</span>
-											<span class="mr-2">
-												<i class="fas fa-circle text-success"></i> Social
-											</span>
-											<span class="mr-2">
-												<i class="fas fa-circle text-info"></i> Referral
-											</span>
-											<span class="mr-2">
-												<i class="fas fa-circle text-"></i> Refeo
-											</span>
-										</div>
+										<canvas id="chDonut1_mio" height="250px"></canvas>
 									</div>
 								</div>
 							</div>
+
 						</div>
 					</div>
 					<!-- /.container-fluid -->
@@ -270,5 +255,25 @@
 		<!-- Page level custom scripts -->
 		<script src="librerias/js/demo/chart-area-demo.js"></script>
 		<script src="librerias/js/demo/chart-pie-demo.js"></script>
+
+		<script>
+			var colors = ['#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d'];
+
+			var donutOptions = {cutoutPercentage: 60,
+						legend: {position:'bottom', padding:0, labels: {pointStyle:'circle', usePointStyle:true}}};
+
+			var chDonut1 = document.getElementById("chDonut1_mio");
+			var chDonutData1 = {labels: ##LISTA_LABES##, //Construir esto
+							datasets: [{backgroundColor: colors.slice(0,##DIM_DON##), //Construir esto
+							borderWidth: 2,
+							data: ##LISTA_DATA## }]}; //Construir esto
+
+			if (chDonut1) {
+				new Chart(chDonut1, {
+					type: 'pie',
+					data: chDonutData1,
+					options: donutOptions});
+			}
+		</script>
 	</body>
 </html>

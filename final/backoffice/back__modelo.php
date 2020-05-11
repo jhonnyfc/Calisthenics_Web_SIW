@@ -85,12 +85,68 @@
                 $datos = array (
                     "nombre" => $resu["NOMBRE"]." ".$resu["APPELLIDO1"],
                     "countuser" => $resu1['VAL'],
-                    "countem" => $resu1['VAL']);
+                    "countem" => $resu1['VAL'],
+                    "pie" => mo_pieCreator());
                 return $datos;
             } else {
                 return -2;
             }
         }
+    }
+
+    # Creacion de pie
+    #OUT:
+    # pieData: array con los datos de pie
+    function mo_pieCreator(){
+        $bbdd = mo_conexionbasedatos();
+        $conetoSexo = "SELECT U.SEXO, COUNT(U.NICKNAME) VAL FROM final_USUARIO U GROUP BY U.SEXO;";
+        $resu = $bbdd->query($conetoSexo);
+
+        $pieData = array();
+        $aux = "[\"";
+        $count = 0;
+
+        while( $row = $resu->fetch_object()){
+            switch ($row->SEXO){
+                case 'M':
+                    $aux = $aux."Mujer";
+                    break;
+                case 'H':
+                    $aux = $aux."Hombre";
+                    break;
+                case 'PND':
+                    $aux = $aux."Prefiero No Decirlo";
+                    break;
+                default:
+                    $aux = $aux.$row->SEXO;
+                    break;
+            }
+            if ($count < $resu -> num_rows - 1){
+                $aux = $aux."\", \"";
+            }else{
+                $aux = $aux."\"]";
+            }
+            array_push($pieData,$row->VAL);
+            $count++;
+        }
+        
+        $count = 0;
+        $aux2 = "[";
+        foreach ($pieData as $valor){
+            $dato = $valor/array_sum($pieData) * 100;
+            if ($count < $resu -> num_rows-1){
+                $aux2 = $aux2.$dato.",";
+            }else{
+                $aux2 = $aux2.$dato."]";
+            }
+            $count++;
+        }
+
+        $pieData = array();
+        $pieData["nombres"] = $aux;
+        $pieData["numeros"] = $aux2;
+        $pieData["dim"] = $resu -> num_rows;
+        return $pieData;
     }
 
     # Verificacion de la contraseña
