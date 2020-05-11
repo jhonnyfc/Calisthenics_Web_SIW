@@ -5,12 +5,11 @@
     function viw_mostrar_iniSesion($iniCode){
         $view = file_get_contents("back_temp_inisesion.html");
         switch ($iniCode){
-            case 1:############## Mostrar dashboard
-                $alert = vi_createAlert("Succes","Session correcta ","success");
-                $view = file_get_contents("back_temp_dashboard.html");
+            case 0:
+                $alert = vi_createAlert("Succes","Cierre de sesión correcto","success");
                 break;
-            case -1:
-                $alert = vi_createAlert("Error","Erro con la conexion con la BBDD","error");
+           case -1:
+                $alert = vi_createAlert("Error","Erro con la conexión con la BBDD","error");
                 break;
             case -2:
                 $alert = vi_createAlert("Error","Correo electornico errono O contraseña no validos. Formato Erroneo","error");
@@ -35,6 +34,10 @@
     function viw_mostrar_resetKey($restCode){
         $view = file_get_contents("back_temp_forgot-password.html");
         switch ($restCode) {
+            case 1:
+                $view = file_get_contents("back_temp_inisesion.html");
+                $alert = vi_createAlert("Succes","Contraseña cambiada correctamente revise su bandeja de entrada ","success");
+                break;
             case -1:
                 $alert = vi_createAlert("Error","Erorr de conxion con la BBDD","error");
                 break;
@@ -55,14 +58,19 @@
         echo $trozos[0].$alert.$trozos[1];
     }
 
-    # Crea la vista principal
+     # Crea la vista principal
     #IN:
     # data: los datos necesarios para la creacion de la vista
     function viw_mostrar_dashBoard($data){
-        $view = file_get_contents("back_temp_inisesion.html");
+        $view = file_get_contents("back_temp_dashboard.html");
+        
+        $view = str_replace("##NombreUser##",  $data["nombre"], $view);
+        $view = str_replace("##CoutUs##",  $data["countuser"], $view);
+        $view = str_replace("##CoutTem##",  $data["countem"], $view);
+        
         $alert = vi_createAlert("Succes","Contraseña cambiada correctamente revise su bandeja de entrada ","success");
-        $trozos = explode("##PutAlterHere##",$view);
-        echo $trozos[0].$alert.$trozos[1];
+        $view = str_replace("##PutAlterHere##", $alert, $view);
+        echo $view;
     }
 
     # Crador de Alertas

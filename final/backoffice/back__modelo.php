@@ -75,11 +75,18 @@
             $resu = $bbdd->query($queryTx);
             if ($resu-> num_rows == 1){
                 $resu = $resu->fetch_array(MYSQLI_ASSOC);
-
-                $conetoUsuarios = "SELECT COUNT(U.NICKNAME) FROM final_USUARIO U";
-                $conetoPosts = "SELECT COUNT(T.IDTEMA) FROM final_TEMA T";
-
+                $conetoUsuarios = "SELECT COUNT(U.NICKNAME) VAL FROM final_USUARIO U";
+                $conetoPosts = "SELECT COUNT(T.IDTEMA) VAL FROM final_TEMA T";
+                $resu1 = $bbdd->query($conetoUsuarios);
+                $resu2 = $bbdd->query($conetoPosts);
+                $resu1 = $resu1->fetch_array(MYSQLI_ASSOC);
+                $resu2 = $resu2->fetch_array(MYSQLI_ASSOC);
                 
+                $datos = array (
+                    "nombre" => $resu["NOMBRE"]." ".$resu["APPELLIDO1"],
+                    "countuser" => $resu1['VAL'],
+                    "countem" => $resu1['VAL']);
+                return $datos;
             } else {
                 return -2;
             }
@@ -122,6 +129,12 @@
                 return -3;
             }
         }
+    }
+
+    function mo_cerrarSesion(){
+        @session_start();
+        session_destroy();
+        return 0;
     }
 
     # Envio de mensaje

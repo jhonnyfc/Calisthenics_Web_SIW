@@ -28,7 +28,7 @@
             case '2':# verificacion de los datos de sesion
                 $code = mo_verificaConstrasena();
                 if ($code == 1){
-                    viw_mostrar_dashBoard();
+                    viw_mostrar_dashBoard(mo_data_dashBoard());
                 } else {
                     viw_mostrar_iniSesion($code);
                 }
@@ -41,6 +41,19 @@
                 break;
             case '2':# Comprobar si existe el email introducido y eviar un email con la nueva contraseña
                 viw_mostrar_resetKey(mo_resetConstrasena());
+                break;
+		}
+    } elseif ($accion == 'dashBoard'){
+        switch ($id) {
+            case '0':
+                viw_mostrar_dashBoard(mo_data_dashBoard());
+                break;
+            case '1':
+                # Cerrar sesion Accion
+                viw_mostrar_iniSesion(mo_cerrarSesion());
+                break;
+            case '2':
+                # Mostrar Perfil
                 break;
 		}
     }

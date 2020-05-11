@@ -1,4 +1,3 @@
-
 CREATE TABLE final_GRUPO(
     IDGRUPO int(1) check (idgrupo in (0,1,2,3,4,5,6)),
     NOMBRE_MUSCULO VARCHAR(20) NOT NULL,
