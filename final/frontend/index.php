@@ -160,10 +160,10 @@
 		switch ($id) {
 		case '1':
 			//Mostrar foro
-			vmostrarForo();
+			vmostrarForo(mdatosForo());
 			break;
 		case '2':
-			//Mostrar foro
+			//Mostrar menjajes del tema
 			vmostrarMensajesTema(mdatosTema(),mdatosLikes());
 			break;
 		}

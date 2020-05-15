@@ -5,12 +5,30 @@
 	margin-top: 300px;
 }
 
-.card{
+#cardPrincipal{
+	margin-left: 200px;
 	width: 900px;
+}
+#cardPrincipal button{
+	margin-left: 470px;
+}
+#cardPrincipal img{
+	width: 250px;
+}
+#cardPrincipal #fecha{
+	font-size: 15px;
+	font-style: italic;
+	margin-left: 60px;
+
+}
+.card{
+	width: 700px;
 	margin-left: 100px;
 	margin-bottom: 50px;
 }
-
+#foto_perfil{
+	width: 150px;
+}
 .btn{
 	width: 100px;
 	height: 40px;
@@ -18,11 +36,18 @@
 	margin-left: 20PX;
 	
 }
+.card #fecha{
+	font-size: 12px;
+	font-style: italic;
+	margin-left: 20px;
 
+}
 #corazon{
 	background-color: #FFFFFF;
 	background-image:none;
 	border: none; 
-	margin-left: 400px;
+	/*margin-left: 230px;*/
+	margin-left: 350px;
 	margin-bottom: 15px;
 }
+

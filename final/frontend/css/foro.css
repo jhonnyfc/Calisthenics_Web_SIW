@@ -1,20 +1,30 @@
 .header_section{
 	margin-bottom: 80px;
 }
-.container_total{
-	margin-top: 300px;
-}
+
 
 .card{
-	width: 750px;
+	width: 900px;
 	margin-left: 100px;
-	margin-bottom: 50px;
+	margin-bottom: 80px;
+}
+.card img{
+	width: 200px;
+	margin-left: 40px;
+	margin-top: 20px;
 }
 
 .btn{
 	width: 100px;
 	height: 40px;
 	font-size: 15px;
-	margin-left: 350px;
+	margin-left: 450px;
 	margin-bottom: 10px;
+}
+
+.card #fecha{
+	font-size: 18px;
+	font-style: italic;
+	margin-left: 75px;
+
 }

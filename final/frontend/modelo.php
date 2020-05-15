@@ -465,4 +465,85 @@
 			return -1;
 		}
 	}
+
+	function mdatosForo(){
+		$conexion = conexionbasedatos();
+		$consulta ="select m.IDTEMA, t.FECHA_PUBLICACION, t.NOMBRE, t.NICKNAME, m.CONTENIDO, m.FECHA_PUBLICACION_MENSAJE
+					from final_tema t, final_mensaje m 
+					where m.idtema=t.idtema 
+					group by m.IDTEMA
+					having m.FECHA_PUBLICACION_MENSAJE = min(m.FECHA_PUBLICACION_MENSAJE);";
+
+		if ( $resultado = $conexion->query($consulta) ) {
+			return $resultado;
+		} else {
+			return -1;
+		}
+
+
+	}
+
+
+
+	function mdatosTema(){
+		$conexion = conexionbasedatos();
+		$idtema = $_GET["idtema"];
+		$consulta ="select m.IDMENSAJE, m.NICKNAME, m.IDTEMA, m.CONTENIDO, t.NOMBRE, t.FECHA_PUBLICACION, t.NOMBRE, m.FECHA_PUBLICACION_MENSAJE
+					from final_tema t, final_mensaje m 
+					where t.idtema=m.idtema and t.idtema=$idtema
+					order by t.idtema;";
+
+		if ( $resultado1 = $conexion->query($consulta) ) {
+			return $resultado1;
+		} else {
+			return -1;
+		}
+	}
+
+	function mdatosLikes(){
+		$conexion = conexionbasedatos();
+
+		$nickname_usuario = $_SESSION["nickname"];
+
+		$consulta ="select NICKNAME, IDMENSAJE
+					from final_likes_mensaje
+					where NICKNAME='$nickname_usuario';";
+
+		if ( $resultado = $conexion->query($consulta) ) {
+			return $resultado;
+		} else {
+			return -1;
+		}
+	}
+
+	function mBorrarLike(){
+		$conexion = conexionbasedatos();
+
+		$nickname_usuario = $_SESSION["nickname"];
+		$idmensaje = $_GET["idmensaje"];
+		$consulta ="delete from final_likes_mensaje where nickname = '$nickname_usuario' and IDMENSAJE = $idmensaje;";
+		if ( $resultado = $conexion->query($consulta) ) {
+			return 1;
+		} else {
+			return -1;
+		}
+		
+	}
+
+	function mInsertarLike(){
+		$conexion = conexionbasedatos();
+
+		$nickname_usuario = $_SESSION["nickname"];
+		$idmensaje = $_GET["idmensaje"];
+		$consulta ="insert into final_likes_mensaje values ($idmensaje, 'danidbg3');";
+		if ( $resultado = $conexion->query($consulta) ) {
+			return 1;
+		} else {
+			return -1;
+		}
+	}
+
+
+
+
 ?>
