@@ -6,19 +6,19 @@
         $view = file_get_contents("back_temp_inisesion.html");
         switch ($iniCode){
             case 0:
-                $alert = vi_createAlert("Succes","Cierre de sesión correcto","success");
+                $alert = viw_createAlert("Succes","Cierre de sesión correcto","success");
                 break;
            case -1:
-                $alert = vi_createAlert("Error","Erro con la conexión con la BBDD","error");
+                $alert = viw_createAlert("Error","Erro con la conexión con la BBDD","error");
                 break;
             case -2:
-                $alert = vi_createAlert("Error","Correo electornico errono O contraseña no validos. Formato Erroneo","error");
+                $alert = viw_createAlert("Error","Correo electornico errono O contraseña no validos. Formato Erroneo","error");
                 break;
             case -3:
-                $alert = vi_createAlert("Error","Usuario no registrado","error");
+                $alert = viw_createAlert("Error","Usuario no registrado","error");
                 break;
             case -4:
-                $alert = vi_createAlert("Error","Contraseña incorrecta","error");
+                $alert = viw_createAlert("Error","Contraseña incorrecta","error");
                 break;
             default:
                 $alert = "";
@@ -36,19 +36,19 @@
         switch ($restCode) {
             case 1:
                 $view = file_get_contents("back_temp_inisesion.html");
-                $alert = vi_createAlert("Succes","Contraseña cambiada correctamente revise su bandeja de entrada ","success");
+                $alert = viw_createAlert("Succes","Contraseña cambiada correctamente revise su bandeja de entrada ","success");
                 break;
             case -1:
-                $alert = vi_createAlert("Error","Erorr de conxion con la BBDD","error");
+                $alert = viw_createAlert("Error","Erorr de conxion con la BBDD","error");
                 break;
             case -2:
-                $alert = vi_createAlert("Error","Usuario no registrado / Correo erroneo","error");
+                $alert = viw_createAlert("Error","Usuario no registrado / Correo erroneo","error");
                 break;
             case -3:
-                $alert = vi_createAlert("Error","Error al actualizar la contraseña","error");
+                $alert = viw_createAlert("Error","Error al actualizar la contraseña","error");
                 break;
             case -54:
-                $alert = vi_createAlert("Error","Error al enviar el correro, realice de nuevo la operacion","error");
+                $alert = viw_createAlert("Error","Error al enviar el correro, realice de nuevo la operacion","error");
                 break;
             default:
                 $alert = "";
@@ -58,17 +58,25 @@
         echo $trozos[0].$alert.$trozos[1];
     }
 
-     # Crea la vista principal
+    # Crea la vista principal
     #IN:
     # data: los datos necesarios para la creacion de la vista
     function viw_mostrar_dashBoard($data){
+        $fragTop = file_get_contents("back_frag_top.html");
+        $fragSide = file_get_contents("back_frag_sidebar.html");
+        $fragFoot = file_get_contents("back_frag_bottom.html");
+
         $view = file_get_contents("back_temp_dashboard.html");
+
+        $view = str_replace("##Top##",  $fragTop, $view);
+        $view = str_replace("##SideBar##",  $fragSide, $view);
+        $view = str_replace("##Footer##",  $fragFoot, $view);
         
         $view = str_replace("##NombreUser##",  $data["nombre"], $view);
         $view = str_replace("##CoutUs##",  $data["countuser"], $view);
         $view = str_replace("##CoutTem##",  $data["countem"], $view);
         
-        $alert = vi_createAlert("Succes","Contraseña cambiada correctamente revise su bandeja de entrada ","success");
+        $alert = viw_createAlert("Succes","Contraseña cambiada correctamente revise su bandeja de entrada ","success");
         $view = str_replace("##PutAlterHere##", $alert, $view);
 
         $pieData = $data["pie"];
@@ -79,6 +87,216 @@
         echo $view;
     }
 
+    # Crearemos la tabla de 
+    #IN:
+    # data: los datos necesarios para la creacion de la vista
+    function viw_mostrar_tabla_modadmin($data){
+        $fragTop = file_get_contents("back_frag_top.html");
+        $fragSide = file_get_contents("back_frag_sidebar.html");
+        $fragFoot = file_get_contents("back_frag_bottom.html");
+        $fragTabla = file_get_contents("back_frag_tabla.html");
+
+        $view = file_get_contents("back_temp_show_table.html");
+
+        $view = str_replace("##Top##",  $fragTop, $view);
+        $view = str_replace("##SideBar##",  $fragSide, $view);
+        $view = str_replace("##Footer##",  $fragFoot, $view);
+        $view = str_replace("##TituloTabla##", 'Tabla d\'Usuarios', $view);
+        $view = str_replace("##ACCIONCO##",  'gestion_admin', $view);
+        $view = str_replace("##IDDATA##",  '10', $view);
+
+        //  $view = str_replace("##TABLA_DATOS##",  $fragTabla, $view);
+        
+        $view = str_replace("##NombreUser##",  $data["nombre"], $view);
+        echo $view;
+    }
+
+    # Crearemos la tabla de 
+    #IN:
+    # data: los datos necesarios para la creacion de la vista
+    function viw_mostrar_tabla_modadmin_jq($data){
+        if ($data[0] >= 0){
+            $numFillAll= $data[0];
+			$resultado = $data[1];
+			$nombre = $data[2];
+			$pagina = $data[3];
+            $numFilas = $data[4];
+            
+            $numPags = intdiv($numFillAll,$numFilas);
+            $resMod = $numFillAll % $numFilas;
+
+            if ($resMod > 0)
+                $numPags++;
+
+            # Creacion de la paginacion
+            $paginacion = viw_creaPaginacion($nombre,$numPags,$pagina);
+
+            #Creacion de la tabla
+            $colNames = array('ID', 'NOMBRE', 'APPELLIDO 1º', 'APPELLIDO 2º', 'CORREO', 'FECHA ALTA');
+            $colNamesSQL = array('ID_ADMIN', 'NOMBRE', 'APPELLIDO1', 'APPELLIDO2', 'CORREO', 'FECH_ALTA');
+            $tabla = viw_creaTabla($resultado,$colNames,$colNamesSQL);
+
+            $dataOut = array();
+            $dataOut[0] = $paginacion;
+            $dataOut[1] = $tabla;
+            echo json_encode($dataOut);
+        }
+
+        $fragTop = file_get_contents("back_frag_top.html");
+        $fragSide = file_get_contents("back_frag_sidebar.html");
+        $fragFoot = file_get_contents("back_frag_bottom.html");
+        $fragTabla = file_get_contents("back_frag_tabla.html");
+
+        $view = file_get_contents("back_temp_show_table.html");
+
+        $view = str_replace("##Top##",  $fragTop, $view);
+        $view = str_replace("##SideBar##",  $fragSide, $view);
+        $view = str_replace("##Footer##",  $fragFoot, $view);
+        $view = str_replace("##TituloTabla##", 'Tabla d\'Usuarios', $view);
+        $view = str_replace("##ACCIONCO##",  'gestion_admin', $view);
+        $view = str_replace("##IDDATA##",  '10', $view);
+
+        //  $view = str_replace("##TABLA_DATOS##",  $fragTabla, $view);
+        
+        $view = str_replace("##NombreUser##",  $data["nombre"], $view);
+        echo $view;
+    }
+
+    # Creacion Tabalas Data
+    #OUT:
+    # tabla: string con la html de la tabal
+    function viw_creaTabla($data,$colNamesTabla,$colNamesSQ){
+        $tablaAux = file_get_contents("back_frag_tabla.html");
+        $tablaAux = explode("##SPLIT_SEC##", $tablaAux);
+
+        $tabla = $tablaAux[0];
+        for ($i = 0; $i < sizeof($colNamesTabla); $i++){
+            $aux = $tablaAux[1];
+            $tabla .= str_replace("##NAME_COL##",  $colNamesTabla[$i], $aux);
+        }
+        $tabla .= $tablaAux[2];
+
+        while ($fila = $data->fetch_assoc()) {
+            $aux = $tablaAux[3];
+            $aux = explode('##FILA_VAR##', $aux);
+
+            $auxRow = $aux[0];
+            for ($i = 0; $i < sizeof($colNamesSQ); $i++){
+                $auxRow .= str_replace('##FILA_DATA##', $fila[$colNamesSQ[$i]], $aux[1]);
+            }
+            $auxRow .= $aux[2];
+        }
+        $tabla .= $tablaAux[4];
+
+        return $tabla;
+    }
+
+    # Creacion de la paginacion
+    #OUT:
+    # aux: String con la paginacion ideal HTML
+    function viw_creaPaginacion($keyWord,$numPags,$pagNow){
+        $paginacion = file_get_contents("back_frag_pagi.html");
+        $paginacion = explode("##partes##", $paginacion);
+        $aux = '';
+        if($numPags > 5){
+            if ($pagNow - 2 < 0){
+                $dif = $numPags - 2;
+                $ini = $pagNow - $dif;
+                $fin = $pagNow + (4 - $dif);
+            }elseif ($numPags - $pagNow < 2){
+                $dif = $numPags - $pagNow;
+                $ini = $pagNow - (4 - $dif);
+                $fin = $numPags + $dif;
+            } else {
+                $ini = $pagNow - 2;
+                $fin = $pagNow + 2;
+            }
+            for ($i = $ini; $i <= $fin; $i++){
+                if ($i == $pagNow){
+                    $auxIn = $paginacion[2];
+                    $auxIn = str_replace("##palabra##",  $keyWord, $auxIn);
+                    $auxIn = str_replace("##numeroNow##", $pagNow, $auxIn);
+                    $aux .= $auxIn;
+                } else {
+                    $auxIn = $paginacion[1];
+                    $auxIn = str_replace('##opcion##',  '', $auxIn);
+                    $auxIn = str_replace("##palabra##",   $keyWord, $auxIn);
+                    $auxIn = str_replace("##numeroOtro##", $i, $auxIn);
+                    $aux .= $auxIn;
+                }
+            }
+        } else {
+            for ($i = 1; $i <= $numPags; $i++){
+                if ($i == $pagNow){
+                    $auxIn = $paginacion[2];
+                    $auxIn = str_replace("##palabra##",  $keyWord, $auxIn);
+                    $auxIn = str_replace("##numeroNow##", $pagNow, $auxIn);
+                    $aux .= $auxIn;
+                } else {
+                    $auxIn = $paginacion[1];
+                    $auxIn = str_replace('##opcion##',  '', $auxIn);
+                    $auxIn = str_replace("##palabra##",   $keyWord, $auxIn);
+                    $auxIn = str_replace("##numeroOtro##", $i, $auxIn);
+                    $aux .= $auxIn;
+                }
+            }
+        }
+        if ($numPags == 1){
+            $auxIn = $paginacion[0];
+            $auxIn = str_replace('##opcion##',  'disabled', $auxIn);
+            $auxIn = str_replace("##palabra##",   $keyWord, $auxIn);
+            $auxIn = str_replace('##numeroPrev##', ($pagNow - 1), $auxIn);
+            $auxIn .= $aux;
+            $aux = $auxIn;
+
+            $auxIn = $paginacion[3];
+            $auxIn = str_replace('##opcion##',  'disabled', $auxIn);
+            $auxIn = str_replace("##palabra##",   $keyWord, $auxIn);
+            $auxIn = str_replace('##numeroNext##', ($pagNow + 1), $auxIn);
+            $aux .= $auxIn;
+        }elseif ($pagNow == $numPags){
+            $auxIn = $paginacion[0];
+            $auxIn = str_replace('##opcion##',  '', $auxIn);
+            $auxIn = str_replace("##palabra##",   $keyWord, $auxIn);
+            $auxIn = str_replace('##numeroPrev##', ($pagNow - 1), $auxIn);
+            $auxIn .= $aux;
+            $aux = $auxIn;
+
+            $auxIn = $paginacion[3];
+            $auxIn = str_replace('##opcion##',  'disabled', $auxIn);
+            $auxIn = str_replace("##palabra##",   $keyWord, $auxIn);
+            $auxIn = str_replace('##numeroNext##', ($pagNow + 1), $auxIn);
+            $aux .= $auxIn;
+        } elseif ($pagNow == 0){
+            $auxIn = $paginacion[0];
+            $auxIn = str_replace('##opcion##',  'disabled', $auxIn);
+            $auxIn = str_replace("##palabra##",   $keyWord, $auxIn);
+            $auxIn = str_replace('##numeroPrev##', ($pagNow - 1), $auxIn);
+            $auxIn .= $aux;
+            $aux = $auxIn;
+
+            $auxIn = $paginacion[3];
+            $auxIn = str_replace('##opcion##',  '', $auxIn);
+            $auxIn = str_replace("##palabra##",   $keyWord, $auxIn);
+            $auxIn = str_replace('##numeroNext##', ($pagNow + 1), $auxIn);
+            $aux .= $auxIn;
+        } else {
+            $auxIn = $paginacion[0];
+            $auxIn = str_replace('##opcion##',  '', $auxIn);
+            $auxIn = str_replace("##palabra##",   $keyWord, $auxIn);
+            $auxIn = str_replace('##numeroPrev##', ($pagNow - 1), $auxIn);
+            $auxIn .= $aux;
+            $aux = $auxIn;
+
+            $auxIn = $paginacion[3];
+            $auxIn = str_replace('##opcion##',  '', $auxIn);
+            $auxIn = str_replace("##palabra##",   $keyWord, $auxIn);
+            $auxIn = str_replace('##numeroNext##', ($pagNow + 1), $auxIn);
+            $aux .= $auxIn;
+        }
+        return $aux;
+    }
+
     # Crador de Alertas
     #IN:
     #     titulo: String con el texto
@@ -86,7 +304,7 @@
     # tipoAlerta: String con el tipo {error,success,info,warning}
     #OUT:
     # String: con la alerta
-    function vi_createAlert($titulo,$mesaje,$tipoAlerta){
+    function viw_createAlert($titulo,$mesaje,$tipoAlerta){
         $alert = "<script> swal(\"$titulo\", \"$mesaje\", \"$tipoAlerta\");</script>";
         return $alert;
     }

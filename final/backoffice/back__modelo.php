@@ -85,7 +85,7 @@
                 $datos = array (
                     "nombre" => $resu["NOMBRE"]." ".$resu["APPELLIDO1"],
                     "countuser" => $resu1['VAL'],
-                    "countem" => $resu1['VAL'],
+                    "countem" => $resu2['VAL'],
                     "pie" => mo_pieCreator());
                 return $datos;
             } else {
@@ -149,6 +149,45 @@
         return $pieData;
     }
 
+    # Creacion de la tabla de
+    #OUT:
+    # data: datos de la tabla Administraodres
+    function mo_creaTAblaUser(){
+        $conex = mo_conexionbasedatos();
+
+        $nombre =  $_POST["palabra"];
+        $pagina = $_POST["pagina"];
+        $numFilas = $_POST['numerofilas'];
+
+        $con_numRows = 'SELECT COUNT(T.ID_ADMIN) NUM_FIL FROM final_BK_ADMINISTRADORES T WHERE T.NOMBRE LIKE \'%$nombre%\';';
+
+        if ($resu = $conex->query($con_numRows)){
+            $datos = $resu->fetch_assoc();
+            $numFillAll = $datos["NUM_FIL"];
+        } else {
+            $resu[0] = -1;
+            return $resu;
+        }
+
+        if ($pagina == 1) {
+			$consulta = "SELECT T.ID_ADMIN T.NOMBRE T.APPELLIDO1 T.APPELLIDO2 T.CORREO T.FECH_ALTA FROM final_BK_ADMINISTRADORES T WHERE T.NOMBRE LIKE \'%$nombre%\' ORDER BY T.ID_ADMIN LIMIT " . ($numFilas);
+		} else {
+			$consulta = "SELECT T.ID_ADMIN T.NOMBRE T.APPELLIDO1 T.APPELLIDO2 T.CORREO T.FECH_ALTA FROM final_BK_ADMINISTRADORES T WHERE T.NOMBRE LIKE \'%$nombre%\' ORDER BY T.ID_ADMIN LIMIT " . (($pagina - 1) *  $numFilas ) . ", " . ($numFilas );
+		}
+
+		if ($resultado = $conex->query($consulta)) {
+			$res[0] = $numFillAll;
+			$res[1] = $resultado;
+			$res[2] = $nombre;
+			$res[3] = $pagina;
+			$res[4] = $numFilas;
+ 			return $res;
+		} else {
+			$res[0] = -1;
+			return $res;
+		}
+    }
+
     # Verificacion de la contraseña
     #OUT:
     #   1: sesion correcta
@@ -187,6 +226,9 @@
         }
     }
 
+    # Elimniacion de los datos de sesion
+    #OUT:
+    # 1: all right
     function mo_cerrarSesion(){
         @session_start();
         session_destroy();
