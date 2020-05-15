@@ -44,8 +44,10 @@
 					<p class="card-text">##contenido##</p>
 				</div>
 				<button id="corazon" type="submit"><img id="corazon_imagen##idmensaje##" src = ##corazon##  onclick="cambiarCorazon(##idmensaje##)"/></button>
-				
+				<!--
 				<button type="button" class="btn btn-secondary" onClick="location.href= 'index.php?accion=foro&id=2&idtema=##idtema##'">Responder</button>
+				-->
+				<button type="button" class="btn btn-secondary" onClick="location.href= 'index.php?accion=BBDD&id=3&idmensaje=##idmensaje##'">Responder</button>
 			</div>
 		</div>
 	</div>
@@ -74,7 +76,7 @@
 				});
 				
 				document.getElementById("corazon_imagen"+idMensaje).src="final_fotos/corazon_lleno.png";
-			} else {
+			} else if (imagen=="http://localhost/final/frontend/final_fotos/corazon_lleno.png") {
 				$.ajax({
 					url:"index.php?accion=BBDD&id=2&idmensaje=idMensaje",
 					succes:function(){

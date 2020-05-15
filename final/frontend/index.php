@@ -163,7 +163,7 @@
 			vmostrarForo();
 			break;
 		case '2':
-			//Mostrar foro
+			//Mostrar menjajes del tema
 			vmostrarMensajesTema(mdatosTema(),mdatosLikes());
 			break;
 		}

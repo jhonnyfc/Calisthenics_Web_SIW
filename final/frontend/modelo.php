@@ -465,4 +465,58 @@
 			return -1;
 		}
 	}
+		function mdatosTema(){
+		$conexion = conexionbasedatos();
+
+		$consulta ="select m.IDMENSAJE, m.NICKNAME, m.IDTEMA, m.CONTENIDO, t.NOMBRE
+					from final_tema t, final_mensaje m 
+					where t.idtema=m.idtema;";
+
+		if ( $resultado1 = $conexion->query($consulta) ) {
+			return $resultado1;
+		} else {
+			return -1;
+		}
+	}
+
+	function mdatosLikes(){
+		$conexion = conexionbasedatos();
+
+		$nickname_usuario = $_SESSION["nickname"];
+
+		$consulta ="select NICKNAME, IDMENSAJE
+					from final_likes_mensaje
+					where NICKNAME='$nickname_usuario';";
+
+		if ( $resultado = $conexion->query($consulta) ) {
+			return $resultado;
+		} else {
+			return -1;
+		}
+	}
+
+	function mBorrarLike(){
+		$conexion = conexionbasedatos();
+
+		$nickname_usuario = $_SESSION["nickname"];
+		$idmensaje = $_GET["idmensaje"];
+		$consulta ="delete from final_likes_mensaje where nickname = '$nickname_usuario' and IDMENSAJE = $idmensaje;";
+
+		$resultado = $conexion->query($consulta);
+		
+	}
+
+	function mInsertarLike(){
+		$conexion = conexionbasedatos();
+
+		$nickname_usuario = $_SESSION["nickname"];
+		$idmensaje = $_GET["idmensaje"];
+		$consulta2 ="insert into final_likes_mensaje values ( $idmensaje , 'danidbg2');";
+		$consulta ="insert into final_likes_mensaje values ( $idmensaje , 'danidbg');";
+
+		$resultado = $conexion->query($consulta);
+		$resultado = $conexion->query($consulta2);
+		
+	}
+
 ?>
