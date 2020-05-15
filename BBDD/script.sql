@@ -91,7 +91,7 @@ CREATE TABLE final_MENSAJE(
     NICKNAME VARCHAR(20) NOT NULL,
     IDTEMA int(10) NOT NULL,
     CONTENIDO VARCHAR(500) DEFAULT NULL,
-
+    FECHA_PUBLICACION_MENSAJE TIMESTAMP DEFAULT NOW(),
     CONSTRAINT PK_IDMENSAJE PRIMARY KEY (IDMENSAJE),
     CONSTRAINT FK_IDTEMA_MENSAJE FOREIGN KEY (IDTEMA) REFERENCES final_TEMA(IDTEMA) ON DELETE CASCADE
 );
@@ -133,9 +133,9 @@ INSERT INTO final_EJERCICIO ( nombre_ejercicio, musculo, nivel_ejercicio, descri
 INSERT INTO final_USUARIO VALUES ('danidbg','Dani', 'del Barrio','dani@gmail.com','dani123','M');
 
 INSERT INTO final_RUTINA (NOMBRE_RUTINA, IDGRUPO, IDUSUARIO, INTERVALO_TIEMPO, NIVEL_RUTINA) VALUES ('RUTINA2',2,'Dani2',180, "Intermedio");
-INSERT INTO final_EJERCICIO_RUTINA VALUES (2,004);
-INSERT INTO final_EJERCICIO_RUTINA VALUES (2,005);
-INSERT INTO final_EJERCICIO_RUTINA VALUES (2,006);
+INSERT INTO final_EJERCICIO_RUTINA VALUES (1,004);
+INSERT INTO final_EJERCICIO_RUTINA VALUES (1,005);
+INSERT INTO final_EJERCICIO_RUTINA VALUES (1,006);
 
 INSERT INTO final_RUTINA (NOMBRE_RUTINA, IDGRUPO, IDUSUARIO, INTERVALO_TIEMPO, NIVEL_RUTINA) VALUES ('RUTINA1',5,'DANI',200, "Principiante");
 
@@ -151,8 +151,15 @@ INSERT INTO final_PUBLICACION (TITULO,CONTENIDO,AUTOR) VALUES ('adiosssss','text
 INSERT INTO final_TEMA (nickname, nombre)VALUES ("danidbg", "primera dominada");
 INSERT INTO final_mensaje (nickname, idtema, contenido) VALUES ("danidbg", 1, "no consigo hacer asfadg jdansj nsdkjgnsdjgnsdgjnksjdnsk.");
 INSERT INTO final_mensaje  (nickname, idtema, contenido) VALUES ("danidbg", 1, "Vete al gym la calistenia no sirve de nada.");
-INSERT INTO final_likes_mensaje VALUES (1, "danidbg");
+INSERT INTO final_mensaje  (nickname, idtema, contenido) VALUES ("danidbg", 1, "ESPABILAESPABILAESPABILAESPABILAESPABILA.");
 
+INSERT INTO final_likes_mensaje VALUES (2, "danidbg");
+INSERT INTO final_likes_mensaje VALUES (3, "danidbg");
+
+INSERT INTO final_TEMA (nickname, nombre)VALUES ("danidbg", "primera flexion");
+INSERT INTO final_mensaje (nickname, idtema, contenido) VALUES ("danidbg", 2, "no consigo hacer asfadg jdansj nsdkjgnsdjgnsdgjnksjdnsk.");
+INSERT INTO final_mensaje  (nickname, idtema, contenido) VALUES ("danidbg", 2, "Vete al gym la calistenia no sirve de nada.");
+INSERT INTO final_mensaje  (nickname, idtema, contenido) VALUES ("danidbg", 2, "ESPABILAESPABILAESPABILAESPABILAESPABILA.");
 
 
 
