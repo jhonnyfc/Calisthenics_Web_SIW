@@ -65,11 +65,12 @@
         case 'gestion_admin':
             switch ($id) {
                 case '1':
-                    viw_mostrar_tabla_modadmin(mo_data_dashBoard());
+                    viw_mostrar_tabla_modadmin(mo_creaTAblaAdmins());
                     break;
                 case '2':
                     break;
                 case '10':
+                    viw_mostrar_Tabla(mo_creaTAblaAdmins());
                     break;
             }
             break;

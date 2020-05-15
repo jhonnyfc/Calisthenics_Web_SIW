@@ -87,14 +87,13 @@
         echo $view;
     }
 
-    # Crearemos la tabla de 
+    # Cramo la Vista ADmin TAbla
     #IN:
     # data: los datos necesarios para la creacion de la vista
     function viw_mostrar_tabla_modadmin($data){
         $fragTop = file_get_contents("back_frag_top.html");
         $fragSide = file_get_contents("back_frag_sidebar.html");
         $fragFoot = file_get_contents("back_frag_bottom.html");
-        $fragTabla = file_get_contents("back_frag_tabla.html");
 
         $view = file_get_contents("back_temp_show_table.html");
 
@@ -105,25 +104,31 @@
         $view = str_replace("##ACCIONCO##",  'gestion_admin', $view);
         $view = str_replace("##IDDATA##",  '10', $view);
 
-        //  $view = str_replace("##TABLA_DATOS##",  $fragTabla, $view);
+        $tab_pag = viw_mostrar_Tabla($data);
+        // $tab_pag = json_decode($tab_pag, true);
+        $view = str_replace("##TABLA_AQUI##",  $tab_pag[1], $view);
+        $view = str_replace("##PAJI_AQUI##",  $tab_pag[0], $view);
         
-        $view = str_replace("##NombreUser##",  $data["nombre"], $view);
+        $view = str_replace("##NombreUser##",  $data[5], $view);
         echo $view;
     }
 
-    # Crearemos la tabla de 
+    # Crearemos la Tabla Data
     #IN:
     # data: los datos necesarios para la creacion de la vista
-    function viw_mostrar_tabla_modadmin_jq($data){
+    function viw_mostrar_Tabla($data){
         if ($data[0] >= 0){
-            $numFillAll= $data[0];
+            $numFilDatos= $data[0];
 			$resultado = $data[1];
 			$nombre = $data[2];
 			$pagina = $data[3];
             $numFilas = $data[4];
+            $colNames = $data[6];
+            $colNamesSQL = $data[7];
+            $way = $data[8];
             
-            $numPags = intdiv($numFillAll,$numFilas);
-            $resMod = $numFillAll % $numFilas;
+            $numPags = intdiv($numFilDatos,$numFilas);
+            $resMod = $numFilDatos % $numFilas;
 
             if ($resMod > 0)
                 $numPags++;
@@ -132,34 +137,19 @@
             $paginacion = viw_creaPaginacion($nombre,$numPags,$pagina);
 
             #Creacion de la tabla
-            $colNames = array('ID', 'NOMBRE', 'APPELLIDO 1º', 'APPELLIDO 2º', 'CORREO', 'FECHA ALTA');
-            $colNamesSQL = array('ID_ADMIN', 'NOMBRE', 'APPELLIDO1', 'APPELLIDO2', 'CORREO', 'FECH_ALTA');
             $tabla = viw_creaTabla($resultado,$colNames,$colNamesSQL);
 
             $dataOut = array();
             $dataOut[0] = $paginacion;
             $dataOut[1] = $tabla;
-            echo json_encode($dataOut);
+
+            if ($way == 0)
+                return $dataOut;
+            else
+                echo json_encode($dataOut);
+        } else {
+            echo "Erro al cargar data";
         }
-
-        $fragTop = file_get_contents("back_frag_top.html");
-        $fragSide = file_get_contents("back_frag_sidebar.html");
-        $fragFoot = file_get_contents("back_frag_bottom.html");
-        $fragTabla = file_get_contents("back_frag_tabla.html");
-
-        $view = file_get_contents("back_temp_show_table.html");
-
-        $view = str_replace("##Top##",  $fragTop, $view);
-        $view = str_replace("##SideBar##",  $fragSide, $view);
-        $view = str_replace("##Footer##",  $fragFoot, $view);
-        $view = str_replace("##TituloTabla##", 'Tabla d\'Usuarios', $view);
-        $view = str_replace("##ACCIONCO##",  'gestion_admin', $view);
-        $view = str_replace("##IDDATA##",  '10', $view);
-
-        //  $view = str_replace("##TABLA_DATOS##",  $fragTabla, $view);
-        
-        $view = str_replace("##NombreUser##",  $data["nombre"], $view);
-        echo $view;
     }
 
     # Creacion Tabalas Data
@@ -185,6 +175,7 @@
                 $auxRow .= str_replace('##FILA_DATA##', $fila[$colNamesSQ[$i]], $aux[1]);
             }
             $auxRow .= $aux[2];
+            $tabla.= $auxRow;
         }
         $tabla .= $tablaAux[4];
 

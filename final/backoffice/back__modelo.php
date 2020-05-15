@@ -87,6 +87,7 @@
                     "countuser" => $resu1['VAL'],
                     "countem" => $resu2['VAL'],
                     "pie" => mo_pieCreator());
+                $_SESSION["name"] = $resu["NOMBRE"]." ".$resu["APPELLIDO1"];
                 return $datos;
             } else {
                 return -2;
@@ -152,36 +153,48 @@
     # Creacion de la tabla de
     #OUT:
     # data: datos de la tabla Administraodres
-    function mo_creaTAblaUser(){
+    function mo_creaTAblaAdmins(){
         $conex = mo_conexionbasedatos();
 
-        $nombre =  $_POST["palabra"];
-        $pagina = $_POST["pagina"];
-        $numFilas = $_POST['numerofilas'];
+        if (isset($_GET["palabra"]))
+            $nombre =  $_GET["palabra"];
+        else
+            $nombre = '';
 
-        $con_numRows = 'SELECT COUNT(T.ID_ADMIN) NUM_FIL FROM final_BK_ADMINISTRADORES T WHERE T.NOMBRE LIKE \'%$nombre%\';';
+        $pagina = $_GET["pagina"];
+        $numFilas = $_GET["numerofilas"];
 
+        
+        $numFilDatos = 0;
+        $con_numRows = "SELECT COUNT(T.ID_ADMIN) NUM_FIL FROM final_BK_ADMINISTRADORES T WHERE T.NOMBRE LIKE '%$nombre%';";
         if ($resu = $conex->query($con_numRows)){
             $datos = $resu->fetch_assoc();
-            $numFillAll = $datos["NUM_FIL"];
+            $numFilDatos = $datos["NUM_FIL"];
         } else {
             $resu[0] = -1;
             return $resu;
         }
 
         if ($pagina == 1) {
-			$consulta = "SELECT T.ID_ADMIN T.NOMBRE T.APPELLIDO1 T.APPELLIDO2 T.CORREO T.FECH_ALTA FROM final_BK_ADMINISTRADORES T WHERE T.NOMBRE LIKE \'%$nombre%\' ORDER BY T.ID_ADMIN LIMIT " . ($numFilas);
+			$consulta = "SELECT T.ID_ADMIN, T.NOMBRE, T.APPELLIDO1, T.APPELLIDO2, T.CORREO, T.FECH_ALTA FROM final_BK_ADMINISTRADORES T WHERE T.NOMBRE LIKE '%$nombre%' ORDER BY T.ID_ADMIN LIMIT " . ($numFilas);
 		} else {
-			$consulta = "SELECT T.ID_ADMIN T.NOMBRE T.APPELLIDO1 T.APPELLIDO2 T.CORREO T.FECH_ALTA FROM final_BK_ADMINISTRADORES T WHERE T.NOMBRE LIKE \'%$nombre%\' ORDER BY T.ID_ADMIN LIMIT " . (($pagina - 1) *  $numFilas ) . ", " . ($numFilas );
+			$consulta = "SELECT T.ID_ADMIN, T.NOMBRE, T.APPELLIDO1, T.APPELLIDO2, T.CORREO, T.FECH_ALTA FROM final_BK_ADMINISTRADORES T WHERE T.NOMBRE LIKE %$nombre%' ORDER BY T.ID_ADMIN LIMIT " . (($pagina - 1) *  $numFilas ) . ", " . ($numFilas);
 		}
 
 		if ($resultado = $conex->query($consulta)) {
-			$res[0] = $numFillAll;
+			$res[0] = $numFilDatos;
 			$res[1] = $resultado;
 			$res[2] = $nombre;
 			$res[3] = $pagina;
-			$res[4] = $numFilas;
- 			return $res;
+            $res[4] = $numFilas;
+            $res[5] = $_SESSION["name"];
+            $res[6] = array('ID', 'NOMBRE', 'APPELLIDO 1º', 'APPELLIDO 2º', 'CORREO', 'FECHA ALTA');
+            $res[7] = array("ID_ADMIN", 'NOMBRE', 'APPELLIDO1', 'APPELLIDO2', 'CORREO', 'FECH_ALTA');
+            if (isset($_GET["way"]))
+                $res[8] =  $_GET["way"];
+            else
+                $res[8] = 1;
+  			return $res;
 		} else {
 			$res[0] = -1;
 			return $res;
