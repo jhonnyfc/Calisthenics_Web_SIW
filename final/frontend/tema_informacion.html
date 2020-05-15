@@ -31,12 +31,30 @@
     ##barra_inicio##
     <!-- end header section -->
 
-      ##cartaTema## 
-
-	<div class="card" >
+    ##cartaPrincipal## 
+    <div id="cardPrincipal" class="card shadow-lg p-3 mb-5 bg-white rounded">
 		<div class="row no-gutters">
 			<div class="col-md-4">
-				<img src="final_fotos/foto_perfil.jpg" class="card-img" >
+				<img class="rounded-circle" src="final_fotos/##foto_perfil##.jpg" >
+				<p id="fecha">##fecha_tema##</p>
+			</div>
+			<div class="col-md-8">
+				<div class="card-body">
+					<h5 class="card-title">##titulo_tema##</h5>
+					<p class="card-text">##contenido_tema##</p>
+				</div>
+				<button type="button" class="btn btn-secondary" onClick="location.href= 'index.php?accion=BBDD&id=3&idmensaje=##idmensaje##'">Responder</button>
+			</div>
+		</div>
+	</div>
+	##cartaPrincipal##
+
+	##cartaTema##
+	<div class="card shadow p-3 mb-5 bg-white rounded" >
+		<div class="row no-gutters">
+			<div class="col-md-4">
+				<img id="foto_perfil" class="rounded-circle" src="final_fotos/##foto_perfil##.jpg"  >
+				<p id="fecha">##fecha_tema##</p>
 			</div>
 			<div class="col-md-8">
 				<div class="card-body">
@@ -47,7 +65,6 @@
 				<!--
 				<button type="button" class="btn btn-secondary" onClick="location.href= 'index.php?accion=foro&id=2&idtema=##idtema##'">Responder</button>
 				-->
-				<button type="button" class="btn btn-secondary" onClick="location.href= 'index.php?accion=BBDD&id=3&idmensaje=##idmensaje##'">Responder</button>
 			</div>
 		</div>
 	</div>
@@ -66,21 +83,21 @@
 		function cambiarCorazon(idMensaje){
 
 			var imagen = document.getElementById("corazon_imagen"+idMensaje).src;
-			
 			if (imagen=="http://localhost/final/frontend/final_fotos/corazon.png") {
 				$.ajax({
-					url:"index.php?accion=BBDD&id=1&idmensaje=idMensaje",
-					succes:function(){
-						alert("okey");
+					url:"index.php?accion=BBDD&id=1&idmensaje="+idMensaje,
+					succes:function(resultado){
+
 					}
 				});
-				
 				document.getElementById("corazon_imagen"+idMensaje).src="final_fotos/corazon_lleno.png";
+				
+				
 			} else if (imagen=="http://localhost/final/frontend/final_fotos/corazon_lleno.png") {
 				$.ajax({
-					url:"index.php?accion=BBDD&id=2&idmensaje=idMensaje",
+					url:"index.php?accion=BBDD&id=2&idmensaje="+idMensaje,
 					succes:function(){
-						alert("okey1");
+						
 					}
 				});
 				document.getElementById("corazon_imagen"+idMensaje).src="final_fotos/corazon.png";

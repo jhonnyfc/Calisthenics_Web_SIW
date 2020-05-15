@@ -160,7 +160,7 @@
 		switch ($id) {
 		case '1':
 			//Mostrar foro
-			vmostrarForo();
+			vmostrarForo(mdatosForo());
 			break;
 		case '2':
 			//Mostrar menjajes del tema
