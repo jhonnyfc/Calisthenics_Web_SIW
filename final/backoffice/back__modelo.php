@@ -49,7 +49,7 @@
             $queryTx = "select * from final_BK_ADMINISTRADORES AD WHERE AD.CORREO LIKE '$email';";
             $resu = $bbdd->query($queryTx);
             if ($resu-> num_rows == 1){
-                $newKey = mo_getRandomKey(8);
+                $newKey = mo_getRandomKey(10);
                 $passHass = password_hash($newKey, PASSWORD_DEFAULT);
                 $updateTx = "UPDATE final_BK_ADMINISTRADORES AD SET AD.PASSWORDA = '$passHass' WHERE AD.CORREO LIKE '$email';";
                 if ($bbdd->query($updateTx)) {
@@ -315,6 +315,48 @@
         $colnamesSQL = array("ID_ADMIN", 'NOMBRE', 'APPELLIDO1', 'APPELLIDO2', 'CORREO', 'FECH_ALTA');
         
         return mo_getTablaData($con_numRows,$consulta1,$colNames,$colnamesSQL,$orderBy);
+    }
+
+    function mo_altaAdminNew(){
+        $conex = mo_conexionbasedatos();
+        $res = array();
+
+        $nombre =  $_POST["nombre"];
+        $ap1 = $_POST["ap1"];
+        $ap2 = $_POST["ap2"];
+        $correo =  $_POST["correo"];
+        $pass = $_POST["pass"];
+
+        if (strlen($nombre) == 0 or strlen($nombre) > 19){
+            $res[0] = -1;
+            $res[1] = "Erro en la lnogitud Nombre";
+            echo json_encode($res);
+        } elseif (strlen($ap1) == 0 or strlen($ap1) > 19){
+            $res[0] = -1;
+            $res[1] = "Erro en el la longitud del Apellido primero";
+            echo json_encode($res);
+        } elseif (strlen($correo) == 0 or strlen($correo) > 39 or !filter_var($correo, FILTER_VALIDATE_EMAIL)){
+            $res[0] = -1;
+            $res[1] = "Erro en el la longitud del correo o foramto";
+            echo json_encode($res);
+        } elseif (strlen($pass) < 8 or strlen($pass) > 25 or !preg_match("/^[a-zA-Z0-9]*$/",$pass)){
+            $res[0] = -1;
+            $res[1] = "Erro en el la longitud de la contraseña o fomrato, minimo 8";
+            echo json_encode($res);
+        } else {
+            $key = password_hash($pass, PASSWORD_DEFAULT);
+            $consulta = "INSERT INTO final_BK_ADMINISTRADORES (NOMBRE,APPELLIDO1,APPELLIDO2,CORREO,PASSWORDA)
+                            VALUES ('$nombre','$ap1','$ap2','$correo','$key'); ";
+            if ($conex->query($consulta)){
+                $res[0] = 1;
+                $res[1] = "Usuario dado de Alta Corretamente";
+                echo json_encode($res);
+            } else {
+                $res[0] = -1;
+                $res[1] = "Erro al dar de alta -> Correo ya existente o fallo en conexion";
+                echo json_encode($res);
+            }
+        }
     }
 
 #####################################################

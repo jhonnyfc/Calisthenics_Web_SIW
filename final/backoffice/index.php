@@ -62,18 +62,7 @@
                     break;
             }
             break;
-        case 'gestion_admin':
-            switch ($id) {
-                case '1':
-                    viw_build_lisMod_modadmin(mo_creaTAblaAdmins());
-                    break;
-                case '2':
-                    break;
-                case '10':
-                    viw_mostrar_Tabla(mo_creaTAblaAdmins());
-                    break;
-            }
-            break;
+        
         case 'insertbbdd':
             switch ($id) {
                 case '1':
@@ -121,6 +110,22 @@
                     break;
                 case '40':
                     viw_mostrar_Tabla(mo_creaTAblaEjers());
+                    break;
+            }
+            break;
+        case 'gestion_admin':
+            switch ($id) {
+                case '1':
+                    viw_build_lisMod_modadmin(mo_creaTAblaAdmins());
+                    break;
+                case '2':
+                    viw_mostrar_creaAdmin();
+                    break;
+                case '10':
+                    viw_mostrar_Tabla(mo_creaTAblaAdmins());
+                    break;
+                case '20':
+                    mo_altaAdminNew();
                     break;
             }
             break;

@@ -156,11 +156,7 @@
         $view = str_replace("##Top##",  $fragTop, $view);
         $view = str_replace("##SideBar##",  $fragSide, $view);
         $view = str_replace("##Footer##",  $fragFoot, $view);
-        
-        // $view = str_replace("##NombreUser##",  $data["nombre"], $view);
-
-        // $alert = viw_createAlert("Succes","Contraseña cambiada correctamente revise su bandeja de entrada ","success");
-        // $view = str_replace("##PutAlterHere##", $alert, $view);
+        $view = str_replace("##NombreUser##",  $_SESSION["name"], $view);
 
         echo $view;
     }
@@ -177,6 +173,21 @@
         $view = str_replace("##TituloTabla##", 'Tabla d\'Admins', $view);
         $view = str_replace("##ACCIONCO##",  'gestion_admin', $view);
         $view = str_replace("##IDDATA##",  '10', $view);
+        echo $view;
+    }
+
+    function viw_mostrar_creaAdmin(){
+        $fragTop = file_get_contents("back_frag_top.html");
+        $fragSide = file_get_contents("back_frag_sidebar.html");
+        $fragFoot = file_get_contents("back_frag_bottom.html");
+
+        $view = file_get_contents("back_temp_creaAdmin.html");
+
+        $view = str_replace("##Top##",  $fragTop, $view);
+        $view = str_replace("##SideBar##",  $fragSide, $view);
+        $view = str_replace("##Footer##",  $fragFoot, $view);
+        $view = str_replace("##NombreUser##",  $_SESSION["name"], $view);
+
         echo $view;
     }
 
