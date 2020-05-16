@@ -83,6 +83,16 @@
                 case '3':
                     break;
                 case '4':
+                    viw_mostrar_CreaPubli();
+                    break;
+                case '10':
+                    break;
+                case '20':
+                    break;
+                case '30':
+                    break;
+                case '40':
+                    viw_mostrar_CreaPubli();
                     break;
             }
             break;

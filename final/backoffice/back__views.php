@@ -140,6 +140,32 @@
     }
 
     #####################################################
+    ## Insert BBDD ###############
+    #####################################################
+
+    # Creamos la vista de la creacion de la Publicacion
+    #OUT:
+    # viw: html con la vista
+    function viw_mostrar_CreaPubli(){
+        $fragTop = file_get_contents("back_frag_top.html");
+        $fragSide = file_get_contents("back_frag_sidebar.html");
+        $fragFoot = file_get_contents("back_frag_bottom.html");
+
+        $view = file_get_contents("back_temp_creaPublic.html");
+
+        $view = str_replace("##Top##",  $fragTop, $view);
+        $view = str_replace("##SideBar##",  $fragSide, $view);
+        $view = str_replace("##Footer##",  $fragFoot, $view);
+        
+        // $view = str_replace("##NombreUser##",  $data["nombre"], $view);
+
+        // $alert = viw_createAlert("Succes","Contraseña cambiada correctamente revise su bandeja de entrada ","success");
+        // $view = str_replace("##PutAlterHere##", $alert, $view);
+
+        echo $view;
+    }
+
+    #####################################################
     ## GESTADMINS ###############
     #####################################################
 

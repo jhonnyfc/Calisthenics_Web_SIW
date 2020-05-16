@@ -23,6 +23,10 @@
         }
     }
 
+    #####################################################
+    ## LogIn & RestPa ###############
+    #####################################################
+
     # Cambio de contraseña de usuario
     #IN:
     # email: String con el correo
@@ -60,6 +64,48 @@
             }
         }
     }
+
+    # Verificacion de la contraseña
+    #OUT:
+    #   1: sesion correcta
+    #  -1: error de conexion con bbdd
+    #  -2: correo electornico errono O contraseña no validos
+    #  -3: correo no encontrado
+    #  -4: contraseña erronea
+    function mo_verificaConstrasena(){
+        $email =  $_POST["log_email"];
+        $pass = $_POST["log_pass"];
+        $check = $_POST["log_check"];# Toma el valor 'on' si esta activado
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL) or !preg_match("/^[a-zA-Z0-9]*$/",$pass)) {
+			return -2;
+        }
+
+        $bbdd = mo_conexionbasedatos();
+        if (!$bbdd) {
+            return -1;
+        } else {
+            $queryTx = "select * from final_BK_ADMINISTRADORES AD WHERE AD.CORREO LIKE '$email';";
+            $resu = $bbdd->query($queryTx);
+            if ($resu-> num_rows == 1){
+                $row = $resu->fetch_array(MYSQLI_ASSOC);
+                if (password_verify($pass, $row["PASSWORDA"])) {
+                    // if ($check == 'on'){
+                        $_SESSION["id"] = $email;
+                    // }
+                    return 1;
+                } else {
+                    return -4;
+                }
+            } else {
+                return -3;
+            }
+        }
+    }
+
+    #####################################################
+    ## DashBoard ###############
+    #####################################################
 
     # Obtención de los datos necesarios para la creacion del dashBoard
     #OUT:
@@ -150,6 +196,10 @@
         return $pieData;
     }
 
+    #####################################################
+    ## GESTBBDD ###############
+    #####################################################
+
     # Obtencion de la tabla de Usuarios con Datos
     #OUT:
     # data: datos de los usuarios
@@ -161,21 +211,6 @@
 
         $colNames = array('NICKNAME', 'NOMBRE', 'APELLIDO', 'CORREO', 'SEXO');
         $colnamesSQL = array('NICKNAME', 'NOMBRE', 'APELLIDO', 'CORREO', 'SEXO');
-        
-        return mo_getTablaData($con_numRows,$consulta1,$colNames,$colnamesSQL,$orderBy);
-    }
-
-    # Obtencion de la tabla de Ejecicios con Datos
-    #OUT:
-    # data: datos de los Ejercicios
-    function mo_creaTAblaEjers(){
-        $con_numRows = "SELECT COUNT(T.IDEJERCICIO) NUM_FIL FROM FINAL_EJERCICIO T WHERE T.NOMBRE_EJERCICIO";
-        
-        $consulta1 = "SELECT T.IDEJERCICIO, T.NOMBRE_EJERCICIO, T.MUSCULO, T.NIVEL_EJERCICIO, T.IDFOTO FROM FINAL_EJERCICIO T WHERE T.NOMBRE_EJERCICIO";
-        $orderBy = "T.IDEJERCICIO";
-
-        $colNames = array('ID EJER', 'NOMBRE EJERCICIO', 'MUSCULO IMPLI', 'NIVEL EJERCICIO', 'ID FOTO');
-        $colnamesSQL = array('IDEJERCICIO', 'NOMBRE_EJERCICIO', 'MUSCULO', 'NIVEL_EJERCICIO', 'IDFOTO');
         
         return mo_getTablaData($con_numRows,$consulta1,$colNames,$colnamesSQL,$orderBy);
     }
@@ -210,6 +245,39 @@
         return mo_getTablaData($con_numRows,$consulta1,$colNames,$colnamesSQL,$orderBy);
     }
 
+    # Obtencion de la tabla de Ejecicios con Datos
+    #OUT:
+    # data: datos de los Ejercicios
+    function mo_creaTAblaEjers(){
+        $con_numRows = "SELECT COUNT(T.IDEJERCICIO) NUM_FIL FROM FINAL_EJERCICIO T WHERE T.NOMBRE_EJERCICIO";
+        
+        $consulta1 = "SELECT T.IDEJERCICIO, T.NOMBRE_EJERCICIO, T.MUSCULO, T.NIVEL_EJERCICIO, T.IDFOTO FROM FINAL_EJERCICIO T WHERE T.NOMBRE_EJERCICIO";
+        $orderBy = "T.IDEJERCICIO";
+
+        $colNames = array('ID EJER', 'NOMBRE EJERCICIO', 'MUSCULO IMPLI', 'NIVEL EJERCICIO', 'ID FOTO');
+        $colnamesSQL = array('IDEJERCICIO', 'NOMBRE_EJERCICIO', 'MUSCULO', 'NIVEL_EJERCICIO', 'IDFOTO');
+        
+        return mo_getTablaData($con_numRows,$consulta1,$colNames,$colnamesSQL,$orderBy);
+    }
+
+    #####################################################
+    ## Insert BBDD ###############
+    #####################################################
+
+    function creaPublic(){
+        $conex = mo_conexionbasedatos();
+
+        $keyWord =  $_POST["titulo"];
+        $pagina = $_POST["contenido"];
+        $numFilas = $_POST["autor"];
+
+        
+    }
+
+    #####################################################
+    ## GESTADMINS ###############
+    #####################################################
+
     # Creacion de la tabla de Adminstradores
     #OUT:
     # data: datos de la tabla Administraodres
@@ -224,6 +292,10 @@
         
         return mo_getTablaData($con_numRows,$consulta1,$colNames,$colnamesSQL,$orderBy);
     }
+
+#####################################################
+## TOOLS ###############
+#####################################################
 
     # Obtencion de los datos para la cracion de las tablas
     #OUT:
@@ -274,44 +346,6 @@
 			$res[0] = -1;
 			return $res;
 		}
-    }
-
-    # Verificacion de la contraseña
-    #OUT:
-    #   1: sesion correcta
-    #  -1: error de conexion con bbdd
-    #  -2: correo electornico errono O contraseña no validos
-    #  -3: correo no encontrado
-    #  -4: contraseña erronea
-    function mo_verificaConstrasena(){
-        $email =  $_POST["log_email"];
-        $pass = $_POST["log_pass"];
-        $check = $_POST["log_check"];# Toma el valor 'on' si esta activado
-
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL) or !preg_match("/^[a-zA-Z0-9]*$/",$pass)) {
-			return -2;
-        }
-
-        $bbdd = mo_conexionbasedatos();
-        if (!$bbdd) {
-            return -1;
-        } else {
-            $queryTx = "select * from final_BK_ADMINISTRADORES AD WHERE AD.CORREO LIKE '$email';";
-            $resu = $bbdd->query($queryTx);
-            if ($resu-> num_rows == 1){
-                $row = $resu->fetch_array(MYSQLI_ASSOC);
-                if (password_verify($pass, $row["PASSWORDA"])) {
-                    // if ($check == 'on'){
-                        $_SESSION["id"] = $email;
-                    // }
-                    return 1;
-                } else {
-                    return -4;
-                }
-            } else {
-                return -3;
-            }
-        }
     }
 
     # Elimniacion de los datos de sesion
