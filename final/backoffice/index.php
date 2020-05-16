@@ -92,7 +92,7 @@
                 case '30':
                     break;
                 case '40':
-                    viw_mostrar_CreaPubli();
+                    mo_creaPublic();
                     break;
             }
             break;

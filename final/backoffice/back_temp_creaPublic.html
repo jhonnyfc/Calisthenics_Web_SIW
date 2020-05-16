@@ -17,7 +17,33 @@
 		<link href="librerias/css/sb-admin-2.min.css" rel="stylesheet">
 
 		<!-- Futcions for alerts -->
-		<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        
+        <script>
+            function subirPublicacion() {
+                $.ajax({
+                    type: "POST",
+                    url: "index.php",
+                    data: {accion:'insertbbdd', id:'40', titulo:$("#mi_Titulo").val(), contenido:$("#mi_contenido").val(), autor:$("#mi_Autor").val()},
+					cache: false,
+                    dataType: "json",
+                    success: function(result) {
+                        if (result[0] == -1){
+                            swal("error", result[1], "error");
+                        } else {
+                            swal("success", result[1], "success");
+							var campos = ["mi_Titulo","mi_contenido","mi_Autor"];
+							for (i = 0; i < campos.length; i++){
+								document.getElementById(campos[i]).value = '';
+							}
+                        }
+                    },
+                    error: function (request, status, error) {
+                        swal("error", "error en el proceso", "error");
+                    }
+                });
+            }
+        </script>
 	</head>
 	<body id="page-top">
 		<!-- Page Wrapper -->
@@ -46,18 +72,18 @@
 
                         <form>
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Titulo</label>
-                                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                <label for="mi_Titulo">Titulo</label>
+                                <input type="text" class="form-control" id="mi_Titulo">
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputPassword1">Contenido</label>
-                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                <label for="mi_contenido">Contenido</label>
+                                <textarea class="form-control" id="mi_contenido" rows="3"></textarea>
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputPassword1">Autor</label>
-                                <input type="text" class="form-control" id="exampleInputPassword1">
+                                <label for="mi_Autor">Autor</label>
+                                <input type="text" class="form-control" id="mi_Autor">
                             </div>
-                            <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
+                            <button type="button" class="btn btn-primary" onclick="subirPublicacion()">Publicar</button>
                         </form>
 
 					</div>
@@ -76,8 +102,6 @@
 		<!-- Scroll to Top Button-->
 		<a class="scroll-to-top rounded" href="#page-top"> <i class="fas fa-angle-up"> </i></a>
 
-		##PutAlterHere##
-
 		<!-- Bootstrap core JavaScript-->
 		<script src="librerias/vendor/jquery/jquery.min.js"></script>
 		<script src="librerias/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -95,5 +119,6 @@
 		<script src="librerias/js/demo/chart-area-demo.js"></script>
         <script src="librerias/js/demo/chart-pie-demo.js"></script>
 
+        <script id="miAlerta"></script>
 	</body>
 </html>

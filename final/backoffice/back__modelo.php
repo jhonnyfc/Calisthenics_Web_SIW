@@ -264,14 +264,38 @@
     ## Insert BBDD ###############
     #####################################################
 
-    function creaPublic(){
+    function mo_creaPublic(){
         $conex = mo_conexionbasedatos();
+        $res = array();
 
-        $keyWord =  $_POST["titulo"];
-        $pagina = $_POST["contenido"];
-        $numFilas = $_POST["autor"];
+        $titulo =  $_POST["titulo"];
+        $contenido = $_POST["contenido"];
+        $autor = $_POST["autor"];
 
-        
+        if (strlen($titulo) == 0 or strlen($titulo) > 49){
+            $res[0] = -1;
+            $res[1] = "Erro en la lnogitud titulo";
+            echo json_encode($res);
+        } elseif (strlen($contenido) == 0 or strlen($contenido) > 499){
+            $res[0] = -1;
+            $res[1] = "Erro en el la longitud del contenido";
+            echo json_encode($res);
+        } elseif (strlen($autor) == 0 or strlen($autor) > 49){
+            $res[0] = -1;
+            $res[1] = "Erro en el la longitud del Autor";
+            echo json_encode($res);
+        } else {
+            $consulta = "INSERT INTO final_PUBLICACION (TITULO,CONTENIDO,AUTOR) VALUES ('$titulo','$contenido','$autor');";
+            if ($conex->query($consulta)){
+                $res[0] = 1;
+                $res[1] = "Publicacion hecha con Exito";
+                echo json_encode($res);
+            } else {
+                $res[0] = -1;
+                $res[1] = "Erro al intentar hacer la publicacion";
+                echo json_encode($res);
+            }
+        }
     }
 
     #####################################################
