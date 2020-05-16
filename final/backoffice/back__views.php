@@ -1,4 +1,8 @@
 <?php
+#####################################################
+## VISTAS ###############
+#####################################################
+
     # Mostrar plantilla inicio sesion o Registro
     #IN:
     #  iniCode: integer codigo de comprobacion de inicion de sesion
@@ -87,10 +91,77 @@
         echo $view;
     }
 
+    #####################################################
+    ## GESTBBDD ###############
+    #####################################################
+
+    # Cramo la Vista User Table
+    #IN:
+    # data: los datos necesarios para la creacion de la vista
+    function viw_build_lisMod_User($data){
+        $view = viw_crea_vistaTabla($data);
+        $view = str_replace("##TituloTabla##", 'Tabla d\'Users', $view);
+        $view = str_replace("##ACCIONCO##",  'gestionbbdd', $view);
+        $view = str_replace("##IDDATA##",  '10', $view);
+        echo $view;
+    }
+
+    # Cramo la Vista User Table
+    #IN:
+    # data: los datos necesarios para la creacion de la vista
+    function viw_build_lisMod_Foro($data){
+        $view = viw_crea_vistaTabla($data);
+        $view = str_replace("##TituloTabla##", 'Tabla d\'Foro', $view);
+        $view = str_replace("##ACCIONCO##",  'gestionbbdd', $view);
+        $view = str_replace("##IDDATA##",  '20', $view);
+        echo $view;
+    }
+
+    # Cramo la Vista User Table
+    #IN:
+    # data: los datos necesarios para la creacion de la vista
+    function viw_build_lisMod_Rutinas($data){
+        $view = viw_crea_vistaTabla($data);
+        $view = str_replace("##TituloTabla##", 'Tabla d\'Rutinas', $view);
+        $view = str_replace("##ACCIONCO##",  'gestionbbdd', $view);
+        $view = str_replace("##IDDATA##",  '30', $view);
+        echo $view;
+    }
+
+    # Cramo la Vista User Table
+    #IN:
+    # data: los datos necesarios para la creacion de la vista
+    function viw_build_lisMod_Ejer($data){
+        $view = viw_crea_vistaTabla($data);
+        $view = str_replace("##TituloTabla##", 'Tabla d\'Ejers', $view);
+        $view = str_replace("##ACCIONCO##",  'gestionbbdd', $view);
+        $view = str_replace("##IDDATA##",  '40', $view);
+        echo $view;
+    }
+
+    #####################################################
+    ## GESTADMINS ###############
+    #####################################################
+
     # Cramo la Vista ADmin TAbla
     #IN:
     # data: los datos necesarios para la creacion de la vista
-    function viw_mostrar_tabla_modadmin($data){
+    function viw_build_lisMod_modadmin($data){
+        $view = viw_crea_vistaTabla($data);
+        $view = str_replace("##TituloTabla##", 'Tabla d\'Admins', $view);
+        $view = str_replace("##ACCIONCO##",  'gestion_admin', $view);
+        $view = str_replace("##IDDATA##",  '10', $view);
+        echo $view;
+    }
+
+#####################################################
+## TOOLS ###############
+#####################################################
+
+    # Creamos la vista de la tabla INICIAL
+    #OUT:
+    # viw: html con la tabla
+    function viw_crea_vistaTabla($data){
         $fragTop = file_get_contents("back_frag_top.html");
         $fragSide = file_get_contents("back_frag_sidebar.html");
         $fragFoot = file_get_contents("back_frag_bottom.html");
@@ -100,20 +171,17 @@
         $view = str_replace("##Top##",  $fragTop, $view);
         $view = str_replace("##SideBar##",  $fragSide, $view);
         $view = str_replace("##Footer##",  $fragFoot, $view);
-        $view = str_replace("##TituloTabla##", 'Tabla d\'Usuarios', $view);
-        $view = str_replace("##ACCIONCO##",  'gestion_admin', $view);
-        $view = str_replace("##IDDATA##",  '10', $view);
+
+        $view = str_replace("##NombreUser##",  $data[5], $view);
 
         $tab_pag = viw_mostrar_Tabla($data);
-        // $tab_pag = json_decode($tab_pag, true);
         $view = str_replace("##TABLA_AQUI##",  $tab_pag[1], $view);
         $view = str_replace("##PAJI_AQUI##",  $tab_pag[0], $view);
         
-        $view = str_replace("##NombreUser##",  $data[5], $view);
-        echo $view;
+        return $view;
     }
 
-    # Crearemos la Tabla Data
+    # Mostrar Tabla HTML
     #IN:
     # data: los datos necesarios para la creacion de la vista
     function viw_mostrar_Tabla($data){
@@ -152,7 +220,7 @@
         }
     }
 
-    # Creacion Tabalas Data
+    # Construccion HTML Tabalas Data
     #OUT:
     # tabla: string con la html de la tabal
     function viw_creaTabla($data,$colNamesTabla,$colNamesSQ){
@@ -166,6 +234,7 @@
         }
         $tabla .= $tablaAux[2];
 
+        $count = 0;
         while ($fila = $data->fetch_assoc()) {
             $aux = $tablaAux[3];
             $aux = explode('##FILA_VAR##', $aux);
@@ -182,7 +251,7 @@
         return $tabla;
     }
 
-    # Creacion de la paginacion
+    # Creacion de la paginacion HTML
     #OUT:
     # aux: String con la paginacion ideal HTML
     function viw_creaPaginacion($keyWord,$numPags,$pagNow){
@@ -258,7 +327,7 @@
             $auxIn = str_replace("##palabra##",   $keyWord, $auxIn);
             $auxIn = str_replace('##numeroNext##', ($pagNow + 1), $auxIn);
             $aux .= $auxIn;
-        } elseif ($pagNow == 0){
+        } elseif ($pagNow == 1){
             $auxIn = $paginacion[0];
             $auxIn = str_replace('##opcion##',  'disabled', $auxIn);
             $auxIn = str_replace("##palabra##",   $keyWord, $auxIn);

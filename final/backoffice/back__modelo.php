@@ -150,23 +150,97 @@
         return $pieData;
     }
 
-    # Creacion de la tabla de
+    # Obtencion de la tabla de Usuarios con Datos
+    #OUT:
+    # data: datos de los usuarios
+    function mo_creaTAblaUsers(){
+        $con_numRows = "SELECT COUNT(T.NICKNAME) NUM_FIL FROM final_USUARIO T WHERE T.NICKNAME";
+        
+        $consulta1 = "SELECT T.NICKNAME, T.NOMBRE, T.APELLIDO, T.CORREO, T.SEXO FROM final_USUARIO T WHERE T.NICKNAME";
+        $orderBy = "T.NICKNAME";
+
+        $colNames = array('NICKNAME', 'NOMBRE', 'APELLIDO', 'CORREO', 'SEXO');
+        $colnamesSQL = array('NICKNAME', 'NOMBRE', 'APELLIDO', 'CORREO', 'SEXO');
+        
+        return mo_getTablaData($con_numRows,$consulta1,$colNames,$colnamesSQL,$orderBy);
+    }
+
+    # Obtencion de la tabla de Ejecicios con Datos
+    #OUT:
+    # data: datos de los Ejercicios
+    function mo_creaTAblaEjers(){
+        $con_numRows = "SELECT COUNT(T.IDEJERCICIO) NUM_FIL FROM FINAL_EJERCICIO T WHERE T.NOMBRE_EJERCICIO";
+        
+        $consulta1 = "SELECT T.IDEJERCICIO, T.NOMBRE_EJERCICIO, T.MUSCULO, T.NIVEL_EJERCICIO, T.IDFOTO FROM FINAL_EJERCICIO T WHERE T.NOMBRE_EJERCICIO";
+        $orderBy = "T.IDEJERCICIO";
+
+        $colNames = array('ID EJER', 'NOMBRE EJERCICIO', 'MUSCULO IMPLI', 'NIVEL EJERCICIO', 'ID FOTO');
+        $colnamesSQL = array('IDEJERCICIO', 'NOMBRE_EJERCICIO', 'MUSCULO', 'NIVEL_EJERCICIO', 'IDFOTO');
+        
+        return mo_getTablaData($con_numRows,$consulta1,$colNames,$colnamesSQL,$orderBy);
+    }
+
+    # Obtencion de la tabla de Foro con Datos
+    #OUT:
+    # data: datos de los Foro
+    function mo_creaTAblaForo(){
+        $con_numRows = "SELECT COUNT(T.IDEJERCICIO) NUM_FIL FROM FINAL_EJERCICIO T WHERE T.NOMBRE_EJERCICIO";
+        
+        $consulta1 = "SELECT T.IDEJERCICIO, T.NOMBRE_EJERCICIO, T.MUSCULO, T.NIVEL_EJERCICIO, T.IDFOTO FROM FINAL_EJERCICIO T WHERE T.NOMBRE_EJERCICIO";
+        $orderBy = "T.IDEJERCICIO";
+
+        $colNames = array('ID EJER', 'NOMBRE EJERCICIO', 'MUSCULO IMPLI', 'NIVEL EJERCICIO', 'ID FOTO');
+        $colnamesSQL = array('IDEJERCICIO', 'NOMBRE_EJERCICIO', 'MUSCULO', 'NIVEL_EJERCICIO', 'IDFOTO');
+        
+        return mo_getTablaData($con_numRows,$consulta1,$colNames,$colnamesSQL,$orderBy);
+    }
+
+    # Obtencion de la tabla de Rutinas con Datos
+    #OUT:
+    # data: datos de los Rutinas
+    function mo_creaTAblaRutinas(){
+        $con_numRows = "SELECT COUNT(T.IDRUTINA) NUM_FIL FROM FINAL_RUTINA T WHERE T.NOMBRE_RUTINA";
+        
+        $consulta1 = "SELECT T.IDRUTINA, T.NOMBRE_RUTINA, T.IDGRUPO, T.IDUSUARIO, T.INTERVALO_TIEMPO, T.NIVEL_RUTINA FROM FINAL_RUTINA T WHERE T.NOMBRE_RUTINA";
+        $orderBy = "T.IDRUTINA";
+
+        $colNames = array('ID RUTINA', 'NOMBRE RUTINA', 'ID GRUPO', 'ID USUARIO', 'INTERVALO TIEMPO','NIVEL RUTINA');
+        $colnamesSQL = array('IDRUTINA', 'NOMBRE_RUTINA', 'IDGRUPO', 'IDUSUARIO', 'INTERVALO_TIEMPO','NIVEL_RUTINA');
+        
+        return mo_getTablaData($con_numRows,$consulta1,$colNames,$colnamesSQL,$orderBy);
+    }
+
+    # Creacion de la tabla de Adminstradores
     #OUT:
     # data: datos de la tabla Administraodres
     function mo_creaTAblaAdmins(){
+        $con_numRows = "SELECT COUNT(T.ID_ADMIN) NUM_FIL FROM final_BK_ADMINISTRADORES T WHERE T.NOMBRE";
+
+        $consulta1 = "SELECT T.ID_ADMIN, T.NOMBRE, T.APPELLIDO1, T.APPELLIDO2, T.CORREO, T.FECH_ALTA FROM final_BK_ADMINISTRADORES T WHERE T.NOMBRE";
+        $orderBy = "T.ID_ADMIN";
+
+        $colNames = array('ID', 'NOMBRE', 'APPELLIDO 1º', 'APPELLIDO 2º', 'CORREO', 'FECHA ALTA');
+        $colnamesSQL = array("ID_ADMIN", 'NOMBRE', 'APPELLIDO1', 'APPELLIDO2', 'CORREO', 'FECH_ALTA');
+        
+        return mo_getTablaData($con_numRows,$consulta1,$colNames,$colnamesSQL,$orderBy);
+    }
+
+    # Obtencion de los datos para la cracion de las tablas
+    #OUT:
+    # data:
+    function mo_getTablaData($con_numRows,$consulta1,$colNames,$colnamesSQL,$orderBy){
         $conex = mo_conexionbasedatos();
 
         if (isset($_GET["palabra"]))
-            $nombre =  $_GET["palabra"];
+            $keyWord =  $_GET["palabra"];
         else
-            $nombre = '';
+            $keyWord = '';
 
         $pagina = $_GET["pagina"];
         $numFilas = $_GET["numerofilas"];
-
         
         $numFilDatos = 0;
-        $con_numRows = "SELECT COUNT(T.ID_ADMIN) NUM_FIL FROM final_BK_ADMINISTRADORES T WHERE T.NOMBRE LIKE '%$nombre%';";
+        $con_numRows .= " LIKE '%$keyWord%';";
         if ($resu = $conex->query($con_numRows)){
             $datos = $resu->fetch_assoc();
             $numFilDatos = $datos["NUM_FIL"];
@@ -175,21 +249,22 @@
             return $resu;
         }
 
+        $consulta = $consulta1." LIKE '%$keyWord%' ORDER BY  $orderBy";
         if ($pagina == 1) {
-			$consulta = "SELECT T.ID_ADMIN, T.NOMBRE, T.APPELLIDO1, T.APPELLIDO2, T.CORREO, T.FECH_ALTA FROM final_BK_ADMINISTRADORES T WHERE T.NOMBRE LIKE '%$nombre%' ORDER BY T.ID_ADMIN LIMIT " . ($numFilas);
+			$consulta .= " LIMIT $numFilas";
 		} else {
-			$consulta = "SELECT T.ID_ADMIN, T.NOMBRE, T.APPELLIDO1, T.APPELLIDO2, T.CORREO, T.FECH_ALTA FROM final_BK_ADMINISTRADORES T WHERE T.NOMBRE LIKE %$nombre%' ORDER BY T.ID_ADMIN LIMIT " . (($pagina - 1) *  $numFilas ) . ", " . ($numFilas);
+			$consulta .= " LIMIT ". (($pagina - 1) *  $numFilas ) . ", " . ($numFilas);
 		}
 
 		if ($resultado = $conex->query($consulta)) {
 			$res[0] = $numFilDatos;
 			$res[1] = $resultado;
-			$res[2] = $nombre;
+			$res[2] = $keyWord;
 			$res[3] = $pagina;
             $res[4] = $numFilas;
             $res[5] = $_SESSION["name"];
-            $res[6] = array('ID', 'NOMBRE', 'APPELLIDO 1º', 'APPELLIDO 2º', 'CORREO', 'FECHA ALTA');
-            $res[7] = array("ID_ADMIN", 'NOMBRE', 'APPELLIDO1', 'APPELLIDO2', 'CORREO', 'FECH_ALTA');
+            $res[6] = $colNames;
+            $res[7] = $colnamesSQL;
             if (isset($_GET["way"]))
                 $res[8] =  $_GET["way"];
             else
@@ -284,7 +359,7 @@
     #OUT:
     # randomString: nueva contraseña genrada
     function mo_getRandomKey($length) {
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $characters = '01234567890123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $randomString = '';
         for ($i = 0; $i < $length; $i++) {
             $randomString .= $characters[rand(0, strlen($characters) - 1)];

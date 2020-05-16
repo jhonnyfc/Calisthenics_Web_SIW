@@ -65,7 +65,7 @@
         case 'gestion_admin':
             switch ($id) {
                 case '1':
-                    viw_mostrar_tabla_modadmin(mo_creaTAblaAdmins());
+                    viw_build_lisMod_modadmin(mo_creaTAblaAdmins());
                     break;
                 case '2':
                     break;
@@ -89,12 +89,28 @@
         case "gestionbbdd":
             switch ($id) {
                 case '1':
+                    viw_build_lisMod_User(mo_creaTAblaUsers());
                     break;
                 case '2':
+                    viw_build_lisMod_Foro(mo_creaTAblaForo());
                     break;
                 case '3':
+                    viw_build_lisMod_Rutinas(mo_creaTAblaRutinas());
                     break;
                 case '4':
+                    viw_build_lisMod_Ejer(mo_creaTAblaEjers());
+                    break;
+                case '10':
+                    viw_mostrar_Tabla(mo_creaTAblaUsers());
+                    break;
+                case '20':
+                    viw_mostrar_Tabla(mo_creaTAblaForo());
+                    break;
+                case '30':
+                    viw_mostrar_Tabla(mo_creaTAblaRutinas());
+                    break;
+                case '40':
+                    viw_mostrar_Tabla(mo_creaTAblaEjers());
                     break;
             }
             break;

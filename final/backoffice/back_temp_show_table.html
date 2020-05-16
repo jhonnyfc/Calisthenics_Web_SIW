@@ -23,6 +23,12 @@
 
         <script>
             function cargaDatos(word, pagina) {
+                
+                var keyWord = $("#palabraKey").val();
+                if (keyWord.localeCompare(word) != 0){
+                    word = keyWord;
+                    pagina = 1;
+                }
                 $.ajax({
                     url: "index.php?accion=##ACCIONCO##&id=##IDDATA##&palabra=" + word + "&pagina=" + pagina + "&numerofilas=" + $("#numfiltab").val(),
                     cache: false,
@@ -64,11 +70,21 @@
                                 <h6 class="m-0 font-weight-bold text-primary">##TituloTabla##</h6>
                             </div>
                             <div class="card-body">
-                                <select class="select" id="numfiltab">
-                                    <option value="10" selected>10</option>
-                                    <option value="15">15</option>
-                                    <option value="20">20</option>
-                                </select>
+                                <div class="row">
+                                    <select class="custom-select col-3" id="numfiltab">
+                                        <option value="10" selected>10</option>
+                                        <option value="15">15</option>
+                                        <option value="20">20</option>
+                                    </select>
+
+                                    <div class="input-group mb-3 col-4">
+                                        <input type="text" class="form-control" placeholder=". . . ." id = "palabraKey">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-secondary" type="button" onclick="cargaDatos('',1)">Search</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
 
                                 <!-- Aqui van los datos de la tabla se ponen por jquery ################-->
                                 <div class="table-responsive" id = "contTablaData">
