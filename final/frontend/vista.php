@@ -537,7 +537,7 @@
 		}
 	}
 
-	function vmostrarForo($resultado){
+	function vmostrarForo($resultado, $resultado2){
 		$fichero = file_get_contents("foro.html");
 		$fichero = vmontarbarra_inicio($fichero);
 		$fichero = vmontarbarra_final($fichero);
@@ -547,22 +547,47 @@
 
 		$trozos = explode("##cartaTema##", $fichero);
 
+		$likes = array("IDTEMA", "NICKNAME");
+		$cont=0;
+
+		while($fila2 = $resultado2->fetch_assoc()) {
+			$likes[$cont] = array("IDTEMA"=>$fila2["IDTEMA"],
+								  "NICKNAME"=>$fila2["NICKNAME"]);
+			$cont++;
+		}
+
+
 		while($fila = $resultado->fetch_assoc()) {
 			$aux = $trozos[1];
 			$aux=str_replace("##titulo##", $fila["NOMBRE"], $aux);
 			$aux=str_replace("##contenido##", $fila["CONTENIDO"], $aux);
 			$aux=str_replace("##fecha##", $fila["FECHA_PUBLICACION"], $aux);
 			$aux=str_replace("##foto_perfil##", "foto_perfil", $aux);
+			$aux=str_replace("##idtema##", $fila["IDTEMA"], $aux);
+			$x=0;
+			for ($i=0; $i < $cont; $i++) { 
+				$valores_likes = $likes[$i];
+				if ( $fila["IDTEMA"]==$valores_likes["IDTEMA"]) {
+					$aux=str_replace("##corazon##", "final_fotos/corazon_lleno.png", $aux);
+					$x=1;
+					break;
+				}
+				
+			}
+			
+			if ($x==0) {
+				$aux=str_replace("##corazon##", "final_fotos/corazon.png", $aux);
+			}
+
 			$lista_temas.= $aux;
 		}
-
 
 		echo $trozos[0] . $lista_temas . $trozos[2];
 	}
 
-	function vmostrarMensajesTema($resultado1, $resultado2){
+	function vmostrarMensajesTema($resultado1){
 		
-		if (is_object($resultado1) and is_object($resultado2)) {
+		if (is_object($resultado1)) {
 			$fichero = file_get_contents("tema_informacion.html");
 			$fichero = vmontarbarra_inicio($fichero);
 			$fichero = vmontarbarra_final($fichero);
@@ -580,7 +605,7 @@
 			$aux=str_replace("##fecha_tema##", $fila["FECHA_PUBLICACION"], $aux);
 			$aux=str_replace("##foto_perfil##", "foto_perfil", $aux);
 			$lista_mensaje.= $aux;
-
+/*
 			$likes = array("IDMENSAJE", "NICKNAME");
 			$cont=0;
 
@@ -589,7 +614,7 @@
 									  "NICKNAME"=>$fila2["NICKNAME"]);
 				$cont++;
 			}
-
+*/
 			$trozos2 = explode("##cartaTema##", $fichero);
 			while($fila = mysqli_fetch_assoc($resultado1)) {	
 				$aux = $trozos2[1];
@@ -599,7 +624,7 @@
 				$aux=str_replace("##idmensaje##", $fila["IDMENSAJE"], $aux);
 				$aux=str_replace("##fecha_tema##", $fila["FECHA_PUBLICACION_MENSAJE"], $aux);
 				$aux=str_replace("##foto_perfil##", "foto_perfil", $aux);
-
+/*
 				$x=0;
 				for ($i=0; $i < $cont; $i++) { 
 					$valores_likes = $likes[$i];
@@ -615,7 +640,7 @@
 					$aux=str_replace("##corazon##", "final_fotos/corazon.png", $aux);
 				}
 
-
+*/
 				$lista_mensaje.= $aux;
 			}
 
@@ -632,5 +657,16 @@
 		
 	}
 
+	function ejemplo($resultado1, $resultado2){
+		$fichero = file_get_contents("mensaje.html");
+		$fichero = vmontarbarra_inicio($fichero);
+		$fichero = vmontarbarra_final($fichero);
+
+		echo $resultado1;
+		echo "<br>";
+		echo $resultado2;
+
+		echo $fichero;
+	}
 
 ?>

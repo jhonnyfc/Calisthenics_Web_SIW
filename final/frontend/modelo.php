@@ -505,8 +505,8 @@
 
 		$nickname_usuario = $_SESSION["nickname"];
 
-		$consulta ="select NICKNAME, IDMENSAJE
-					from final_likes_mensaje
+		$consulta ="select NICKNAME, IDTEMA
+					from final_likes_tema
 					where NICKNAME='$nickname_usuario';";
 
 		if ( $resultado = $conexion->query($consulta) ) {
@@ -520,10 +520,10 @@
 		$conexion = conexionbasedatos();
 
 		$nickname_usuario = $_SESSION["nickname"];
-		$idmensaje = $_GET["idmensaje"];
-		$consulta ="delete from final_likes_mensaje where nickname = '$nickname_usuario' and IDMENSAJE = $idmensaje;";
+		$idtema = $_GET["idtema"];
+		$consulta ="delete from final_likes_tema where nickname = '$nickname_usuario' and idtema = $idtema;";
 		if ( $resultado = $conexion->query($consulta) ) {
-			return 1;
+			return $consulta;
 		} else {
 			return -1;
 		}
@@ -534,10 +534,10 @@
 		$conexion = conexionbasedatos();
 
 		$nickname_usuario = $_SESSION["nickname"];
-		$idmensaje = $_GET["idmensaje"];
-		$consulta ="insert into final_likes_mensaje values ($idmensaje, 'danidbg3');";
+		$idtema = $_GET["idtema"];
+		$consulta ="insert into final_likes_tema values ($idtema, '$nickname_usuario');";
 		if ( $resultado = $conexion->query($consulta) ) {
-			return 1;
+			return $consulta;
 		} else {
 			return -1;
 		}

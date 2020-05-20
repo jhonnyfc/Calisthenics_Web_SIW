@@ -61,10 +61,10 @@
 					<h5 class="card-title">##titulo##</h5>
 					<p class="card-text">##contenido##</p>
 				</div>
-				<button id="corazon" type="submit"><img id="corazon_imagen##idmensaje##" src = ##corazon##  onclick="cambiarCorazon(##idmensaje##)"/></button>
-				<!--
-				<button type="button" class="btn btn-secondary" onClick="location.href= 'index.php?accion=foro&id=2&idtema=##idtema##'">Responder</button>
-				-->
+				<button  type="button" class="btn btn-secondary" onClick="location.href= 'index.php?accion=BBDD&id=3&idmensaje=##idmensaje##'">Responder</button>
+				
+			
+				
 			</div>
 		</div>
 	</div>
@@ -79,33 +79,6 @@
 
 
 
-	<script type="text/javascript">
-		function cambiarCorazon(idMensaje){
-
-			var imagen = document.getElementById("corazon_imagen"+idMensaje).src;
-			if (imagen=="http://localhost/final/frontend/final_fotos/corazon.png") {
-				$.ajax({
-					url:"index.php?accion=BBDD&id=1&idmensaje="+idMensaje,
-					succes:function(resultado){
-
-					}
-				});
-				document.getElementById("corazon_imagen"+idMensaje).src="final_fotos/corazon_lleno.png";
-				
-				
-			} else if (imagen=="http://localhost/final/frontend/final_fotos/corazon_lleno.png") {
-				$.ajax({
-					url:"index.php?accion=BBDD&id=2&idmensaje="+idMensaje,
-					succes:function(){
-						
-					}
-				});
-				document.getElementById("corazon_imagen"+idMensaje).src="final_fotos/corazon.png";
-			}
-			
-		}
-
-	</script>
 
 </body>
 </html>

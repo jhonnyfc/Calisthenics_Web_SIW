@@ -32,7 +32,7 @@
 	<div class="card" >
 		<div class="row no-gutters">
 			<div class="col-md-4">
-				<img class="rounded-circle" src="final_fotos/##foto_perfil##.jpg" class="card-img" >
+				<img id="foto_perfil" class="rounded-circle" src="final_fotos/##foto_perfil##.jpg" class="card-img" >
 				<p id="fecha"><small class="text-muted">##fecha##</small></p>
 			</div>
 			<div class="col-md-8">
@@ -40,7 +40,10 @@
 					<h5 class="card-title">##titulo##</h5>
 					<p class="card-text">##contenido##</p>
 				</div>
-				<button type="button" class="btn btn-secondary" onClick="location.href= 'index.php?accion=foro&id=2&idtema=1'">Leer más</button>
+				<button id="corazon" type="submit"><img id="corazon_imagen##idtema##" src = ##corazon##  onclick="cambiarCorazon(##idtema##)"/></button>
+				<button type="button" class="btn btn-secondary" onClick="location.href= 'index.php?accion=foro&id=2&idtema=##idtema##'">Leer más</button>
+				<button type="button" class="btn btn-secondary" onClick="location.href= 'index.php?accion=BBDD&id=3&idtema=##idtema##'">Leer más2</button>
+				
 			</div>
 		</div>
 	</div>
@@ -51,5 +54,33 @@
 	##barra_final##
 	<!-- Fin parte final -->
 
+
+	<script type="text/javascript">
+		function cambiarCorazon(idTema){
+			var imagen = document.getElementById("corazon_imagen"+idTema).src;
+			
+			if (imagen=="http://localhost/final/frontend/final_fotos/corazon.png") {
+				$.ajax({
+					url: "index.php?accion=BBDD&id=1&idtema="+idTema,
+					succes:function(resultado){
+
+					}
+				});
+				document.getElementById("corazon_imagen"+idTema).src="final_fotos/corazon_lleno.png";
+				
+			} else if (imagen=="http://localhost/final/frontend/final_fotos/corazon_lleno.png") {
+				$.ajax({
+					url:"index.php?accion=BBDD&id=2&idtema="+idTema,
+					succes:function(){
+						
+					}
+				});
+				document.getElementById("corazon_imagen"+idTema).src="final_fotos/corazon.png";
+			}
+		}
+
+	</script>
+
+	
 </body>
 </html>

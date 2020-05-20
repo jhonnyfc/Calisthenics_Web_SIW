@@ -42,12 +42,6 @@
 	margin-left: 20px;
 
 }
-#corazon{
-	background-color: #FFFFFF;
-	background-image:none;
-	border: none; 
-	/*margin-left: 230px;*/
-	margin-left: 350px;
-	margin-bottom: 15px;
+.card button{
+	margin-left: 300px;
 }
-

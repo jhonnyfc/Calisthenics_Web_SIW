@@ -8,7 +8,7 @@
 	margin-left: 100px;
 	margin-bottom: 80px;
 }
-.card img{
+.card #foto_perfil{
 	width: 200px;
 	margin-left: 40px;
 	margin-top: 20px;
@@ -18,7 +18,7 @@
 	width: 100px;
 	height: 40px;
 	font-size: 15px;
-	margin-left: 450px;
+	margin-left: 30px;
 	margin-bottom: 10px;
 }
 
@@ -27,4 +27,12 @@
 	font-style: italic;
 	margin-left: 75px;
 
+}
+
+#corazon{
+	background-color: #FFFFFF;
+	background-image:none;
+	border: none; 
+	margin-left: 360px;
+	margin-bottom: 15px;
 }

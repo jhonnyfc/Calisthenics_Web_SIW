@@ -160,11 +160,11 @@
 		switch ($id) {
 		case '1':
 			//Mostrar foro
-			vmostrarForo(mdatosForo());
+			vmostrarForo(mdatosForo(), mdatosLikes());
 			break;
 		case '2':
 			//Mostrar menjajes del tema
-			vmostrarMensajesTema(mdatosTema(),mdatosLikes());
+			vmostrarMensajesTema(mdatosTema());
 			break;
 		}
 	}
@@ -177,7 +177,10 @@
 		case '2':
 			mBorrarLike();
 			break;
+		case '3':
+			ejemplo(mInsertarLike(), mBorrarLike());
+			break;
 		}
 	}
-
+	
 ?>
