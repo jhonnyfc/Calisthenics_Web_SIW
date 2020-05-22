@@ -164,23 +164,35 @@
 			break;
 		case '2':
 			//Mostrar menjajes del tema
-			vmostrarMensajesTema(mdatosTema());
+			vmostrarMensajesTema(mdatosTema(), mdatosMensajeSecundarios());
 			break;
 		}
 	}
-
+	
 	if ($accion=="BBDD") {
-		switch ($id) {
-		case '1':
-			mInsertarLike();
-			break;
-		case '2':
-			mBorrarLike();
-			break;
-		case '3':
-			ejemplo(mInsertarLike(), mBorrarLike());
-			break;
+		if (mcomprobarUsuarioSesion()==1) {
+			switch ($id) {
+			case '1':
+				mInsertarLike();
+				break;
+			case '2':
+				mBorrarLike();
+				break;
+			case '3':
+				vmostrarMensajePrincipal(mInsertarMensajePrincipal());
+				break;
+			case '4':
+				vmostrarMensajeSecundario(mInsertarMensajeSecundario());
+				break;
+			}
+		} else {
+			vmensajeRegistrarse();
 		}
 	}
+	 
+
+
+
+
 	
 ?>

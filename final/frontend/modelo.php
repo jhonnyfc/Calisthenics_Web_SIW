@@ -226,7 +226,6 @@
 		 1 --> Si
 		-1 --> Si existe algun problema con la base de datos
 		-2 --> No existe el usuario
-		-3 --> No coincide la contraseña
 	**/
 	function mcomprobarUsuarioSesion() {
 		$conexion = conexionbasedatos();
@@ -399,7 +398,6 @@
 	function mCerrarSesion(){
 		@session_start();
 		session_destroy();
-		header("Location: index.php");
 	}
 	
 	function mDatosRutinas() {
@@ -468,11 +466,9 @@
 
 	function mdatosForo(){
 		$conexion = conexionbasedatos();
-		$consulta ="select m.IDTEMA, t.FECHA_PUBLICACION, t.NOMBRE, t.NICKNAME, m.CONTENIDO, m.FECHA_PUBLICACION_MENSAJE
-					from final_tema t, final_mensaje m 
-					where m.idtema=t.idtema 
-					group by m.IDTEMA
-					having m.FECHA_PUBLICACION_MENSAJE = min(m.FECHA_PUBLICACION_MENSAJE);";
+			$consulta ="select *
+						from final_tema
+						order by FECHA_PUBLICACION asc;";
 
 		if ( $resultado = $conexion->query($consulta) ) {
 			return $resultado;
@@ -488,13 +484,25 @@
 	function mdatosTema(){
 		$conexion = conexionbasedatos();
 		$idtema = $_GET["idtema"];
-		$consulta ="select m.IDMENSAJE, m.NICKNAME, m.IDTEMA, m.CONTENIDO, t.NOMBRE, t.FECHA_PUBLICACION, t.NOMBRE, m.FECHA_PUBLICACION_MENSAJE
+		$consulta ="select m.IDMENSAJE, m.NICKNAME, m.IDTEMA, m.CONTENIDO, t.FECHA_PUBLICACION, t.NOMBRE, m.FECHA_PUBLICACION_MENSAJE, t.CONTENIDO as contenidoTema
 					from final_tema t, final_mensaje m 
 					where t.idtema=m.idtema and t.idtema=$idtema
-					order by t.idtema;";
+					order by t.FECHA_PUBLICACION asc";
 
-		if ( $resultado1 = $conexion->query($consulta) ) {
-			return $resultado1;
+		if ( $resultado = $conexion->query($consulta) ) {
+			if ($resultado->num_rows > 0) {
+				return $resultado;
+			} else {
+				$consulta ="select t.IDTEMA, t.FECHA_PUBLICACION, t.NOMBRE, t.contenido as contenidoTema
+							from final_tema t
+							where t.idtema=$idtema
+							order by t.FECHA_PUBLICACION asc";
+				if ( $resultado = $conexion->query($consulta) ) {
+					return $resultado;
+				} else {
+					return -1;	
+				}
+			}
 		} else {
 			return -1;
 		}
@@ -502,17 +510,20 @@
 
 	function mdatosLikes(){
 		$conexion = conexionbasedatos();
+		if (isset($_SESSION["nickname"]) ) {
+			$nickname_usuario = $_SESSION["nickname"];
 
-		$nickname_usuario = $_SESSION["nickname"];
+			$consulta ="select NICKNAME, IDTEMA
+						from final_likes_tema
+						where NICKNAME='$nickname_usuario';";
 
-		$consulta ="select NICKNAME, IDTEMA
-					from final_likes_tema
-					where NICKNAME='$nickname_usuario';";
-
-		if ( $resultado = $conexion->query($consulta) ) {
-			return $resultado;
+			if ( $resultado = $conexion->query($consulta) ) {
+				return $resultado;
+			} else {
+				return -1;
+			}
 		} else {
-			return -1;
+			return -2;
 		}
 	}
 
@@ -523,7 +534,7 @@
 		$idtema = $_GET["idtema"];
 		$consulta ="delete from final_likes_tema where nickname = '$nickname_usuario' and idtema = $idtema;";
 		if ( $resultado = $conexion->query($consulta) ) {
-			return $consulta;
+			return 1;
 		} else {
 			return -1;
 		}
@@ -537,13 +548,56 @@
 		$idtema = $_GET["idtema"];
 		$consulta ="insert into final_likes_tema values ($idtema, '$nickname_usuario');";
 		if ( $resultado = $conexion->query($consulta) ) {
-			return $consulta;
+			return 1;
 		} else {
 			return -1;
 		}
 	}
 
+	function mInsertarMensajePrincipal(){
+		$conexion = conexionbasedatos();
 
+		$nickname_usuario = $_SESSION["nickname"];
+		$idtema = $_POST["idtema"];
+		$contenido = $_POST["message-text"];
+		$consulta ="insert into final_mensaje (nickname, idtema, contenido) values ('$nickname_usuario', $idtema,' $contenido');";
+		
+		if ( $resultado = $conexion->query($consulta) ) {
+			return 1;
+		} else {
+			return -1;
+		}
+	}
+	function mInsertarMensajeSecundario(){
+		$conexion = conexionbasedatos();
 
+		$nickname_usuario = $_SESSION["nickname"];
+		$idmensaje = $_POST["idmensaje"];
+		$idtema = $_POST["idtema"];
+		$contenido = $_POST["message-text"];
+		$consulta ="insert into final_MENSAJES_SECUNDARIOS (idmensaje, idtema, contenido, nickname) values ( $idmensaje, $idtema, '$contenido','$nickname_usuario');";
+		if ( $resultado = $conexion->query($consulta) ) {
+			return 1;
+		} else {
+			return -1;
+		}
+	}
+
+	function mdatosMensajeSecundarios(){
+		$conexion = conexionbasedatos();
+
+		$idtema = $_GET["idtema"];
+
+		$consulta ="select *
+					from final_mensajes_secundarios ms
+					where ms.IDTEMA=$idtema";
+
+		if ( $resultado = $conexion->query($consulta) ) {
+			return $resultado;
+		} else {
+			return -1;
+		}
+
+	}
 
 ?>

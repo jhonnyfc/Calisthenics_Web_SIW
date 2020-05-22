@@ -18,18 +18,42 @@
 	<link href="musica/elements-master/css/responsive.css" rel="stylesheet" />
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 	<!--Nuestra carpeta css-->
 	<link rel="stylesheet" type="text/css" href="css/foro.css" />
 
 </head>
 <body>
+
+	<!-- Modal no estar registrado-->
+	<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLongTitle">No estás registrado.</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	        Necesitas estar registrado para poder dar likes.<br><br>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
 	<!-- header section strats -->
     ##barra_inicio##
     <!-- end header section -->
 
     ##cartaTema##
 
-	<div class="card" >
+	<div class="card shadow-lg p-3 mb-5 bg-white rounded" >
 		<div class="row no-gutters">
 			<div class="col-md-4">
 				<img id="foto_perfil" class="rounded-circle" src="final_fotos/##foto_perfil##.jpg" class="card-img" >
@@ -40,9 +64,8 @@
 					<h5 class="card-title">##titulo##</h5>
 					<p class="card-text">##contenido##</p>
 				</div>
-				<button id="corazon" type="submit"><img id="corazon_imagen##idtema##" src = ##corazon##  onclick="cambiarCorazon(##idtema##)"/></button>
+				##corazon##
 				<button type="button" class="btn btn-secondary" onClick="location.href= 'index.php?accion=foro&id=2&idtema=##idtema##'">Leer más</button>
-				<button type="button" class="btn btn-secondary" onClick="location.href= 'index.php?accion=BBDD&id=3&idtema=##idtema##'">Leer más2</button>
 				
 			</div>
 		</div>

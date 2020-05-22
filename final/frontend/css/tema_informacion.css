@@ -6,8 +6,9 @@
 }
 
 #cardPrincipal{
-	margin-left: 200px;
+	margin-left: 100px;
 	width: 900px;
+
 }
 #cardPrincipal button{
 	margin-left: 470px;
@@ -21,14 +22,6 @@
 	margin-left: 60px;
 
 }
-.card{
-	width: 700px;
-	margin-left: 100px;
-	margin-bottom: 50px;
-}
-#foto_perfil{
-	width: 150px;
-}
 .btn{
 	width: 100px;
 	height: 40px;
@@ -36,12 +29,48 @@
 	margin-left: 20PX;
 	
 }
-.card #fecha{
+#cardSecundaria{
+	width: 750px;
+	margin-left: 230px;
+	margin-top: 50px;
+	margin-bottom: 15px !important;
+}
+#foto_perfil{
+	width: 150px;
+}
+
+#cardSecundaria #fecha{
 	font-size: 12px;
 	font-style: italic;
 	margin-left: 20px;
 
 }
-.card button{
-	margin-left: 300px;
+#cardSecundaria button{
+	margin-left: 350px;
 }
+
+#cardTercera #fecha{
+	font-size: 12px;
+	font-style: italic;
+	margin-left: 20px;
+
+}
+
+#cardTercera{
+	width: 750px;
+	height: 230px;
+	margin-left: 360px;
+	margin-bottom: 15px !important;
+}
+
+.modal{
+	margin-top: 150px;	
+}
+.modal textarea{
+	height: 200px;
+}
+
+#submit{
+	margin-left: 350px;
+}
+

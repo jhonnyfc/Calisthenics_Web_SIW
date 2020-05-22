@@ -17,21 +17,83 @@
 	<link href="musica/elements-master/css/style.css" rel="stylesheet" />
 	<!-- responsive style -->
 	<link href="musica/elements-master/css/responsive.css" rel="stylesheet" />
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
+	
 	<!--Nuestra carpeta css-->
 	<link rel="stylesheet" type="text/css" href="css/tema_informacion.css" />
 
 
 </head>
 <body>
+	<!-- Modal mensaje principal-->
+	<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLabel">Nuevo mensaje</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	        <form action="index.php" method="POST">
+	          <div class="form-group">
+	            <label for="message-text" class="col-form-label">Mensaje:</label>
+	            <textarea class="form-control" id="message-text" name="message-text" placeholder="Escriba aquí su mensaje"></textarea>
+          	</div>
+			<div class="form-group">
+				<input type="submit" name="submit" id="submit" class="form-submit btn btn-secondary" value="Responder"/>
+			</div>
+			<input type="hidden" name="accion" value="BBDD">
+			<input type="hidden" name="id" value="3">
+			<input type="hidden" name="idtema" value=##idtema##>
+	        </form>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<!-- Modal mensaje secundario-->
+	<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLabel">Nuevo mensaje</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	        <form action="index.php" method="POST"> 
+	          <div class="form-group">
+	            <label for="message-text" class="col-form-label">Responder:</label>
+	            <textarea class="form-control " id="message-text" name="message-text" placeholder="Escriba aquí su mensaje"></textarea>
+         	</div>
+         	<div class="form-group">
+				<input type="submit" name="submit" id="submit" class="form-submit btn btn-secondary" value="Responder"/>
+			</div>
+			<input type="hidden" name="accion" value="BBDD">
+			<input type="hidden" name="id" value="4">
+			<input type="hidden" id ="idmensaje" name="idmensaje" value>
+			<input type="hidden" name="idtema" value=##idtema##>
+	        </form>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+
 	<!-- header section strats -->
     ##barra_inicio##
     <!-- end header section -->
 
+
     ##cartaPrincipal## 
+
     <div id="cardPrincipal" class="card shadow-lg p-3 mb-5 bg-white rounded">
 		<div class="row no-gutters">
 			<div class="col-md-4">
@@ -43,42 +105,64 @@
 					<h5 class="card-title">##titulo_tema##</h5>
 					<p class="card-text">##contenido_tema##</p>
 				</div>
-				<button type="button" class="btn btn-secondary" onClick="location.href= 'index.php?accion=BBDD&id=3&idmensaje=##idmensaje##'">Responder</button>
+				<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal1" data-whatever="@respuestaPrincipal">Responder</button>
 			</div>
 		</div>
 	</div>
 	##cartaPrincipal##
 
-	##cartaTema##
-	<div class="card shadow p-3 mb-5 bg-white rounded" >
-		<div class="row no-gutters">
-			<div class="col-md-4">
-				<img id="foto_perfil" class="rounded-circle" src="final_fotos/##foto_perfil##.jpg"  >
-				<p id="fecha">##fecha_tema##</p>
-			</div>
-			<div class="col-md-8">
-				<div class="card-body">
-					<h5 class="card-title">##titulo##</h5>
-					<p class="card-text">##contenido##</p>
+	##cartaSecundaria##
+		<div id="cardSecundaria" class="card shadow p-3 mb-5 bg-white rounded" >
+			<div class="row no-gutters">
+				<div class="col-md-4">
+					<img id="foto_perfil" class="rounded-circle" src="final_fotos/##foto_perfil##.jpg" >
+					<p id="fecha">##fecha_tema##</p>
 				</div>
-				<button  type="button" class="btn btn-secondary" onClick="location.href= 'index.php?accion=BBDD&id=3&idmensaje=##idmensaje##'">Responder</button>
-				
-			
-				
+				<div class="col-md-8">
+					<div class="card-body">
+						<!-- <h5 class="card-title">##titulo##</h5> -->
+						<p class="card-text">##contenido##</p>
+					</div>
+					<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal2" data-whatever="##idmensaje##" >Responder</button>
+				</div>
 			</div>
 		</div>
-	</div>
 	
-
-	##cartaTema##
-
+	##cartaTercera##
+	
+	##cartaSecundaria##
 
 	<!-- Parte final -->
 	##barra_final##
 	<!-- Fin parte final -->
 
 
+	<script type="text/javascript">
+		$('#exampleModal1').on('show.bs.modal', function (event) {
+			//Para mostrar a quien se Responder
+			/*
+			var button = $(event.relatedTarget)
+			var recipient = button.data('whatever') 
 
+			var modal = $(this)
+			modal.find('.modal-body input').val(recipient)
+			*/
+		})
+		$('#exampleModal2').on('show.bs.modal', function (event) {
+			var button = $(event.relatedTarget)
+			var idmensaje = button.data('whatever')
+			document.getElementById("idmensaje").value=idmensaje
+
+			//Para mostrar a quien se responde
+			/*
+			var button = $(event.relatedTarget)
+			var idmensaje = button.data('whatever') 
+			var modal = $(this)
+			modal.find('.modal-body input').val(recipient)
+			*/
+		})
+
+	</script>
 
 </body>
 </html>

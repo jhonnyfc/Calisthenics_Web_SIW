@@ -546,89 +546,31 @@
 		$aux = "";
 
 		$trozos = explode("##cartaTema##", $fichero);
-
-		$likes = array("IDTEMA", "NICKNAME");
-		$cont=0;
-
-		while($fila2 = $resultado2->fetch_assoc()) {
-			$likes[$cont] = array("IDTEMA"=>$fila2["IDTEMA"],
-								  "NICKNAME"=>$fila2["NICKNAME"]);
-			$cont++;
-		}
-
-
-		while($fila = $resultado->fetch_assoc()) {
-			$aux = $trozos[1];
-			$aux=str_replace("##titulo##", $fila["NOMBRE"], $aux);
-			$aux=str_replace("##contenido##", $fila["CONTENIDO"], $aux);
-			$aux=str_replace("##fecha##", $fila["FECHA_PUBLICACION"], $aux);
-			$aux=str_replace("##foto_perfil##", "foto_perfil", $aux);
-			$aux=str_replace("##idtema##", $fila["IDTEMA"], $aux);
-			$x=0;
-			for ($i=0; $i < $cont; $i++) { 
-				$valores_likes = $likes[$i];
-				if ( $fila["IDTEMA"]==$valores_likes["IDTEMA"]) {
-					$aux=str_replace("##corazon##", "final_fotos/corazon_lleno.png", $aux);
-					$x=1;
-					break;
-				}
-				
-			}
+		if (is_object($resultado2)) {
 			
-			if ($x==0) {
-				$aux=str_replace("##corazon##", "final_fotos/corazon.png", $aux);
-			}
-
-			$lista_temas.= $aux;
-		}
-
-		echo $trozos[0] . $lista_temas . $trozos[2];
-	}
-
-	function vmostrarMensajesTema($resultado1){
 		
-		if (is_object($resultado1)) {
-			$fichero = file_get_contents("tema_informacion.html");
-			$fichero = vmontarbarra_inicio($fichero);
-			$fichero = vmontarbarra_final($fichero);
-			
-
-			$lista_mensaje = "";
-			$aux = "";
-
-			$trozos1 = explode("##cartaPrincipal##", $fichero);
-			$fila = mysqli_fetch_assoc($resultado1);
-			$aux = $trozos1[1];
-			$aux=str_replace("##titulo_tema##", $fila["NOMBRE"], $aux);
-			$aux=str_replace("##contenido_tema##", $fila["CONTENIDO"], $aux);
-			$aux=str_replace("##idmensaje##", $fila["IDMENSAJE"], $aux);
-			$aux=str_replace("##fecha_tema##", $fila["FECHA_PUBLICACION"], $aux);
-			$aux=str_replace("##foto_perfil##", "foto_perfil", $aux);
-			$lista_mensaje.= $aux;
-/*
-			$likes = array("IDMENSAJE", "NICKNAME");
+			$likes = array("IDTEMA", "NICKNAME");
 			$cont=0;
 
 			while($fila2 = $resultado2->fetch_assoc()) {
-				$likes[$cont] = array("IDMENSAJE"=>$fila2["IDMENSAJE"],
+				$likes[$cont] = array("IDTEMA"=>$fila2["IDTEMA"],
 									  "NICKNAME"=>$fila2["NICKNAME"]);
 				$cont++;
 			}
-*/
-			$trozos2 = explode("##cartaTema##", $fichero);
-			while($fila = mysqli_fetch_assoc($resultado1)) {	
-				$aux = $trozos2[1];
+
+			$codigo_corazon = "<button id='corazon' type='submit'><img id='corazon_imagen##idtema##' src = ##corazon##  onclick='cambiarCorazon(##idtema##)'/></button>";
+			while($fila = $resultado->fetch_assoc()) {
+				$aux = $trozos[1];
+				$aux=str_replace("##corazon##", $codigo_corazon, $aux);
 				$aux=str_replace("##titulo##", $fila["NOMBRE"], $aux);
 				$aux=str_replace("##contenido##", $fila["CONTENIDO"], $aux);
-				$aux=str_replace("##idtema##", $fila["IDTEMA"], $aux);
-				$aux=str_replace("##idmensaje##", $fila["IDMENSAJE"], $aux);
-				$aux=str_replace("##fecha_tema##", $fila["FECHA_PUBLICACION_MENSAJE"], $aux);
+				$aux=str_replace("##fecha##", $fila["FECHA_PUBLICACION"], $aux);
 				$aux=str_replace("##foto_perfil##", "foto_perfil", $aux);
-/*
+				$aux=str_replace("##idtema##", $fila["IDTEMA"], $aux);
 				$x=0;
 				for ($i=0; $i < $cont; $i++) { 
 					$valores_likes = $likes[$i];
-					if ( $fila["IDMENSAJE"]==$valores_likes["IDMENSAJE"]) {
+					if ( $fila["IDTEMA"]==$valores_likes["IDTEMA"]) {
 						$aux=str_replace("##corazon##", "final_fotos/corazon_lleno.png", $aux);
 						$x=1;
 						break;
@@ -640,9 +582,159 @@
 					$aux=str_replace("##corazon##", "final_fotos/corazon.png", $aux);
 				}
 
-*/
-				$lista_mensaje.= $aux;
+				$lista_temas.= $aux;
 			}
+		} else if ($resultado2==-2) {
+			$codigo_corazon = "<button id='corazon' data-toggle='modal' data-target='#exampleModalCenter'><img id='corazon_imagen##idtema##' src = final_fotos/corazon.png onclick='avisarRegistro()'/></button>";
+			while($fila = $resultado->fetch_assoc()) {
+				$aux = $trozos[1];
+				$aux=str_replace("##corazon##", $codigo_corazon, $aux);
+				$aux=str_replace("##titulo##", $fila["NOMBRE"], $aux);
+				$aux=str_replace("##contenido##", $fila["CONTENIDO"], $aux);
+				$aux=str_replace("##fecha##", $fila["FECHA_PUBLICACION"], $aux);
+				$aux=str_replace("##foto_perfil##", "foto_perfil", $aux);
+				$aux=str_replace("##idtema##", $fila["IDTEMA"], $aux);
+				//$aux=str_replace("##corazon##", "", $aux);
+				$lista_temas.= $aux;
+			}
+		}
+		
+
+		echo $trozos[0] . $lista_temas . $trozos[2];
+	}
+
+	function vmostrarMensajesTema($resultado1, $resultado2){
+		
+		if (is_object($resultado1)) {
+
+			$fichero = file_get_contents("tema_informacion.html");
+			$fichero = vmontarbarra_inicio($fichero);
+			$fichero = vmontarbarra_final($fichero);
+			
+			$cont=0;
+
+			//mensajes secundarios
+			if (is_object($resultado2)) {
+				while($fila = $resultado2->fetch_assoc()) {
+					$valores2[$cont] = array("IDMENSAJE_SECUNDARIO"=>$fila["IDMENSAJE_SECUNDARIO"],
+											"IDMENSAJE"=>$fila["IDMENSAJE"], 
+											 "IDTEMA"=>$fila["IDTEMA"], 
+											 "NICKNAME"=>$fila["NICKNAME"], 
+											 "FECHA_PUBLICACION_MENSAJE"=>$fila["FECHA_PUBLICACION_MENSAJE"],
+											 "CONTENIDO"=>$fila["CONTENIDO"]);
+					$cont++;
+				}
+			}
+			$cont=0;
+			//mensajes foro (el primero es la info del mensaje del tema(el primero))
+			if ($resultado1->num_rows > 1) {
+				while($fila = $resultado1->fetch_assoc()) {
+					$valores1[$cont] = array("IDMENSAJE"=>$fila["IDMENSAJE"],
+											 "NICKNAME"=>$fila["NICKNAME"], 
+											 "IDTEMA"=>$fila["IDTEMA"], 
+											 "CONTENIDO"=>$fila["CONTENIDO"], 
+											 "NOMBRE"=>$fila["NOMBRE"],
+											 "FECHA_PUBLICACION"=>$fila["FECHA_PUBLICACION"],
+											 "FECHA_PUBLICACION_MENSAJE"=>$fila["FECHA_PUBLICACION_MENSAJE"],
+											 "contenidoTema"=>$fila["contenidoTema"]);
+					$cont++;
+
+				}
+			} else {
+				//si solo hay una fila puede porque devuelva el tema y un mensaje
+				// o puede que solo devuelva el tema sin mensajes
+				$fila = $resultado1->fetch_assoc();
+				if (count($fila) == 8) {
+					$valores1[$cont] = array("IDMENSAJE"=>$fila["IDMENSAJE"],
+											 "NICKNAME"=>$fila["NICKNAME"], 
+											 "IDTEMA"=>$fila["IDTEMA"], 
+											 "CONTENIDO"=>$fila["CONTENIDO"], 
+											 "NOMBRE"=>$fila["NOMBRE"],
+											 "FECHA_PUBLICACION"=>$fila["FECHA_PUBLICACION"],
+											 "FECHA_PUBLICACION_MENSAJE"=>$fila["FECHA_PUBLICACION_MENSAJE"],
+											 "contenidoTema"=>$fila["contenidoTema"]);
+					$cont=1;
+				} else {
+					$valores1[$cont] = array("IDTEMA"=>$fila["IDTEMA"],
+											 "FECHA_PUBLICACION"=>$fila["FECHA_PUBLICACION"], 
+											 "NOMBRE"=>$fila["NOMBRE"], 
+											 "contenidoTema"=>$fila["contenidoTema"]);
+				}
+			}
+			$lista_mensaje = "";
+			$aux = "";
+
+			$trozos1 = explode("##cartaPrincipal##", $fichero);
+			
+			$mensaje = $valores1[0];
+			$trozos1[0]=str_replace("##idtema##", $mensaje["IDTEMA"], $trozos1[0]);
+
+			$trozos2 = explode("##cartaSecundaria##", $fichero);
+
+			$cont2 = 0;
+			foreach ($valores1 as &$valor) {
+				if ($cont==0) {
+					$aux = $trozos1[1];
+					$aux=str_replace("##contenido_tema##", $valor["contenidoTema"], $aux);
+					$aux=str_replace("##fecha_tema##", $valor["FECHA_PUBLICACION"], $aux);
+					$aux=str_replace("##foto_perfil##", "foto_perfil", $aux);
+					$aux=str_replace("##titulo_tema##", $valor["NOMBRE"], $aux);
+					$cont2++;
+					$lista_mensaje.= $aux;
+					break;
+				} else {
+					if ($cont2==0) {
+						$aux = $trozos1[1];
+						$aux=str_replace("##contenido_tema##", $valor["contenidoTema"], $aux);
+						$aux=str_replace("##fecha_tema##", $valor["FECHA_PUBLICACION"], $aux);
+						$aux=str_replace("##foto_perfil##", "foto_perfil", $aux);
+						$aux=str_replace("##titulo_tema##", $valor["NOMBRE"], $aux);
+						$cont2++;
+						$lista_mensaje.= $aux;
+						//$aux=str_replace("##idtema##", $fila["IDTEMA"], $aux);
+					} 
+					$aux = $trozos2[1];
+					$aux=str_replace("##foto_perfil##", "foto_perfil", $aux);
+					$aux=str_replace("##fecha_tema##", $valor["FECHA_PUBLICACION_MENSAJE"], $aux);
+					$aux=str_replace("##contenido##", $valor["CONTENIDO"], $aux);
+					$aux=str_replace("##idmensaje##", $valor["IDMENSAJE"], $aux);
+					
+
+					if (count($valores2)>0) {
+						$contSecundarios = 0;
+						$codigo =  "<div id='cardTercera' class='card shadow p-3 mb-5 bg-white rounded' >
+										<div class='row no-gutters'>
+											<div class='col-md-4'>
+												<img id='foto_perfil' class='rounded-circle' src='final_fotos/##foto_perfil_tercera##.jpg'  >
+												<p id='fecha'>##fecha_tema_tercera##</p>
+											</div>
+											<div class='col-md-8'>
+												<div class='card-body'>
+													<p class='card-text'>##contenido_tercera##</p>
+												</div>
+											</div>
+										</div>
+									</div>
+									##cartaTercera##";
+						foreach ($valores2 as &$valor2) {
+							$contSecundarios = 0;
+							
+							if ( ($valor["IDMENSAJE"] == $valor2["IDMENSAJE"]) and ($valor["IDTEMA"] == $valor2["IDTEMA"]) ){
+
+								$aux=str_replace("##cartaTercera##", $codigo, $aux);
+								$aux=str_replace("##foto_perfil_tercera##", "foto_perfil", $aux);
+								$aux=str_replace("##fecha_tema_tercera##", $valor2["FECHA_PUBLICACION_MENSAJE"], $aux);
+								$aux=str_replace("##contenido_tercera##", $valor2["CONTENIDO"], $aux);
+								$contSecundarios++;
+							}
+						}
+						$aux=str_replace("##cartaTercera##","", $aux);
+					} 
+					$lista_mensaje.= $aux;
+				}
+				
+			}
+
 
 			echo $trozos1[0] . $lista_mensaje . $trozos2[2];
 		} else {
@@ -657,16 +749,35 @@
 		
 	}
 
-	function ejemplo($resultado1, $resultado2){
+	function vmostrarMensajePrincipal($resultado){
 		$fichero = file_get_contents("mensaje.html");
-		$fichero = vmontarbarra_inicio($fichero);
-		$fichero = vmontarbarra_final($fichero);
-
-		echo $resultado1;
-		echo "<br>";
-		echo $resultado2;
+			$fichero = vmontarbarra_inicio($fichero);
+			$fichero = vmontarbarra_final($fichero);
+			
+		if ($resultado==1) {
+			$fichero = str_replace("##titulo_mensaje##", "Responder a un mensaje en el foro", $fichero);
+			$fichero = str_replace("##contenido_mensaje##","Su mensaje se ha enviado correctamente.<br>Ya puede verlo en su tema de interés en el foro.<br><br> " , $fichero);
+		} else {
+			$fichero = str_replace("##titulo_mensaje##", "Responder a un mensaje en el foro", $fichero);
+			$fichero = str_replace("##contenido_mensaje##","Ha ocurrido un error con la base de datos a la hora de mostrar la informacion de este tema.<br> Pruebe de nuevo en unos minutos.<br>" , $fichero);
+		}
 
 		echo $fichero;
 	}
 
+	function vmostrarMensajeSecundario($resultado){
+		$fichero = file_get_contents("mensaje.html");
+			$fichero = vmontarbarra_inicio($fichero);
+			$fichero = vmontarbarra_final($fichero);
+			
+		if ($resultado==1) {
+			$fichero = str_replace("##titulo_mensaje##", "Responder a un mensaje en el foro", $fichero);
+			$fichero = str_replace("##contenido_mensaje##","Su mensaje se ha enviado correctamente.<br>Ya puede verlo en su tema de interés en el foro.<br><br> " , $fichero);
+		} else {
+			$fichero = str_replace("##titulo_mensaje##", "Responder a un mensaje en el foro", $fichero);
+			$fichero = str_replace("##contenido_mensaje##","Ha ocurrido un error con la base de datos a la hora de mostrar la informacion de este tema.<br> Pruebe de nuevo en unos minutos.<br>" , $fichero);
+		}
+
+		echo $fichero;
+	}
 ?>
