@@ -466,17 +466,28 @@
 
 	function mdatosForo(){
 		$conexion = conexionbasedatos();
-			$consulta ="select *
-						from final_tema
-						order by FECHA_PUBLICACION asc;";
+		$res = array();
 
+		$consulta ="select *
+					from final_tema
+					order by FECHA_PUBLICACION asc;";
+		$consulta2 = "select t.IDTEMA, COUNT(lt.IDTEMA) as LIKES
+					  from final_tema t, final_likes_tema lt
+					  where t.IDTEMA=lt.IDTEMA 
+					  group by t.IDTEMA
+					  order by LIKES desc";
 		if ( $resultado = $conexion->query($consulta) ) {
-			return $resultado;
+			$res[0] = $resultado;
+			if ( $resultado = $conexion->query($consulta2) ) {
+				$res[1] = $resultado;
+				return $res;
+			} else {
+				return $res[0] = -1;
+			}
 		} else {
-			return -1;
+			return $res[0] = -1;
 		}
-
-
+	
 	}
 
 

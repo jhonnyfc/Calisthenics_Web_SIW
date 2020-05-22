@@ -34,6 +34,11 @@
 	background-color: #FFFFFF;
 	background-image:none;
 	border: none; 
-	margin-left: 360px;
+	margin-right: 30px;
 	margin-bottom: 15px;
+}
+
+.numero{
+	margin-left: 340px;
+	color: #C81B2B;
 }

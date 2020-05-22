@@ -544,11 +544,16 @@
 
 		$lista_temas = "";
 		$aux = "";
-
+		$count = 0;
+		$numeroLikes = array("IDTEMA", "LIKES");
+		while($fila2 = $resultado[1]->fetch_assoc()) {
+			$numeroLikes[$count] = array("IDTEMA"=>$fila2["IDTEMA"],
+								  		 "LIKES"=>$fila2["LIKES"]);
+			$count++;
+		}
 		$trozos = explode("##cartaTema##", $fichero);
 		if (is_object($resultado2)) {
 			
-		
 			$likes = array("IDTEMA", "NICKNAME");
 			$cont=0;
 
@@ -558,8 +563,8 @@
 				$cont++;
 			}
 
-			$codigo_corazon = "<button id='corazon' type='submit'><img id='corazon_imagen##idtema##' src = ##corazon##  onclick='cambiarCorazon(##idtema##)'/></button>";
-			while($fila = $resultado->fetch_assoc()) {
+			$codigo_corazon = "<b id='numero##idtema##' class='numero' >##numero##</b><button id='corazon' type='submit'><img id='corazon_imagen##idtema##' src = ##corazon##  onclick='cambiarCorazon(##idtema##)'/></button>";
+			while($fila = $resultado[0]->fetch_assoc()) {
 				$aux = $trozos[1];
 				$aux=str_replace("##corazon##", $codigo_corazon, $aux);
 				$aux=str_replace("##titulo##", $fila["NOMBRE"], $aux);
@@ -577,16 +582,26 @@
 					}
 					
 				}
-				
 				if ($x==0) {
 					$aux=str_replace("##corazon##", "final_fotos/corazon.png", $aux);
 				}
-
+				$x=0;
+				for ($i=0; $i < $count; $i++) { 
+					$numeroLikesPorTema = $numeroLikes[$i];
+					if ( $fila["IDTEMA"]==$numeroLikesPorTema["IDTEMA"]) {
+						$aux=str_replace("##numero##", $numeroLikesPorTema["LIKES"], $aux);
+						$x++;
+						break;
+					}
+				}
+				if ($x==0) {
+					$aux=str_replace("##numero##", "0", $aux);
+				}
 				$lista_temas.= $aux;
 			}
 		} else if ($resultado2==-2) {
-			$codigo_corazon = "<button id='corazon' data-toggle='modal' data-target='#exampleModalCenter'><img id='corazon_imagen##idtema##' src = final_fotos/corazon.png onclick='avisarRegistro()'/></button>";
-			while($fila = $resultado->fetch_assoc()) {
+			$codigo_corazon = "<b id='numero##idtema##' class='numero' >##numero##</b><button id='corazon' data-toggle='modal' data-target='#exampleModalCenter'><img id='corazon_imagen##idtema##' src = final_fotos/corazon.png onclick='avisarRegistro()'/></button>";
+			while($fila = $resultado[0]->fetch_assoc()) {
 				$aux = $trozos[1];
 				$aux=str_replace("##corazon##", $codigo_corazon, $aux);
 				$aux=str_replace("##titulo##", $fila["NOMBRE"], $aux);
@@ -595,6 +610,18 @@
 				$aux=str_replace("##foto_perfil##", "foto_perfil", $aux);
 				$aux=str_replace("##idtema##", $fila["IDTEMA"], $aux);
 				//$aux=str_replace("##corazon##", "", $aux);
+				$x=0;
+				for ($i=0; $i < $count; $i++) { 
+					$numeroLikesPorTema = $numeroLikes[$i];
+					if ( $fila["IDTEMA"]==$numeroLikesPorTema["IDTEMA"]) {
+						$aux=str_replace("##numero##", $numeroLikesPorTema["LIKES"], $aux);
+						$x++;
+						break;
+					}
+				}
+				if ($x==0) {
+					$aux=str_replace("##numero##", "0", $aux);
+				}
 				$lista_temas.= $aux;
 			}
 		}
