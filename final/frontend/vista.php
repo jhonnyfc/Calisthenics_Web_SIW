@@ -538,6 +538,7 @@
 	}
 
 	function vmostrarForo($resultado, $resultado2){
+		
 		$fichero = file_get_contents("foro.html");
 		$fichero = vmontarbarra_inicio($fichero);
 		$fichero = vmontarbarra_final($fichero);
@@ -628,6 +629,7 @@
 		
 
 		echo $trozos[0] . $lista_temas . $trozos[2];
+	
 	}
 
 	function vmostrarMensajesTema($resultado1, $resultado2){

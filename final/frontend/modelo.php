@@ -476,6 +476,7 @@
 					  where t.IDTEMA=lt.IDTEMA 
 					  group by t.IDTEMA
 					  order by LIKES desc";
+
 		if ( $resultado = $conexion->query($consulta) ) {
 			$res[0] = $resultado;
 			if ( $resultado = $conexion->query($consulta2) ) {
