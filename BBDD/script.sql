@@ -81,7 +81,7 @@ CREATE TABLE final_TEMA(
     NICKNAME VARCHAR(20),
     FECHA_PUBLICACION TIMESTAMP DEFAULT NOW(),
     NOMBRE VARCHAR(50) NOT NULL,
-    
+    CONTENIDO VARCHAR(500) NOT NULL, 
     CONSTRAINT PK_IDTEMAS PRIMARY KEY (IDTEMA),
     CONSTRAINT FK_NICKNAME_TEMA FOREIGN KEY (NICKNAME) REFERENCES final_USUARIO(NICKNAME) ON DELETE CASCADE
 );
@@ -94,6 +94,20 @@ CREATE TABLE final_MENSAJE(
     FECHA_PUBLICACION_MENSAJE TIMESTAMP DEFAULT NOW(),
     CONSTRAINT PK_IDMENSAJE PRIMARY KEY (IDMENSAJE),
     CONSTRAINT FK_IDTEMA_MENSAJE FOREIGN KEY (IDTEMA) REFERENCES final_TEMA(IDTEMA) ON DELETE CASCADE
+);
+
+CREATE TABLE final_MENSAJES_SECUNDARIOS(
+    IDMENSAJE_SECUNDARIO INT(10) NOT NULL AUTO_INCREMENT,
+    IDMENSAJE INT(10) NOT NULL,
+    IDTEMA INT(10) NOT NULL,
+    NICKNAME VARCHAR(20) NOT NULL,
+    CONTENIDO VARCHAR(500) DEFAULT NULL,
+    FECHA_PUBLICACION_MENSAJE TIMESTAMP DEFAULT NOW(),
+
+    CONSTRAINT PK_IDMENSAJE_SECUNDARIO PRIMARY KEY (IDMENSAJE_SECUNDARIO),
+    CONSTRAINT FK_IDMENSAJE_SECUNDARIO_USUARIO FOREIGN KEY (NICKNAME) REFERENCES final_USUARIO(NICKNAME) ON DELETE CASCADE,
+    CONSTRAINT FK_IDMENSAJE_SECUNDARIO_TEMA FOREIGN KEY (IDTEMA) REFERENCES final_TEMA(IDTEMA) ON DELETE CASCADE,
+    CONSTRAINT FK_IDMENSAJE_SECUNDARIO FOREIGN KEY (IDMENSAJE) REFERENCES final_MENSAJE(IDMENSAJE) ON DELETE CASCADE
 );
 
 CREATE TABLE final_LIKES_TEMA(
@@ -148,14 +162,13 @@ INSERT INTO final_PUBLICACION (TITULO,CONTENIDO,AUTOR) VALUES ('MI PRIMER MUSCLE
 INSERT INTO final_PUBLICACION (TITULO,CONTENIDO,AUTOR) VALUES ('hola','texto3','vadym3');
 INSERT INTO final_PUBLICACION (TITULO,CONTENIDO,AUTOR) VALUES ('adiosssss','texto4','vadym4');
 
-INSERT INTO final_TEMA (nickname, nombre)VALUES ("danidbg", "primera dominada");
-INSERT INTO final_mensaje (nickname, idtema, contenido) VALUES ("danidbg", 1, "no consigo hacer asfadg jdansj nsdkjgnsdjgnsdgjnksjdnsk.");
+INSERT INTO final_TEMA (nickname, nombre, contenido)VALUES ("danidbg", "primera dominada","no consigo hacer asfadg jdansj nsdkjgnsdjgnsdgjnksjdnsk." );
 INSERT INTO final_mensaje  (nickname, idtema, contenido) VALUES ("danidbg", 1, "Vete al gym la calistenia no sirve de nada.");
 INSERT INTO final_mensaje  (nickname, idtema, contenido) VALUES ("danidbg", 1, "ESPABILAESPABILAESPABILAESPABILAESPABILA.");
 
 
 
-INSERT INTO final_TEMA (nickname, nombre)VALUES ("danidbg", "primera flexion");
+INSERT INTO final_TEMA (nickname, nombre, contenido)VALUES ("danidbg", "primera flexion", "PRIMEARA FLEAISONFASF MENSAJE TEMA.");
 INSERT INTO final_mensaje (nickname, idtema, contenido) VALUES ("danidbg", 2, "no consigo hacer asfadg jdansj nsdkjgnsdjgnsdgjnksjdnsk.");
 INSERT INTO final_mensaje  (nickname, idtema, contenido) VALUES ("danidbg", 2, "Vete al gym la calistenia no sirve de nada.");
 INSERT INTO final_mensaje  (nickname, idtema, contenido) VALUES ("danidbg", 2, "ESPABILAESPABILAESPABILAESPABILAESPABILA.");
@@ -164,7 +177,9 @@ INSERT INTO final_mensaje  (nickname, idtema, contenido) VALUES ("danidbg", 2, "
 INSERT INTO final_likes_tema VALUES (1, "danidbg");
 INSERT INTO final_likes_tema VALUES (2, "danidbg");
 
-
+INSERT INTO final_MENSAJES_SECUNDARIOS (IDMENSAJE, IDTEMA, CONTENIDO, NICKNAME) VALUES (2, 1, "CONTENIDO DE PRUEBA SECUNDARIO", 'danidbg');
+INSERT INTO final_MENSAJES_SECUNDARIOS (IDMENSAJE, IDTEMA, CONTENIDO, NICKNAME) VALUES (2, 1, "Eres un parguelita, vadiy puto amo", 'danidbg');
+INSERT INTO final_MENSAJES_SECUNDARIOS (IDMENSAJE, IDTEMA, CONTENIDO, NICKNAME) VALUES (3, 2, "la calistenia es de lo mejorcito k hay en el muindola calistenia es de lo mejorcito k hay en el muindola calistenia es de lo mejorcito k hay en el muindo", 'danidbg');
 
 
 
