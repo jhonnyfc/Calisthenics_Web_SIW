@@ -421,11 +421,72 @@
 ## TOOLS ###############
 #####################################################
 
+    # Add Files of drop to Foldrs
+    #OUT:
+    function mo_uploadFile(){
+        $dir = dirname( dirname(__FILE__) );
+        $dir .= '\\frontend\\fotos_ejercicios\\otro\\';
+
+        if(!empty($_FILES)){
+            $temp_file = $_FILES['file']['tmp_name'];
+            $location = $dir . $_FILES['file']['name'];
+
+            list($ancho, $alto) = getimagesize($temp_file);
+            $nuevo_ancho = 1000;
+            $nuevo_alto = 1000;
+
+            // Cargar
+            $thumb = imagecreatetruecolor($nuevo_ancho, $nuevo_alto);
+            header('Content-type: image/jpeg');
+            $origen = imagecreatefromjpeg($temp_file);
+
+
+            // Cambiar el tamaño
+            imagecopyresized($thumb, $origen, 0, 0, 0, 0, $nuevo_ancho, $nuevo_alto, $ancho, $alto);
+
+            // move_uploaded_file($thumb , $location);
+            imagepng($thumb , $location);
+        }
+    }
+
+    # Get list Fotos
+    function mo_listaFotos(){
+        $dir = dirname( dirname(__FILE__) );
+        $dir .= '\\frontend\\fotos_ejercicios\\otro\\';
+        $files = scandir($dir);
+
+        $direc = "../frontend/fotos_ejercicios/otro/";
+        $output = '<div class="row">';
+
+        if(false !== $files) {
+            foreach($files as $file){
+                if('.' !=  $file && '..' != $file){
+                    $dirAu = $direc.$file;
+                    $output .= '<div class="col-md-2">
+                                <img src="'.$dirAu.'"  alt="" class="img-thumbnail" width="175" height="175" style="height:175px;" />
+                                <button type="button" class="btn btn-link remove_image" id="'.$file.'">Remove</button>
+                            </div>';
+                }
+            }
+        }
+        $output .= '</div>';
+        echo $output;
+    }
+
+    function mo_deleteFoto(){
+        $dir = dirname( dirname(__FILE__) );
+        $dir .= '\\frontend\\fotos_ejercicios\\otro\\';
+        if(isset($_POST["name"])){
+            $filename = $dir . $_POST["name"];
+            unlink($filename);
+        }
+    }
+
     # Dele File or Row off BBDD
     #OUT:
     #  1: Ok
     # -1: NO Ok
-    function mo_delteFile(){
+    function mo_deletFile(){
         $conex = mo_conexionbasedatos();
         $res = array();
 
@@ -452,10 +513,10 @@
             if ($resul = $conex->query($ConsNameFoto)){
                 $row = $resul->fetch_array(MYSQLI_ASSOC);
                 $fotName = $row['IDFOTO'];
-                $dir .= "frontend\\$fotName";
+                $dir .= "\\frontend\\fotos_ejercicios\\$fotName";
 
                 $res[0] = -1;
-                $res[1] = "Funcion no Disponible :-( ".$dir;
+                $res[1] = "Funcion no Disponible :-( ".$dir.'  ';
                 echo json_encode($res);
 
                 // $consDelete = "DELETE FROM $tableName T WHERE T.$campId LIKE '$idData'";

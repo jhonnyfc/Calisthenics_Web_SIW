@@ -1,6 +1,5 @@
 <?php
     # REVISAR GUARDAR SESION PROLAMGADA
-
     session_start();
     include "back__modelo.php";
     include "back__views.php";
@@ -143,7 +142,16 @@
         case 'tools':
             switch ($id) {
                 case '0':
-                    mo_delteFile();
+                    mo_deletFile();
+                    break;
+                case '1':
+                    mo_uploadFile();
+                    break;
+                case '2':
+                    mo_listaFotos();
+                    break;
+                case '3':
+                    mo_deleteFoto();
                     break;
             }
     }

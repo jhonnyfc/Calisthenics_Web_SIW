@@ -10,7 +10,7 @@
 		<title>Calistenia Web S.A.</title>
 
 		<!-- Custom fonts for this template-->
-		<link href="librerias/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+		<link href="https://use.fontawesome.com/releases/v5.11.0/css/all.css" rel="stylesheet" type="text/css">
 		<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
 		<!-- Custom styles for this template-->
@@ -22,24 +22,11 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
         <script src="tools/bakc_jsTools.js"></script>
-        <script src="tools/dropzone/dist/dropzone.js"></script>
-        <link rel="stylesheet" type="test/css"src="tools/dropzone/dist/dropzone.css"></link>
+        <!-- <script src="tools/dropzone/dist/dropzone.js"></script>
+        <link rel="stylesheet" type="test/css"src="tools/dropzone/dist/dropzone.css"></link> -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/dropzone.css" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/dropzone.js"></script>
 
-        <script>
-            jQuery(document).ready(function($){
-                Dropzone.options.mi_file = {
-                uploadMultiple:true,
-                maxFileSize: 20,
-                accepterFiles: 'image/*',
-                init: function init(){
-                    this.on('error',function(){
-                        alert('Error');
-                    });
-                }
-                }
-            })
-            
-        </script>
 	</head>
 	<body id="page-top">
 		<!-- Page Wrapper -->
@@ -66,28 +53,25 @@
 							<h1 class="h3 mb-0 text-gray-800">Subir Foto</h1>
 						</div>
 
-                        <form>
-                            <div class="form-group">
-                                <label for="mi_namEjer">Nombre Ejercicio</label>
-                                <input type="text" class="form-control" id="mi_namEjer">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="mi_Descripcion">Descricion</label>
-                                <textarea class="form-control" id="mi_Descripcion" rows="3"></textarea>
-                            </div>
-
-                            
-
-                            <button type="button" class="btn btn-primary" onclick="subirEjercicio()">Subir</button>
-                        </form>
-
                         <br>
-                        <form class="dropzone" height="200px">
-                            <label for="mi_fil">Descricion</label>
-                            <input type="file" class="form-control " id="mi_file" >
-                        </form>
+                        <div class="container col-12" ">
+                            <div class='content'>
+                                <form action="index.php" class="dropzone" >
+                                </form> 
+                            </div>
+                        
+                            <br>
+                            <div align="center">
+                                <button type="button" class="btn btn-info" id="uploadfiles">Upload</button>
+                            </div>
+                            <!-- <input class="button" type="button" id='uploadfiles' value='Upload Files' > -->
+                        </div>
 
+
+                        <br />
+                        <br />
+                        <div id="preview"></div>
+                        <br />
 					</div>
 					<!-- /.container-fluid -->
 				</div>
@@ -121,6 +105,60 @@
 		<script src="librerias/js/demo/chart-area-demo.js"></script>
         <script src="librerias/js/demo/chart-pie-demo.js"></script>
 
-        <script id="miAlerta"></script>
+        <script>
+            Dropzone.autoDiscover = false;
+
+            var myDropzone = new Dropzone(".dropzone", { 
+                autoProcessQueue: false,
+                parallelUploads: 25,
+                acceptedFiles:".png,.jpg,.gif,.bmp,.jpeg",
+                init: function(){
+                    myDrop = this;
+                    $('#uploadfiles').click(function(){
+                        myDrop.processQueue();
+                    });
+
+                    this.on('sending', function (file, xhr, formData) {
+                        formData.append('accion','tools');
+                        formData.append('id','1');
+                        console.log(formData);
+                    });
+
+                    this.on("complete", function(){
+                        if(this.getQueuedFiles().length == 0 && this.getUploadingFiles().length == 0){
+                            var _this = this;
+                            _this.removeAllFiles();
+                            alert("lod ");
+                        }
+                        list_image();
+                    });
+                },
+            });
+
+            list_image();
+
+            function list_image(){
+                $.ajax({
+                    url:"index.php",
+                    type: "POST",
+                    data: {accion:'tools', id:'2'},
+                     success:function(data){
+                         $('#preview').html(data);
+                     }
+                });
+            }
+
+            $(document).on('click', '.remove_image', function(){
+                var name = $(this).attr('id');
+                $.ajax({
+                    url:"index.php",
+                    method:"POST",
+                    data: {accion:'tools', id:'3',name:name},
+                    success:function(data){
+                        list_image();
+                    }
+                })
+            });
+     </script>
 	</body>
 </html>
