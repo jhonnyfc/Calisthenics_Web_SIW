@@ -209,7 +209,7 @@
         $consulta1 = "SELECT T.NICKNAME, T.NOMBRE, T.APELLIDO, T.CORREO, T.SEXO FROM final_USUARIO T WHERE T.NICKNAME";
         $orderBy = "T.NICKNAME";
 
-        $colNames = array('NICKNAME', 'NOMBRE', 'APELLIDO', 'CORREO', 'SEXO');
+        $colNames = array('NICKNAME', 'NOMBRE', 'APELLIDO', 'CORREO', 'SEXO','','final_USUARIO');
         $colnamesSQL = array('NICKNAME', 'NOMBRE', 'APELLIDO', 'CORREO', 'SEXO');
         
         return mo_getTablaData($con_numRows,$consulta1,$colNames,$colnamesSQL,$orderBy);
@@ -219,13 +219,13 @@
     #OUT:
     # data: datos de los Foro
     function mo_creaTAblaForo(){
-        $con_numRows = "SELECT COUNT(T.IDEJERCICIO) NUM_FIL FROM FINAL_EJERCICIO T WHERE T.NOMBRE_EJERCICIO";
+        $con_numRows = "SELECT COUNT(T.IDTEMA) NUM_FIL FROM FINAL_TEMA T WHERE T.NOMBRE";
         
-        $consulta1 = "SELECT T.IDEJERCICIO, T.NOMBRE_EJERCICIO, T.MUSCULO, T.NIVEL_EJERCICIO, T.IDFOTO FROM FINAL_EJERCICIO T WHERE T.NOMBRE_EJERCICIO";
-        $orderBy = "T.IDEJERCICIO";
+        $consulta1 = "SELECT T.IDTEMA, T.NICKNAME, T.FECHA_PUBLICACION, T.NOMBRE FROM FINAL_TEMA T WHERE T.NOMBRE";
+        $orderBy = "T.FECHA_PUBLICACION";
 
-        $colNames = array('ID EJER', 'NOMBRE EJERCICIO', 'MUSCULO IMPLI', 'NIVEL EJERCICIO', 'ID FOTO');
-        $colnamesSQL = array('IDEJERCICIO', 'NOMBRE_EJERCICIO', 'MUSCULO', 'NIVEL_EJERCICIO', 'IDFOTO');
+        $colNames = array('IDTEMA', 'NICKNAME', 'FECHA_PUBLICACION', 'NOMBRE','','FINAL_TEMA');
+        $colnamesSQL = array('IDTEMA', 'NICKNAME', 'FECHA_PUBLICACION', 'NOMBRE');
         
         return mo_getTablaData($con_numRows,$consulta1,$colNames,$colnamesSQL,$orderBy);
     }
@@ -239,7 +239,7 @@
         $consulta1 = "SELECT T.IDRUTINA, T.NOMBRE_RUTINA, T.IDGRUPO, T.IDUSUARIO, T.INTERVALO_TIEMPO, T.NIVEL_RUTINA FROM FINAL_RUTINA T WHERE T.NOMBRE_RUTINA";
         $orderBy = "T.IDRUTINA";
 
-        $colNames = array('ID RUTINA', 'NOMBRE RUTINA', 'ID GRUPO', 'ID USUARIO', 'INTERVALO TIEMPO','NIVEL RUTINA');
+        $colNames = array('ID RUTINA', 'NOMBRE RUTINA', 'ID GRUPO', 'ID USUARIO', 'INTERVALO TIEMPO','NIVEL RUTINA','','FINAL_RUTINA');
         $colnamesSQL = array('IDRUTINA', 'NOMBRE_RUTINA', 'IDGRUPO', 'IDUSUARIO', 'INTERVALO_TIEMPO','NIVEL_RUTINA');
         
         return mo_getTablaData($con_numRows,$consulta1,$colNames,$colnamesSQL,$orderBy);
@@ -254,8 +254,23 @@
         $consulta1 = "SELECT T.IDEJERCICIO, T.NOMBRE_EJERCICIO, T.MUSCULO, T.NIVEL_EJERCICIO, T.IDFOTO FROM FINAL_EJERCICIO T WHERE T.NOMBRE_EJERCICIO";
         $orderBy = "T.IDEJERCICIO";
 
-        $colNames = array('ID EJER', 'NOMBRE EJERCICIO', 'MUSCULO IMPLI', 'NIVEL EJERCICIO', 'ID FOTO');
+        $colNames = array('ID EJER', 'NOMBRE EJERCICIO', 'MUSCULO IMPLI', 'NIVEL EJERCICIO', 'ID FOTO','','FINAL_EJERCICIO');
         $colnamesSQL = array('IDEJERCICIO', 'NOMBRE_EJERCICIO', 'MUSCULO', 'NIVEL_EJERCICIO', 'IDFOTO');
+        
+        return mo_getTablaData($con_numRows,$consulta1,$colNames,$colnamesSQL,$orderBy);
+    }
+
+    # Obtencion de la tabla de Publicaciones
+    #OUT:
+    # data: datos de los Ejercicios
+    function mo_creaTAblaPublica(){
+        $con_numRows = "SELECT COUNT(T.IDPUBLICACION) NUM_FIL FROM FINAL_PUBLICACION T WHERE T.TITULO";
+        
+        $consulta1 = "SELECT T.IDPUBLICACION, T.TITULO, T.FECHA_PUBLICACION, T.AUTOR FROM FINAL_PUBLICACION T WHERE T.TITULO";
+        $orderBy = "T.TITULO";
+
+        $colNames = array('ID PUBLICACION', 'TITULO', 'FECHA PUBLICACION', 'AUTOR','','FINAL_EJERCICIO');
+        $colnamesSQL = array('IDPUBLICACION', 'TITULO', 'FECHA_PUBLICACION', 'AUTOR');
         
         return mo_getTablaData($con_numRows,$consulta1,$colNames,$colnamesSQL,$orderBy);
     }
@@ -264,6 +279,48 @@
     ## Insert BBDD ###############
     #####################################################
 
+    # Creacin de Publicaciones
+    function mo_subirEjer(){
+        $conex = mo_conexionbasedatos();
+        $res = array();
+
+        $nameEj =  $_POST["namEjer"];
+        $secMusc = $_POST["secMusc"];
+        $nivel = $_POST["ejerNiv"];
+        $descrip = $_POST["descri"];
+        $idFoto = $_POST["idFoto"];
+
+        if (strlen($nameEj) == 0 or strlen($nameEj) > 20){
+            $res[0] = -1;
+            $res[1] = "Erro en la lnogitud Nombre";
+            echo json_encode($res);
+        } elseif (strlen($descrip) == 0 or strlen($descrip) > 500){
+            $res[0] = -1;
+            $res[1] = "Erro en el la longitud de la Descripcion max 500 caracteres";
+            echo json_encode($res);
+        } elseif ($secMusc == ""){
+            $res[0] = -1;
+            $res[1] = "Sección muscular no seleccionado";
+            echo json_encode($res);
+        } elseif ($nivel == ""){
+            $res[0] = -1;
+            $res[1] = "Nivel no seleccionado";
+            echo json_encode($res);
+        } else {
+            $consulta = "INSERT INTO final_EJERCICIO ( NOMBRE_EJERCICIO, MUSCULO, NIVEL_EJERCICIO, DESCRIPCION, IDFOTO) VALUES ('$nameEj',$secMusc,'$nivel','$descrip','$idFoto');";
+            if ($conex->query($consulta)){
+                $res[0] = 1;
+                $res[1] = "Publicacion hecha con Exito";
+                echo json_encode($res);
+            } else {
+                $res[0] = -1;
+                $res[1] = "Erro al intentar hacer la publicacion";
+                echo json_encode($res);
+            }
+        }
+    }
+
+    # Creacin de Publicaciones
     function mo_creaPublic(){
         $conex = mo_conexionbasedatos();
         $res = array();
@@ -311,12 +368,13 @@
         $consulta1 = "SELECT T.ID_ADMIN, T.NOMBRE, T.APPELLIDO1, T.APPELLIDO2, T.CORREO, T.FECH_ALTA FROM final_BK_ADMINISTRADORES T WHERE T.NOMBRE";
         $orderBy = "T.ID_ADMIN";
 
-        $colNames = array('ID', 'NOMBRE', 'APPELLIDO 1º', 'APPELLIDO 2º', 'CORREO', 'FECHA ALTA');
+        $colNames = array('ID', 'NOMBRE', 'APPELLIDO 1º', 'APPELLIDO 2º', 'CORREO', 'FECHA ALTA','','final_BK_ADMINISTRADORES');
         $colnamesSQL = array("ID_ADMIN", 'NOMBRE', 'APPELLIDO1', 'APPELLIDO2', 'CORREO', 'FECH_ALTA');
         
         return mo_getTablaData($con_numRows,$consulta1,$colNames,$colnamesSQL,$orderBy);
     }
 
+    # Alta admins funciotn
     function mo_altaAdminNew(){
         $conex = mo_conexionbasedatos();
         $res = array();
@@ -362,6 +420,69 @@
 #####################################################
 ## TOOLS ###############
 #####################################################
+
+    # Dele File or Row off BBDD
+    #OUT:
+    #  1: Ok
+    # -1: NO Ok
+    function mo_delteFile(){
+        $conex = mo_conexionbasedatos();
+        $res = array();
+
+        $tableName = $_POST["tableNa"];
+        $campId = $_POST["campo"];
+        $idData =  $_POST["id_Data"];
+        $consDelete = "DELETE FROM $tableName WHERE $campId=$idData";
+
+        if ($tableName == 'FINAL_USUARIO'){
+            $consDelete = "DELETE FROM $tableName T WHERE T.$campId LIKE '$idData'";
+            # Do somethig
+            // $dir = dirname( dirname(__FILE__) );
+
+            // $ConsNameFoto = "SELECT T.IDFOTO FROM $tableName T WHERE $campId LIKE '$idData'"; 
+
+            $res[0] = -1;
+            $res[1] = "Funcion no Disponible :-(";
+            echo json_encode($res);
+        }elseif ($tableName == 'FINAL_EJERCICIO'){
+            # Do somethig
+            $dir = dirname( dirname(__FILE__) );
+
+            $ConsNameFoto = "SELECT T.IDFOTO FROM $tableName T WHERE T.$campId = $idData";
+            if ($resul = $conex->query($ConsNameFoto)){
+                $row = $resul->fetch_array(MYSQLI_ASSOC);
+                $fotName = $row['IDFOTO'];
+                $dir .= "frontend\\$fotName";
+
+                $res[0] = -1;
+                $res[1] = "Funcion no Disponible :-( ".$dir;
+                echo json_encode($res);
+
+                // $consDelete = "DELETE FROM $tableName T WHERE T.$campId LIKE '$idData'";
+                // if ($conex->query($consDelete)){
+                //     $res[0] = 1;
+                //     echo json_encode($res);
+                // } else {
+                //     $res[0] = -1;
+                //     $res[1] = "Error al eliminar :-(";
+                //     echo json_encode($res);
+                // }
+            } else {
+                $res[0] = -1;
+                $res[1] = "Erro de conexion :-(";
+                echo json_encode($res);
+            }
+        } else {
+            if ($conex->query($consDelete)){
+                $res[0] = 1;
+                echo json_encode($res);
+            } else {
+                $res[0] = -1;
+                $res[1] = "Error al eliminar :-(";
+                echo json_encode($res);
+            }
+        }
+    }
 
     # Obtencion de los datos para la cracion de las tablas
     #OUT:

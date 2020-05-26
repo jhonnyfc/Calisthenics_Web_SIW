@@ -106,7 +106,7 @@
         echo $view;
     }
 
-    # Cramo la Vista User Table
+    # Cramo la Vista Foro Table
     #IN:
     # data: los datos necesarios para la creacion de la vista
     function viw_build_lisMod_Foro($data){
@@ -117,7 +117,7 @@
         echo $view;
     }
 
-    # Cramo la Vista User Table
+    # Cramo la Vista Rutinas Table
     #IN:
     # data: los datos necesarios para la creacion de la vista
     function viw_build_lisMod_Rutinas($data){
@@ -128,7 +128,7 @@
         echo $view;
     }
 
-    # Cramo la Vista User Table
+    # Cramo la Vista Ejer Table
     #IN:
     # data: los datos necesarios para la creacion de la vista
     function viw_build_lisMod_Ejer($data){
@@ -139,11 +139,41 @@
         echo $view;
     }
 
+    # Cramo la Vista Publiaciones Table
+    #IN:
+    # data: los datos necesarios para la creacion de la vista
+    function viw_build_lisMod_Public($data){
+        $view = viw_crea_vistaTabla($data);
+        $view = str_replace("##TituloTabla##", 'Tabla d\'Publicaciones', $view);
+        $view = str_replace("##ACCIONCO##",  'gestionbbdd', $view);
+        $view = str_replace("##IDDATA##",  '50', $view);
+        echo $view;
+    }
+
     #####################################################
     ## Insert BBDD ###############
     #####################################################
 
-    # Creamos la vista de la creacion de la Publicacion
+    # Creamos la vista de la creacion de Ejercicio
+    #OUT:
+    # viw: html con la vista
+    function viw_mostrar_CreaEjer(){
+        $fragTop = file_get_contents("back_frag_top.html");
+        $fragSide = file_get_contents("back_frag_sidebar.html");
+        $fragFoot = file_get_contents("back_frag_bottom.html");
+
+        $view = file_get_contents("back_temp_creaEjer.html");
+
+        $view = str_replace("##Top##",  $fragTop, $view);
+        $view = str_replace("##SideBar##",  $fragSide, $view);
+        $view = str_replace("##Footer##",  $fragFoot, $view);
+        $view = str_replace("##NombreUser##",  $_SESSION["name"], $view);
+
+        echo $view;
+    }
+
+
+    # Creamos la vista de la creacion de Publicacion
     #OUT:
     # viw: html con la vista
     function viw_mostrar_CreaPubli(){
@@ -152,6 +182,24 @@
         $fragFoot = file_get_contents("back_frag_bottom.html");
 
         $view = file_get_contents("back_temp_creaPublic.html");
+
+        $view = str_replace("##Top##",  $fragTop, $view);
+        $view = str_replace("##SideBar##",  $fragSide, $view);
+        $view = str_replace("##Footer##",  $fragFoot, $view);
+        $view = str_replace("##NombreUser##",  $_SESSION["name"], $view);
+
+        echo $view;
+    }
+
+     # Creamos la vista de la Seccion Para subir Imagnes
+    #OUT:
+    # viw: html con la vista
+    function viw_mostrar_DropZone(){
+        $fragTop = file_get_contents("back_frag_top.html");
+        $fragSide = file_get_contents("back_frag_sidebar.html");
+        $fragFoot = file_get_contents("back_frag_bottom.html");
+
+        $view = file_get_contents("back_temp_SubirImagnes.html");
 
         $view = str_replace("##Top##",  $fragTop, $view);
         $view = str_replace("##SideBar##",  $fragSide, $view);
@@ -265,7 +313,7 @@
         $tablaAux = explode("##SPLIT_SEC##", $tablaAux);
 
         $tabla = $tablaAux[0];
-        for ($i = 0; $i < sizeof($colNamesTabla); $i++){
+        for ($i = 0; $i < sizeof($colNamesTabla) -1; $i++){
             $aux = $tablaAux[1];
             $tabla .= str_replace("##NAME_COL##",  $colNamesTabla[$i], $aux);
         }
@@ -276,9 +324,18 @@
             $aux = $tablaAux[3];
             $aux = explode('##FILA_VAR##', $aux);
 
+
             $auxRow = $aux[0];
-            for ($i = 0; $i < sizeof($colNamesSQ); $i++){
-                $auxRow .= str_replace('##FILA_DATA##', $fila[$colNamesSQ[$i]], $aux[1]);
+            for ($i = 0; $i <= sizeof($colNamesSQ); $i++){
+                if ($i == sizeof($colNamesSQ)){
+                    $tName = $colNamesTabla[sizeof($colNamesTabla)-1];
+                    $camp = $colNamesSQ[0];
+                    $idDat = $fila[$camp];
+                    $linkDel = "<a href='#' onclick=\"delteData('$tName','$camp','$idDat')\">Delete</a>";
+                    $auxRow .= str_replace('##FILA_DATA##', $linkDel, $aux[1]);
+                }else{
+                    $auxRow .= str_replace('##FILA_DATA##', $fila[$colNamesSQ[$i]], $aux[1]);
+                }
             }
             $auxRow .= $aux[2];
             $tabla.= $auxRow;
@@ -338,7 +395,7 @@
                 }
             }
         }
-        if ($numPags == 1){
+        if ($numPags == 1 or $numPags == 0){
             $auxIn = $paginacion[0];
             $auxIn = str_replace('##opcion##',  'disabled', $auxIn);
             $auxIn = str_replace("##palabra##",   $keyWord, $auxIn);

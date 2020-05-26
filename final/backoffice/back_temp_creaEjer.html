@@ -17,12 +17,11 @@
 		<link href="librerias/css/sb-admin-2.min.css" rel="stylesheet">
 
 		<!-- Futcions for alerts -->
-		<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 		
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-		<script type="text/javascript" src="tools/bakc_jsTools.js"></script>
-        
+        <script type="text/javascript" src="tools/bakc_jsTools.js"></script>
 	</head>
 	<body id="page-top">
 		<!-- Page Wrapper -->
@@ -46,35 +45,49 @@
 					<div class="container-fluid">
 						<!-- Page Heading -->
 						<div class="d-sm-flex align-items-center justify-content-between mb-4">
-							<h1 class="h3 mb-0 text-gray-800">Dar de Alta a Nuevo Admin</h1>
+							<h1 class="h3 mb-0 text-gray-800">Crea Ejercicio</h1>
 						</div>
 
-                        <form onsubmit="altaAdmin()">
+                        <form>
                             <div class="form-group">
-                                <label for="mi_nombre">Nombre</label>
-                                <input type="text" class="form-control" id="mi_nombre">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="mi_ape1">Primer Apellido</label>
-                                <input type="text" class="form-control" id="mi_ape1">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="mi_ape2">Segundo Apellido</label>
-                                <input type="text" class="form-control" id="mi_ape2">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="mi_correo">Corrreo</label>
-                                <input type="email" class="form-control" id="mi_correo">
+                                <label for="mi_namEjer">Nombre Ejercicio</label>
+                                <input type="text" class="form-control" id="mi_namEjer">
                             </div>
                             <div class="form-group">
-                                <label for="mi_pass">Password</label>
-                                <input type="password" class="form-control" id="mi_pass">
-							</div>
-
-                            <button type="button" class="btn btn-primary" onclick="altaAdmin()">Dar Alta</button>
+                                <label for="mi_Musc">Sección muscular</label>
+                                <div class="row">
+                                    <select class="custom-select col-3" id="mi_Musc">
+                                        <option value="" selected>Seleccione</option>
+                                        <option value="0">Full Body</option>
+                                        <option value="1">Pecho y Triceps</option>
+                                        <option value="2">Piernas</option>
+                                        <option value="3">Espalda y biceps</option>
+                                        <option value="4">Core</option>
+                                        <option value="5">Hombros</option>
+                                        <option value="6">Personalizado</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="mi_Nivel">Nivel</label>
+                                <div class="row">
+                                    <select class="custom-select col-3" id="mi_Nivel">
+                                        <option value="" selected>Seleccione</option>
+                                        <option value="Principiante">Principiante</option>
+                                        <option value="Intermedio">Intermedio</option>
+                                        <option value="Avanzado">Avanzado</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="mi_namFoto">Nombre Foto (Con Extension)</label>
+                                <input type="text" class="form-control" id="mi_namFoto">
+                            </div>
+                            <div class="form-group">
+                                <label for="mi_Descripcion">Descricion</label>
+                                <textarea class="form-control" id="mi_Descripcion" rows="3"></textarea>
+                            </div>
+                            <button type="button" class="btn btn-primary" onclick="subirEjercicio()">Subir</button>
                         </form>
 
 					</div>
@@ -109,5 +122,7 @@
 		<!-- Page level custom scripts -->
 		<script src="librerias/js/demo/chart-area-demo.js"></script>
         <script src="librerias/js/demo/chart-pie-demo.js"></script>
+
+        <script id="miAlerta"></script>
 	</body>
 </html>

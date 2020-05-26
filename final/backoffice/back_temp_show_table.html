@@ -20,10 +20,10 @@
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script type="text/javascript" src="tools/bakc_jsTools.js"></script>
 
         <script>
             function cargaDatos(word, pagina) {
-                
                 var keyWord = $("#palabraKey").val();
                 if (keyWord.localeCompare(word) != 0){
                     word = keyWord;
@@ -64,7 +64,6 @@
 
 					<!-- Begin Page Content -->
 					<div class="container-fluid">
-
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
                                 <h6 class="m-0 font-weight-bold text-primary">##TituloTabla##</h6>

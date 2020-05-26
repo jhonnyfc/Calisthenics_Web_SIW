@@ -62,29 +62,6 @@
                     break;
             }
             break;
-        
-        case 'insertbbdd':
-            switch ($id) {
-                case '1':
-                    break;
-                case '2':
-                    break;
-                case '3':
-                    break;
-                case '4':
-                    viw_mostrar_CreaPubli();
-                    break;
-                case '10':
-                    break;
-                case '20':
-                    break;
-                case '30':
-                    break;
-                case '40':
-                    mo_creaPublic();
-                    break;
-            }
-            break;
         case "gestionbbdd":
             switch ($id) {
                 case '1':
@@ -99,6 +76,9 @@
                 case '4':
                     viw_build_lisMod_Ejer(mo_creaTAblaEjers());
                     break;
+                case '5':
+                    viw_build_lisMod_Public(mo_creaTAblaPublica());
+                    break;
                 case '10':
                     viw_mostrar_Tabla(mo_creaTAblaUsers());
                     break;
@@ -111,8 +91,39 @@
                 case '40':
                     viw_mostrar_Tabla(mo_creaTAblaEjers());
                     break;
+                case '50':
+                    viw_mostrar_Tabla(mo_creaTAblaPublica());
+                    break;
             }
             break;
+        case 'insertbbdd':
+                switch ($id) {
+                    case '1':
+                        viw_mostrar_CreaEjer();
+                        break;
+                    case '2':
+                        break;
+                    case '3':
+                        break;
+                    case '4':
+                        viw_mostrar_CreaPubli();
+                        break;
+                    case '5':
+                        viw_mostrar_DropZone();
+                        break;
+                    case '10':
+                        mo_subirEjer();
+                        break;
+                    case '20':
+                        break;
+                    case '30':
+                        break;
+                    case '40':
+                        mo_creaPublic();
+                        break;
+                }
+                break;
+        
         case 'gestion_admin':
             switch ($id) {
                 case '1':
@@ -129,5 +140,11 @@
                     break;
             }
             break;
+        case 'tools':
+            switch ($id) {
+                case '0':
+                    mo_delteFile();
+                    break;
+            }
     }
 ?>

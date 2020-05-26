@@ -18,32 +18,10 @@
 
 		<!-- Futcions for alerts -->
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-        
-        <script>
-            function subirPublicacion() {
-                $.ajax({
-                    type: "POST",
-                    url: "index.php",
-                    data: {accion:'insertbbdd', id:'40', titulo:$("#mi_Titulo").val(), contenido:$("#mi_contenido").val(), autor:$("#mi_Autor").val()},
-					cache: false,
-                    dataType: "json",
-                    success: function(result) {
-                        if (result[0] == -1){
-                            swal("error", result[1], "error");
-                        } else {
-                            swal("success", result[1], "success");
-							var campos = ["mi_Titulo","mi_contenido","mi_Autor"];
-							for (i = 0; i < campos.length; i++){
-								document.getElementById(campos[i]).value = '';
-							}
-                        }
-                    },
-                    error: function (request, status, error) {
-                        swal("error", "error en el proceso", "error");
-                    }
-                });
-            }
-        </script>
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+		<script type="text/javascript" src="tools/bakc_jsTools.js"></script>
 	</head>
 	<body id="page-top">
 		<!-- Page Wrapper -->
