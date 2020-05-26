@@ -34,7 +34,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
     
-
+    <!-- Dropzone -->
+    <script src="./js/dropzone/dropzone.js"></script>
+    <script src="js/dropzone/dropzone.js"></script>
 
 </head>
 <body>
@@ -44,7 +46,7 @@
   ##barra_inicio##
   <!-- end header section --> 
 
-  <div class="filtrar col-md-3" style="margin-left:500px; margin-top: 10px;">
+  <div id = "filtrado" class="filtrar col-md-3">
         <form method="post" action="index.php">
           <select name="filtrar" id="filtrar" class="form-control selectpicker" data-live-search="true" multiple>
             <optgroup label="Grupo muscular">
@@ -74,7 +76,7 @@
   <div class="container_lista_ejercicios">
   ##carta_ejercicio##
     <div class="card">
-        <img src="fotos_ejercicios/original2/##idfoto##">
+        <img id = "idImagen" src="fotos_ejercicios/original2/##idfoto##">
         <h4>##nombreejercicio##</h4>
         <p id="nombreEjercicio" class="text-##nombre_color##">##nombre_nivel##</p>
         <p class="text-dark">##nombre_musculo##</p>
@@ -91,37 +93,59 @@
 
 
   <script>
-  $(document).ready(function(){
-    $('.selectpicker').selectpicker();
 
-    $('#filtrar').change(function(){
-        $('#valores').val($('#filtrar').val());
-    });
+    $(document).ready(
+          function (){
+            /*
+            // Resized preview 
+            var dp = new Dropzone(document.getElementById('#idImagen'), {
+              thumbnailWidth: null,
+              thumbnailHeight: 250,
+            });
+            alert("hola");
+           */
+          }
+    );
 
-    $('#multiple_select_form').on('submit', function(event){
-        event.preventDefault();
-        if($('#filtrar').val() != ''){
-            var form_data = $(this).serialize();
-            $.ajax({
-            url:"index.php?accion=ejercicios&id=3",
-            method:"POST",
-            data:form_data,
-            success:function(data){
 
-            $('#valores').val('');
-            $('.selectpicker').selectpicker('val', '');
-            alert(data);
-            }
-            })
-        }
-        else
-        {
+    $(document).ready(function(){
+      $('.selectpicker').selectpicker();
+
+      $('#filtrar').change(function(){
+          $('#valores').val($('#filtrar').val());
+      });
+
+      $('#multiple_select_form').on('submit', function(event){
+          event.preventDefault();
+          if($('#filtrar').val() != ''){
+              var form_data = $(this).serialize();
+              $.ajax({
+                url:"index.php?accion=ejercicios&id=3",
+                method:"POST",
+                data:form_data,
+                success:function(data){
+
+                  $('#valores').val('');
+                  $('.selectpicker').selectpicker('val', '');
+                  alert(data);
+                }
+              })
+          }
+          else
+          {
             alert("Selecciona una opcion");
-        return false;
-        }
+            return false;
+          }
+      });
     });
-  });
+
+
+    
+
   </script>
+
+  
+
 
 </body>
 </html>

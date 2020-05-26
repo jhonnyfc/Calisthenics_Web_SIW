@@ -23,6 +23,10 @@
     <!-- responsive style -->
     <link href="musica/elements-master/css/responsive.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    
+    
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <!--Nuestra carpeta css-->
     <link rel="stylesheet" type="text/css" href="css/informacion.css" />
@@ -32,6 +36,7 @@
   <!-- header section strats -->
   ##barra_inicio##
   <!-- end header section -->
+
 
   <!-- Historia de la calistenia -->
   <section class="about_section layout_padding">
@@ -53,7 +58,7 @@
         </div>
         <div class="col-md-6">
           <div class="img-box">
-            <object width="420" height="315"
+            <object 
               data="https://www.youtube.com/v/IwhgaV5_8oY" >
             </object> 
           </div>
@@ -65,6 +70,9 @@
   <!-- fin historias de la calistenia -->
 
   <!-- Reseñas -->
+  ##tarjetaInfo##
+
+
   <section class="about_section layout_padding">
     <div class="container">
       <div class="row">
@@ -76,13 +84,12 @@
               </h2>
               <hr>
             </div>
-              ##tarjetaInfo##
-                <div class="card " style="width: 18rem; " style=" ">
+                <div id = "Info" class="card">
                   <div class="card-body">
                     <h5 class="card-title">##resena_titulo1##</h5>
                     <p class="card-text "  >##resena_texto1##
                       <br>
-                      <a href="#" class="card-link">...More</a>
+                        <button type="button" class="btn btn-primary" onclick="masInformacion1()">Leer más</button>
                     </p>
                     </div>
                   <div class="card-footer">
@@ -98,16 +105,15 @@
                         </small>
                     </div>
                 </div>
-                
           </div>  
         </div>
-        <div class="col-md-6">
-          <div class="card " style="width: 18rem; margin-top: 48px" style=" ">
+        <div  class="col-md-6">
+          <div id = "Info2" class="card" >
             <div class="card-body">
               <h5 class="card-title">##resena_titulo2##</h5>
               <p class="card-text "  >##resena_texto2##
                 <br>
-                <a href="#" class="card-link">...More</a>
+                  <button type="button" class="btn btn-primary"  onclick="masInformacion2()">Leer más</button>
               </p>
               </div>
             <div class="card-footer">
@@ -122,15 +128,23 @@
                 </div>
                 </small>
             </div>
-        </div>
-            
-          
+          </div>
         </div>
       </div>
-
     </div>
   </section>
       
+      
+      <script type="text/javascript">
+          function masInformacion1(){
+            swal("##resena_titulo1##", "##resena_texto11##");
+          }
+          function masInformacion2(){
+            swal("##resena_titulo2##", "##resena_texto22##");
+          }
+      </script>
+
+
       
 
      ##tarjetaInfo##
@@ -147,6 +161,7 @@
             </li>
           </ul>
       </nav>
+
       ##tarjetaInfo##
      
 
@@ -155,6 +170,9 @@
   <!-- Parte final -->
     ##barra_final##
   <!-- Fin parte final -->
+
+      
+
 
 
 </body>

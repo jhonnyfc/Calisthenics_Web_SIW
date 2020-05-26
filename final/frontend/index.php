@@ -26,7 +26,7 @@
 		switch ($id) {
 			case '1':
 				//Mostrar inicio
-				vmostrarinicio();
+				vmostrarinicio(mdatosInicio());
 				break;
 		}
 	} 

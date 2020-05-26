@@ -1,0 +1,71 @@
+.container_total{
+
+    margin-top: 160px;
+}
+
+#Info{
+	width: 350px;
+	margin-left: 30px;
+	margin-bottom: 80px;
+}
+
+#botonReseña{
+	background-color: #fff !important;
+	border: none !important;
+	color: #1B94E3 !important;
+	margin-left: 220px;
+	margin-top: 30px;
+}
+#resena_texto{
+	margin-bottom: 10px;
+}
+
+@media (min-width: 768px) {
+.carousel-multi-item-2 .col-md-3 {
+float: left;
+width: 25%;
+max-width: 100%; } }
+
+.carousel-multi-item-2 .card img {
+border-radius: 2px; }
+
+
+.card{
+	width: 900px;
+	margin-left: 100px;
+	margin-bottom: 80px;
+}
+.card #foto_perfil{
+	width: 200px;
+	margin-left: 40px;
+	margin-top: 20px;
+}
+
+#botonTema{
+	width: 100px;
+	height: 40px;
+	font-size: 15px;
+	margin-right: 30px;
+	float: right;
+	margin-bottom: 10px;
+}
+
+.card #fecha{
+	font-size: 18px;
+	font-style: italic;
+	margin-left: 75px;
+
+}
+
+#corazon{
+	background-color: #FFFFFF;
+	background-image:none;
+	border: none; 
+	margin-right: 30px;
+	margin-bottom: 15px;
+}
+
+.numero{
+	margin-left: 340px;
+	color: #C81B2B;
+}

@@ -2,94 +2,46 @@
 	overflow: hidden !important;
 
 }
-/*
-.navbar{
-	box-shadow: 2px 2px 5px #000;
-}
 
-/*
-.navbar .nav-item .nav-link{
-	color: #fff;
+object{
+	width: 480px;
+	height: 315px;
+	margin-top: 55px;
+	margin-left: 60px;
 }
-*/
 
 *{
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
 }
-w
+
 body {
 	backface-visibility: all;;
 	background-color: ;
 }
 
-#contBodyInfo{/*Centrar contenido*/
+
+#Info{
+	width: 400px;
+	margin-top: 10px;
+}
+
+.btn{
 	background-color: #fff;
-	width: 85%;
-	margin-right: auto;
-	margin-left: auto;	
+	border: none;
+	color: #1B94E3;
+	margin-left: 220px;
+	margin-top: 30px;
+}
+#resena_texto{
+	margin-bottom: 10px;
 }
 
-#Historia_calistenia h1 {
-    /* el tamaño por defecto es 14px 
-    font-style: italic;
-  	font-size: 10px;
-    color:#33d7ff !important;
-    margin-left: 90px;
-    */
-    font-size: 300px;
-    margin-left: 90px;
-    margin-top: 50px;
+.modal-body{
+	text-align: justify;
 }
-
-#Historia_calistenia *{
-    font-size: 14px;
-    margin-left: 120px;
-    margin-top: 10px;
-}
-
-#videos *{
-	margin-right: 5%; 
-	margin-left: 5%;
-	margin-top: 5%;
-}
-
-#Resenas{
-	margin-right: 5%; 
-	margin-left: 10%;
-	margin-top: 10%;
-	font-size: 120%;
-
-}
-#Resenas h1{
-	font-size: 30px;
-    margin-top: 40px;
-    margin-left: 0px;
-}
-
-
-#Resenas .card{
-	margin-right: 5%; 
-	margin-left: 5%;
-	margin-top: 5%;
-/*
-	white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-
-*/
-	background-color: white;
-}
-/*
-.card-text{
-    font-size:19px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-}
-*/
-#card2 {
-	margin-top: 50px;
-
+#Info2{
+	width: 400px;
+	margin-top: 60px;
 }
