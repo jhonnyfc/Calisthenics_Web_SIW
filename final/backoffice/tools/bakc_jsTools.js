@@ -89,3 +89,12 @@ function subirEjercicio() {
         }
     });
 }
+
+function poIma(name){
+    Swal.fire({
+        imageUrl: name,
+        width: 700,
+        imageHeight: 700,
+        // confirmButtonText: "Go Back", 
+    });
+}

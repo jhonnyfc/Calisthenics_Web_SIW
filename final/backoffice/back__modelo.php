@@ -463,9 +463,9 @@
                 if('.' !=  $file && '..' != $file){
                     $dirAu = $direc.$file;
                     $output .= '<div class="col-md-2">
-                                <img src="'.$dirAu.'"  alt="" class="img-thumbnail" width="175" height="175" style="height:175px;" />
+                                <img src="'.$dirAu.'"  alt="Nada Xd" class="img-thumbnail" width="175" height="175" style="height:175px;" onclick="poIma(this.src)"/>
                                 <button type="button" class="btn btn-link remove_image" id="'.$file.'">Remove</button>
-                            </div>';
+                            </div> ';
                 }
             }
         }
