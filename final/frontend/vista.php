@@ -68,11 +68,19 @@
 
 	/**
 	Funcion encargada de mostrar el inicio
+	Recibe 
+		resultado --> recibe los tres resultados a las 3 consultas necesarias para montar el inicio
+						(publicaciones, ejercicios, foro)
+		-1 --> Si existe algun error con la bases de datos
 	**/
 	function vmostrarinicio() {
-		$fichero = file_get_contents("inicio_valpha.html");
+		$fichero = file_get_contents("inicio.html");
 		$fichero = vmontarbarra_inicio($fichero);
 		$fichero = vmontarbarra_final($fichero);
+
+
+
+
 		echo $fichero;
 
 	}
@@ -105,6 +113,7 @@
 			$fichero = file_get_contents("informacion.html");
 			$fichero = vmontarbarra_inicio($fichero);
 			$fichero = vmontarbarra_final($fichero);
+
 			$trozos=explode("##tarjetaInfo##", $fichero);
 			$carta="";
 
@@ -132,22 +141,27 @@
 				$fila = $valores[$indice-2];
 				$titulo=$fila['TITULO'];
 				$descripcion = $fila['CONTENIDO'];
+				$aux_descripcion = substr($descripcion, 0, 40);
+				//$rest = substr("abcdef", -3, -1);
 				$autor = $fila['AUTOR'];
 				$fecha = $fila['FECHA_PUBLICACION'];
 
 				$aux=str_replace("##resena_titulo1##", $titulo, $aux);
-				$aux=str_replace("##resena_texto1##", $descripcion, $aux);
+				$aux=str_replace("##resena_texto1##", $aux_descripcion, $aux);
+				$aux=str_replace("##resena_texto11##", $descripcion, $aux);
 				$aux=str_replace("##resena_autor1##", $autor, $aux);
 				$aux=str_replace("##resena_fecha1##", $fecha, $aux);
 				
 				$fila = $valores[$indice-1];
 				$titulo2=$fila['TITULO'];
 				$descripcion2 = $fila['CONTENIDO'];
+				$aux_descripcion2 = substr($descripcion2, 0, 40);
 				$autor2 = $fila['AUTOR'];
 				$fecha2 = $fila['FECHA_PUBLICACION'];
 
 				$aux=str_replace("##resena_titulo2##", $titulo2, $aux);
-				$aux=str_replace("##resena_texto2##", $descripcion2, $aux);
+				$aux=str_replace("##resena_texto2##", $aux_descripcion2, $aux);
+				$aux=str_replace("##resena_texto22##", $descripcion2, $aux);
 				$aux=str_replace("##resena_autor2##", $autor2, $aux);
 				$aux=str_replace("##resena_fecha2##", $fecha2, $aux);
 				$carta.=$aux;
@@ -158,22 +172,26 @@
 				$fila = $valores[$indice-3];
 				$titulo=$fila['TITULO'];
 				$descripcion = $fila['CONTENIDO'];
+				$aux_descripcion = substr($descripcion, 0, 40);
 				$autor = $fila['AUTOR'];
 				$fecha = $fila['FECHA_PUBLICACION'];
 
 				$aux=str_replace("##resena_titulo1##", $titulo, $aux);
-				$aux=str_replace("##resena_texto1##", $descripcion, $aux);
+				$aux=str_replace("##resena_texto1##", $aux_descripcion, $aux);
+				$aux=str_replace("##resena_texto11##", $descripcion, $aux);
 				$aux=str_replace("##resena_autor1##", $autor, $aux);
 				$aux=str_replace("##resena_fecha1##", $fecha, $aux);
 				
 				$fila = $valores[$indice-2];
 				$titulo2=$fila['TITULO'];
 				$descripcion2 = $fila['CONTENIDO'];
+				$aux_descripcion2 = substr($descripcion2, 0, 40);
 				$autor2 = $fila['AUTOR'];
 				$fecha2 = $fila['FECHA_PUBLICACION'];
 
 				$aux=str_replace("##resena_titulo2##", $titulo2, $aux);
-				$aux=str_replace("##resena_texto2##", $descripcion2, $aux);
+				$aux=str_replace("##resena_texto2##", $aux_descripcion2, $aux);
+				$aux=str_replace("##resena_texto22##", $descripcion2, $aux);
 				$aux=str_replace("##resena_autor2##", $autor2, $aux);
 				$aux=str_replace("##resena_fecha2##", $fecha2, $aux);
 				$carta.=$aux;

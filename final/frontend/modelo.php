@@ -609,6 +609,34 @@
 		} else {
 			return -1;
 		}
+	}
+
+	function mdatosInicio(){
+		$conexion = conexionbasedatos();
+
+
+		$consulta1 ="select * from final_publicacion limit 3";
+		$consulta2 ="select FE.IDEJERCICIO, FE.NOMBRE_EJERCICIO, FG.NOMBRE_MUSCULO , FE.NIVEL_EJERCICIO, FE.DESCRIPCION, FE.IDFOTO
+					 from final_ejercicio FE, final_grupo FG
+					 where FE.MUSCULO = FG.IDGRUPO;";
+		$consulta3 ="select t.IDTEMA, t.NICKNAME, t.FECHA_PUBLICACION, t.NOMBRE, t.CONTENIDO, count(lt.IDTEMA) as likes
+					 from final_tema t, final_likes_tema lt
+					 where t.IDTEMA = lt.IDTEMA
+					 group by t.IDTEMA, t.NICKNAME, t.FECHA_PUBLICACION, t.NOMBRE, t.CONTENIDO
+					 order by likes desc
+					 limit 2;";
+
+		if ( ($resultado1 = $conexion->query($consulta1)) and ($resultado2 = $conexion->query($consulta2)) 
+			and ($resultado2 = $conexion->query($consulta2) ) {
+			$res = array();
+			$res[0] = $resultado1;
+			$res[1] = $resultado2;
+			$res[2] = $resultado3;
+			return $res;
+		} else {
+			$res[0] = -1;
+			return $res;
+		}
 
 	}
 
