@@ -115,6 +115,7 @@
                         mo_subirEjer();
                         break;
                     case '20':
+                        mo_uploadCSV();
                         break;
                     case '30':
                         break;

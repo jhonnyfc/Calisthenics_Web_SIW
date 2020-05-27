@@ -279,7 +279,7 @@
     ## Insert BBDD ###############
     #####################################################
 
-    # Creacin de Publicaciones
+    # Subir Ejrrcio Nuevo
     function mo_subirEjer(){
         $conex = mo_conexionbasedatos();
         $res = array();
@@ -318,6 +318,136 @@
                 echo json_encode($res);
             }
         }
+    }
+
+    # Subir CSV
+    # Add Files of drop to Foldrs
+    #OUT:
+    function mo_uploadCSV(){
+        $conex = mo_conexionbasedatos();
+        $tipo =  $_POST["tipo"];
+        $separador = $_POST["separador"];
+        $head = $_POST["header"];
+        $skipID = $_POST["saltar"];
+
+        switch ($tipo){
+            case '1':
+                header("HTTP/1.0 400 Bad Request");
+                echo 'Tipo de CSV no Selecionadao ';
+                return 0;    
+                break;
+            case '1':
+                $cols = array('#Nombre#','#sec#','#Nivel#','#descri#','#IdFoto#');
+                $inserCon = "INSERT INTO final_EJERCICIO (NOMBRE_EJERCICIO, MUSCULO, NIVEL_EJERCICIO, DESCRIPCION, IDFOTO) VALUES ('#Nombre#',#sec#,'#Nivel#','#descri#','#IdFoto#');";
+                break;
+            case '2':
+                $cols = array('#NombreRuti#','#secMus#','#Creador#','#Intervalo#', '#Nivel#');
+                $inserCon = "INSERT INTO final_RUTINA (NOMBRE_RUTINA, IDGRUPO, IDUSUARIO, INTERVALO_TIEMPO, NIVEL_RUTINA) VALUES ('#NombreRuti#',#secMus#,'#Creador#',#Intervalo#, '#Nivel#');";
+                break;
+            case '3':
+                $cols = array('#IdRuinta#','#ID_Eje#');
+                $inserCon = "INSERT INTO final_EJERCICIO_RUTINA VALUES (#IdRuinta#,#ID_Eje#);";
+                break;
+            case '4':
+                $cols = array('#IdGru#','#NameGrup#');
+                $inserCon = "INSERT INTO final_GRUPO VALUES (#IdGru#,'#NameGrup#');";
+                break;
+        }
+
+        switch ($separador){
+            case '':
+                header("HTTP/1.0 400 Bad Request");
+                echo 'Separador de CSV no Seleccionado ';
+                return 0;
+                break;
+            case '1':
+                $separador = ';';
+                break;
+            case '2':
+                $separador = ',';
+                break;
+        }
+
+        switch ($head){
+            case '':
+                header("HTTP/1.0 400 Bad Request");
+                echo '¿El csv tine header? ';
+                return 0;
+                return 0;
+                break;
+            case '1':
+                $primeraRow = 1;
+                break;
+            case '2':
+                $primeraRow = 0;
+                break;
+        }
+
+        switch ($skipID){
+            case '':
+                header("HTTP/1.0 400 Bad Request");
+                echo 'Seleecione se quiere saltar o no la primera columna de ID';
+                return 0;
+                break;
+            case '1': # Ulizar Id del Fichero
+                $ini = 0;
+                switch ($tipo){
+                    case '1':
+                        $cols = array('#IDeJER#','#Nombre#','#sec#','#Nivel#','#descri#','#IdFoto#');
+                        $inserCon = "INSERT INTO final_EJERCICIO (IDEJERCICIO,NOMBRE_EJERCICIO, MUSCULO, NIVEL_EJERCICIO, DESCRIPCION, IDFOTO) VALUES (#IDeJER#,'#Nombre#',#sec#,'#Nivel#','#descri#','#IdFoto#');";
+                        break;
+                    case '2':
+                        $cols = array('#IDrU#','#NombreRuti#','#secMus#','#Creador#','#Intervalo#', '#Nivel#');
+                        $inserCon = "INSERT INTO final_RUTINA (IDRUTINA,NOMBRE_RUTINA, IDGRUPO, IDUSUARIO, INTERVALO_TIEMPO, NIVEL_RUTINA) VALUES (#IDrU#,'#NombreRuti#',#secMus#,'#Creador#',#Intervalo#, '#Nivel#');";
+                        break;
+                }
+                break;
+            case '2': # Utilizar Id por dEfecto el Fichero no tine Id 
+                $ini = 0;
+                break;
+            case '3': # Saltar la primer columna ID
+                $ini = 1;
+                if ($tipo == 4 or $tipo == 3){
+                    header("HTTP/1.0 400 Bad Request");
+                    echo 'El tipo de archivo seleccionado no permite salto de la columna id';
+                    return 0;
+                }
+                break;
+        }
+
+        if(!empty($_FILES)){
+            $temp_file = $_FILES['file']['tmp_name'];
+
+            $fila = 0;
+            if (($gestor = fopen($temp_file, "r")) !== FALSE) {
+                while (($rowDat = fgetcsv($gestor, 1000, $separador)) !== FALSE) {
+                    // $numero = count($datos);
+
+                    $auxInser = $inserCon;
+                    if ($fila >= $primeraRow){ // Saltamos head si es necesario
+                        for ($c = $ini; $c < count($cols); $c++) {
+                            $auxInser = str_replace($cols[$c],  $rowDat[$c], $auxInser);
+                        }
+                    }
+                    
+                    if (!$conex->query($auxInser)){
+                        header("HTTP/1.0 400 Bad Request");
+                        echo 'Error al subir la fila '.($fila+1);
+                        return 0;
+                    }
+
+                    $fila++;
+                }
+                fclose($gestor);
+            }
+
+            echo 'Subidas con Exito '.($fila+1).' filas';
+        } else {
+            header("HTTP/1.0 400 Bad Request");
+            echo 'Error en la trasmision del  CSV';
+            return 0;
+        }
+        
     }
 
     # Creacin de Publicaciones
@@ -473,6 +603,7 @@
         echo $output;
     }
 
+    # Delelte Fotos
     function mo_deleteFoto(){
         $dir = dirname( dirname(__FILE__) );
         $dir .= '\\frontend\\fotos_ejercicios\\';

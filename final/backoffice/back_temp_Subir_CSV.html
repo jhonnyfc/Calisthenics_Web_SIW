@@ -54,11 +54,35 @@
                             <h1 class="h3 mb-0 text-gray-800">Subir CSV</h1>
 						</div>
 
-                        <select class="custom-select col-3" id="numfiltab">
-                            <option value="" selected>Seleccione tipo de CSV</option>
-                            <option value="1">Ejercicios</option>
-                            <option value="2">Rutinas</option>
-                        </select>
+                        <div class="row">
+                            <select class="custom-select col-3" id="tipoCSV">
+                                <option value="" selected>Seleccione tipo de CSV</option>
+                                <option value="1">Ejercicios</option>
+                                <option value="2">Rutinas Main</option>
+                                <option value="3">Rutinas Ejercicios</option>
+                                <option value="4">Grupos Musculares</option>
+                            </select>
+
+                            <select class="custom-select col-3" id="sepCSV">
+                                <option value="" selected>Separador CSV</option>
+                                <option value="1">;</option>
+                                <option value="2">,</option>
+                            </select>
+
+                            <select class="custom-select col-3" id="headCSV">
+                                <option value="" selected>¿Contine header el CSV?</option>
+                                <option value="1">Si</option>
+                                <option value="2">No</option>
+                            </select>
+
+                            <select class="custom-select col-3" id="salId">
+                                <option value="" selected>¿Existe Col Id (Col 1)?</option>
+                                <option value="1">Si</option>
+                                <option value="2">No</option>
+                                <option value="3">Si y Saltar col</option>
+                            </select>
+                        </div>
+                        
                         <br><br>
 
                         <div class="container col-12" ">
@@ -72,7 +96,6 @@
                                 <button type="button" class="btn btn-info" id="uploadfiles">Upload</button>
                             </div>
                         </div>
-
 
                         <br>
                         <br>
@@ -114,10 +137,11 @@
         <script>
             Dropzone.autoDiscover = false;
 
-            var myDropzone = new Dropzone(".dropzone", { 
+            var myDropzone = new Dropzone(".dropzone", {
+                type: "POST",
                 autoProcessQueue: false,
                 parallelUploads: 25,
-                acceptedFiles:".png,.jpg,.gif,.bmp,.jpeg",
+                acceptedFiles:".csv,.txt",
                 init: function(){
                     myDrop = this;
                     $('#uploadfiles').click(function(){
@@ -125,8 +149,12 @@
                     });
 
                     this.on('sending', function (file, xhr, formData) {
-                        formData.append('accion','tools');
-                        formData.append('id','1');
+                        formData.append('saltar',$("#salId").val());
+                        formData.append('header',$("#headCSV").val());
+                        formData.append('separador',$("#sepCSV").val());
+                        formData.append('tipo',$("#tipoCSV").val());
+                        formData.append('accion','insertbbdd');
+                        formData.append('id','20');
                         console.log(formData);
                     });
 
@@ -134,36 +162,15 @@
                         if(this.getQueuedFiles().length == 0 && this.getUploadingFiles().length == 0){
                             var _this = this;
                             _this.removeAllFiles();
-                            alert("lod ");
+                            swal("Success","Subido Correctamente",'Succes')
                         }
-                        list_image();
+                    });
+
+                    this.on('error', function(file, response) {
+                        Swal.fire('Bad job!',response,'error');
+                        // $(file.previewElement).find('.dz-error-message').text(response);
                     });
                 },
-            });
-
-            list_image();
-
-            function list_image(){
-                $.ajax({
-                    url:"index.php",
-                    type: "POST",
-                    data: {accion:'tools', id:'2'},
-                     success:function(data){
-                         $('#preview').html(data);
-                     }
-                });
-            }
-
-            $(document).on('click', '.remove_image', function(){
-                var name = $(this).attr('id');
-                $.ajax({
-                    url:"index.php",
-                    method:"POST",
-                    data: {accion:'tools', id:'3',name:name},
-                    success:function(data){
-                        list_image();
-                    }
-                })
             });
         </script>
 	</body>
