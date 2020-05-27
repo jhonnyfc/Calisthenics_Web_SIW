@@ -425,15 +425,15 @@
     #OUT:
     function mo_uploadFile(){
         $dir = dirname( dirname(__FILE__) );
-        $dir .= '\\frontend\\fotos_ejercicios\\otro\\';
+        $dir .= '\\frontend\\fotos_ejercicios\\';
 
         if(!empty($_FILES)){
             $temp_file = $_FILES['file']['tmp_name'];
             $location = $dir . $_FILES['file']['name'];
 
             list($ancho, $alto) = getimagesize($temp_file);
-            $nuevo_ancho = 1000;
-            $nuevo_alto = 1000;
+            $nuevo_ancho = 500;
+            $nuevo_alto = 500;
 
             // Cargar
             $thumb = imagecreatetruecolor($nuevo_ancho, $nuevo_alto);
@@ -452,10 +452,10 @@
     # Get list Fotos
     function mo_listaFotos(){
         $dir = dirname( dirname(__FILE__) );
-        $dir .= '\\frontend\\fotos_ejercicios\\otro\\';
+        $dir .= '\\frontend\\fotos_ejercicios\\';
         $files = scandir($dir);
 
-        $direc = "../frontend/fotos_ejercicios/otro/";
+        $direc = "../frontend/fotos_ejercicios/";
         $output = '<div class="row">';
 
         if(false !== $files) {
@@ -475,7 +475,7 @@
 
     function mo_deleteFoto(){
         $dir = dirname( dirname(__FILE__) );
-        $dir .= '\\frontend\\fotos_ejercicios\\otro\\';
+        $dir .= '\\frontend\\fotos_ejercicios\\';
         if(isset($_POST["name"])){
             $filename = $dir . $_POST["name"];
             unlink($filename);

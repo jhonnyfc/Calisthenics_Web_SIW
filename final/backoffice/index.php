@@ -101,6 +101,7 @@
                         viw_mostrar_CreaEjer();
                         break;
                     case '2':
+                        viw_mostrar_CSV_Uplo();
                         break;
                     case '3':
                         break;

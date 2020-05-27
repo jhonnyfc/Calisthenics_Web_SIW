@@ -51,11 +51,16 @@
 					<div class="container-fluid">
 						<!-- Page Heading -->
 						<div class="d-sm-flex align-items-center justify-content-between mb-4">
-                            <h1 class="h3 mb-0 text-gray-800">Subir Foto</h1>
-                            <h1 class="h5 mb-0 text-gray-800">(Si se ha click en la foto se aumenta la vista)</h1>
+                            <h1 class="h3 mb-0 text-gray-800">Subir CSV</h1>
 						</div>
 
-                        <br>
+                        <select class="custom-select col-3" id="numfiltab">
+                            <option value="" selected>Seleccione tipo de CSV</option>
+                            <option value="1">Ejercicios</option>
+                            <option value="2">Rutinas</option>
+                        </select>
+                        <br><br>
+
                         <div class="container col-12" ">
                             <div class='content'>
                                 <form action="index.php" class="dropzone" >
@@ -66,14 +71,13 @@
                             <div align="center">
                                 <button type="button" class="btn btn-info" id="uploadfiles">Upload</button>
                             </div>
-                            <!-- <input class="button" type="button" id='uploadfiles' value='Upload Files' > -->
                         </div>
 
 
-                        <br />
-                        <br />
+                        <br>
+                        <br>
                         <div id="preview"></div>
-                        <br />
+                        <br>
 					</div>
 					<!-- /.container-fluid -->
 				</div>
@@ -112,7 +116,7 @@
 
             var myDropzone = new Dropzone(".dropzone", { 
                 autoProcessQueue: false,
-                parallelUploads: 51,
+                parallelUploads: 25,
                 acceptedFiles:".png,.jpg,.gif,.bmp,.jpeg",
                 init: function(){
                     myDrop = this;

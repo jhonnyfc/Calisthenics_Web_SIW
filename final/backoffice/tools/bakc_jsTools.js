@@ -95,6 +95,6 @@ function poIma(name){
         imageUrl: name,
         width: 700,
         imageHeight: 700,
-        // confirmButtonText: "Go Back", 
+        confirmButtonText: "Go Back", 
     });
 }

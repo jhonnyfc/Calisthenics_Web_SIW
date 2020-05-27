@@ -172,6 +172,24 @@
         echo $view;
     }
 
+    # Creamos la vista de la Seccion Para subir CSV
+    #OUT:
+    # viw: html con la vista
+    function viw_mostrar_CSV_Uplo(){
+        $fragTop = file_get_contents("back_frag_top.html");
+        $fragSide = file_get_contents("back_frag_sidebar.html");
+        $fragFoot = file_get_contents("back_frag_bottom.html");
+
+        $view = file_get_contents("back_temp_Subir_CSV.html");
+
+        $view = str_replace("##Top##",  $fragTop, $view);
+        $view = str_replace("##SideBar##",  $fragSide, $view);
+        $view = str_replace("##Footer##",  $fragFoot, $view);
+        $view = str_replace("##NombreUser##",  $_SESSION["name"], $view);
+
+        echo $view;
+    }
+
 
     # Creamos la vista de la creacion de Publicacion
     #OUT:
@@ -191,7 +209,7 @@
         echo $view;
     }
 
-     # Creamos la vista de la Seccion Para subir Imagnes
+    # Creamos la vista de la Seccion Para subir Imagnes
     #OUT:
     # viw: html con la vista
     function viw_mostrar_DropZone(){
