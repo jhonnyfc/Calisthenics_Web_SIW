@@ -1,5 +1,5 @@
 .header_section{
-	margin-bottom: 80px;
+	margin-bottom: 30px;
 }
 
 
@@ -41,4 +41,26 @@
 .numero{
 	margin-left: 340px;
 	color: #C81B2B;
+}
+
+#anadirTema{
+	height: 60px;
+	margin-right: 600px;
+	margin-bottom: 40px;
+}
+
+#form_tema .boton{
+	margin-top: 10px;
+	margin-left: 50px;
+	width: 400px;
+}
+#form_tema textarea{
+	margin-top: 10px;
+	margin-left: 50px;
+	width: 400px;
+	height: 100px;
+}
+#form_tema input{
+	margin-top: 10px;
+	margin-left: 230px;
 }

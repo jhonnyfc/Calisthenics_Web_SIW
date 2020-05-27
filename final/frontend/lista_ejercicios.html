@@ -24,9 +24,6 @@
     <link href="musica/elements-master/css/responsive.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
-    <!--Nuestra carpeta css-->
-    <link rel="stylesheet" href="css/lista_ejercicios.css">
-
     <!--Para el select-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
@@ -37,6 +34,9 @@
     <!-- Dropzone -->
     <script src="./js/dropzone/dropzone.js"></script>
     <script src="js/dropzone/dropzone.js"></script>
+
+    <!--Nuestra carpeta css-->
+    <link rel="stylesheet" href="css/lista_ejercicios.css">
 
 </head>
 <body>
@@ -72,11 +72,14 @@
       <br/>
   </div>
 
+    <div id="boton_pdf">
+      <button type="button" class="btn btn-outline-light" onClick="location.href='index.php?accion=pdf&id=1'"><img src="final_fotos/boton_pdf.jpg">Descargar lista ejercicios</button>
+    </div>
 
   <div class="container_lista_ejercicios">
   ##carta_ejercicio##
     <div class="card">
-        <img id = "idImagen" src="fotos_ejercicios/original2/##idfoto##">
+        <img id = "idImagen" src="fotos_ejercicios/##idfoto##">
         <h4>##nombreejercicio##</h4>
         <p id="nombreEjercicio" class="text-##nombre_color##">##nombre_nivel##</p>
         <p class="text-dark">##nombre_musculo##</p>

@@ -30,8 +30,7 @@
 	<link rel="stylesheet" type="text/css" href="css/foro.css" />
 
 </head>
-<body>
-
+<body>	
 	<!-- Modal no estar registrado-->
 	<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 	  <div class="modal-dialog modal-dialog-centered" role="document">
@@ -49,16 +48,44 @@
 	  </div>
 	</div>
 
+	<!-- Modal -->
+	<div class="modal fade" id="exampleModalCenter1" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLongTitle">Rellena los siguientes datos</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+		      <form id="form_tema" action="index.php" method="POST">
+                <div class="form-group">
+                    <input class="boton" type="text" class="form-input" name="titulo" id="titulo" placeholder="Título" required />
+                </div>
+                <div class="form-group">
+                    <textarea type="text" name=contenido id=contenido placeholder="Escribe aquí." class="message_input" required></textarea>
+                </div>
+                <div class="form-group">
+                    <input type="submit" name="submit" id="submit" class="form-submit" value="Enviar"/>
+                </div>
+                <input type="hidden" name="accion" value="foro">
+                <input type="hidden" name="id" value="3">
+            </form>
+	    </div>
+	  </div>
+	</div>
 	<!-- header section strats -->
     ##barra_inicio##
     <!-- end header section -->
 
+    ##anadir_tema##
     ##cartaTema##
 
 	<div class="card shadow-lg p-3 mb-5 bg-white rounded" >
 		<div class="row no-gutters">
 			<div class="col-md-4">
-				<img id="foto_perfil" class="rounded-circle" src="final_fotos/##foto_perfil##.jpg" class="card-img" >
+				<p ><small class="text-muted">##idtema##</small></p>
+				<img id="foto_perfil" class="rounded-circle" src="final_fotos_perfil/##foto_perfil##" class="card-img" >
 				<p id="fecha"><small class="text-muted">##fecha##</small></p>
 			</div>
 			<div class="col-md-8">
@@ -81,6 +108,12 @@
 
 
 	<script type="text/javascript">
+		$('#exampleModalCenter').on('show.bs.modal', function (event) {
+			
+		})
+		$('#exampleModalCenter1').on('show.bs.modal', function (event) {
+			
+		})
 		function cambiarCorazon(idTema){
 			var imagen = document.getElementById("corazon_imagen"+idTema).src;
 			//alert(document.getElementById("numero").);

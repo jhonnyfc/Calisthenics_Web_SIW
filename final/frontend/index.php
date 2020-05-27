@@ -134,7 +134,7 @@
 	if ($accion=="perfil") {
 		switch ($id) {
 			case '1':
-				vmostrarPerfil(mDatosUsuario());
+				vmostrarPerfil(mDatosUsuarioPerfil());
 				break;
 			case '2':
 				//El usuario añade un ejercicio
@@ -168,11 +168,14 @@
 		switch ($id) {
 		case '1':
 			//Mostrar foro
-			vmostrarForo(mdatosForo(), mdatosLikes());
+			vmostrarForo(mdatosForo(), mdatosLikes(),mDatosUsuario());
 			break;
 		case '2':
 			//Mostrar menjajes del tema
-			vmostrarMensajesTema(mdatosTema(), mdatosMensajeSecundarios());
+			vmostrarMensajesTema(mdatosTema(), mdatosMensajeSecundarios(),mDatosUsuario());
+			break;
+		case '3':
+			vmostarEstado(manadirTema());
 			break;
 		}
 	}
@@ -197,8 +200,22 @@
 			vmensajeRegistrarse();
 		}
 	}
-	 
-
+	
+	if ($accion=="pdf") {
+		switch ($id) {
+			case '1':
+				//vmostrarEstadoPDF(mdatosPDF());
+				mdatosPDF();
+				break;
+		}
+	}
+	if ($accion=="tools") {
+		switch ($id) {
+			case '1':
+				mactualizarFotoPerfil();
+				break;
+		}
+	}
 
 
 	

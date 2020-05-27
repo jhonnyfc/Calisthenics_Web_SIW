@@ -634,6 +634,14 @@
 		$fichero=str_replace("##nombre##", $fila["NOMBRE"], $fichero);
 		$fichero=str_replace("##apellidos##", $fila["APELLIDO"], $fichero);
 		$fichero=str_replace("##email##", $fila["CORREO"], $fichero);
+		if ($fila["FOTO"] == null) {
+			$fichero=str_replace("##foto_perfil##", "foto_perfil_defecto.jpg", $fichero);
+		} else {
+			$fichero=str_replace("##foto_perfil##", $fila["FOTO"], $fichero);
+		}
+		
+
+		
 
 		echo $fichero;
 	}
@@ -714,11 +722,28 @@
 
 
 	}
-	function vmostrarForo($resultado, $resultado2){
+	function vmostrarForo($resultado, $resultado2, $resultado3){
 		
 		$fichero = file_get_contents("foro.html");
 		$fichero = vmontarbarra_inicio($fichero);
 		$fichero = vmontarbarra_final($fichero);
+		if (isset($_SESSION["nickname"])) {
+			$codigo_boton = "<button id='anadirTema' type='button' class='btn btn-secondary' data-toggle='modal' data-target='#exampleModalCenter1'>Cambiar foto perfil</button>";
+			$fichero = str_replace("##anadir_tema##", $codigo_boton, $fichero);
+			$codigo_corazon = "<b id='numero##idtema##' class='numero' >##numero##</b><button id='corazon' type='submit'><img id='corazon_imagen##idtema##' src = ##corazon##  onclick='cambiarCorazon(##idtema##)'/></button>";
+		} else {
+			$fichero = str_replace("##anadir_tema##", "", $fichero);
+			$codigo_corazon = "<b id='numero##idtema##' class='numero' >##numero##</b><button id='corazon' data-toggle='modal' data-target='#exampleModalCenter'><img id='corazon_imagen##idtema##' src = final_fotos/corazon.png onclick='avisarRegistro()'/></button>";
+			
+		}
+
+		$count_fila3 = 0;
+		$usuarios = array("NICKNAME", "FOTO");
+		while($fila3 = $resultado3->fetch_assoc()) {
+			$usuarios[$count_fila3] = array("NICKNAME"=>$fila3["NICKNAME"],
+								  	  "FOTO"=>$fila3["FOTO"]);
+			$count_fila3++;
+		}
 
 		$lista_temas = "";
 		$aux = "";
@@ -729,6 +754,7 @@
 								  		 "LIKES"=>$fila2["LIKES"]);
 			$count++;
 		}
+
 		$trozos = explode("##cartaTema##", $fichero);
 		if (is_object($resultado2)) {
 			
@@ -740,15 +766,29 @@
 									  "NICKNAME"=>$fila2["NICKNAME"]);
 				$cont++;
 			}
-
+/*
 			$codigo_corazon = "<b id='numero##idtema##' class='numero' >##numero##</b><button id='corazon' type='submit'><img id='corazon_imagen##idtema##' src = ##corazon##  onclick='cambiarCorazon(##idtema##)'/></button>";
+*/
 			while($fila = $resultado[0]->fetch_assoc()) {
 				$aux = $trozos[1];
 				$aux=str_replace("##corazon##", $codigo_corazon, $aux);
 				$aux=str_replace("##titulo##", $fila["NOMBRE"], $aux);
 				$aux=str_replace("##contenido##", $fila["CONTENIDO"], $aux);
 				$aux=str_replace("##fecha##", $fila["FECHA_PUBLICACION"], $aux);
-				$aux=str_replace("##foto_perfil##", "foto_perfil", $aux);
+				for ($i=0; $i < $count_fila3; $i++) { 
+					$usuario = $usuarios[$i];
+					if ($usuario["NICKNAME"] == $fila["NICKNAME"]) {
+						if ($usuario["FOTO"] == null) {
+							$codigo_foto = "foto_perfil_defecto.jpg";
+							$aux=str_replace("##foto_perfil##", $codigo_foto, $aux);
+						} else {
+							$codigo_foto = $usuario["FOTO"];
+							$aux=str_replace("##foto_perfil##", $codigo_foto, $aux);
+						}
+					}
+				}
+
+				//$aux=str_replace("##foto_perfil##", "foto_perfil_defecto.jpg", $aux);
 				$aux=str_replace("##idtema##", $fila["IDTEMA"], $aux);
 				$x=0;
 				for ($i=0; $i < $cont; $i++) { 
@@ -777,15 +817,28 @@
 				}
 				$lista_temas.= $aux;
 			}
-		} else if ($resultado2==-2) {
+		} elseif ($resultado2==-2) {
+			/*
 			$codigo_corazon = "<b id='numero##idtema##' class='numero' >##numero##</b><button id='corazon' data-toggle='modal' data-target='#exampleModalCenter'><img id='corazon_imagen##idtema##' src = final_fotos/corazon.png onclick='avisarRegistro()'/></button>";
+			*/
 			while($fila = $resultado[0]->fetch_assoc()) {
 				$aux = $trozos[1];
 				$aux=str_replace("##corazon##", $codigo_corazon, $aux);
 				$aux=str_replace("##titulo##", $fila["NOMBRE"], $aux);
 				$aux=str_replace("##contenido##", $fila["CONTENIDO"], $aux);
 				$aux=str_replace("##fecha##", $fila["FECHA_PUBLICACION"], $aux);
-				$aux=str_replace("##foto_perfil##", "foto_perfil", $aux);
+				for ($i=0; $i < $count_fila3; $i++) { 
+					$usuario = $usuarios[$i];
+					if ($usuario["NICKNAME"] == $fila["NICKNAME"]) {
+						if ($usuario["FOTO"] == null) {
+							$codigo_foto = "foto_perfil_defecto.jpg";
+							$aux=str_replace("##foto_perfil##", $codigo_foto, $aux);
+						} else {
+							$codigo_foto = $usuario["FOTO"];
+							$aux=str_replace("##foto_perfil##", $codigo_foto, $aux);
+						}
+					}
+				}
 				$aux=str_replace("##idtema##", $fila["IDTEMA"], $aux);
 				//$aux=str_replace("##corazon##", "", $aux);
 				$x=0;
@@ -803,20 +856,38 @@
 				$lista_temas.= $aux;
 			}
 		}
-		
-
 		echo $trozos[0] . $lista_temas . $trozos[2];
+	}	
 	
-	}
 
-	function vmostrarMensajesTema($resultado1, $resultado2){
+	function vmostrarMensajesTema($resultado1, $resultado2, $resultado3){
 		
 		if (is_object($resultado1)) {
 
 			$fichero = file_get_contents("tema_informacion.html");
 			$fichero = vmontarbarra_inicio($fichero);
 			$fichero = vmontarbarra_final($fichero);
-			
+/*
+			if (isset($_SESSION["nickname"]) ) {
+				$fila3 = $resultado3->fetch_assoc();
+				if ($fila3["FOTO"] == null) {
+					$codigo_foto = "foto_perfil_defecto.jpg";
+				} else {
+					$codigo_foto = $fila3["FOTO"];
+				}
+				
+			}else{
+				$codigo_foto = "foto_perfil_defecto.jpg";
+			}
+*/
+			$count_fila3 = 0;
+			$usuarios = array("NICKNAME", "FOTO");
+			while($fila3 = $resultado3->fetch_assoc()) {
+				$usuarios[$count_fila3] = array("NICKNAME"=>$fila3["NICKNAME"],
+									  	  		"FOTO"=>$fila3["FOTO"]);
+				$count_fila3++;
+			}
+
 			$cont=0;
 
 			//mensajes secundarios
@@ -863,7 +934,8 @@
 				} else {
 					$valores1[$cont] = array("IDTEMA"=>$fila["IDTEMA"],
 											 "FECHA_PUBLICACION"=>$fila["FECHA_PUBLICACION"], 
-											 "NOMBRE"=>$fila["NOMBRE"], 
+											 "NOMBRE"=>$fila["NOMBRE"],
+											 "NICKNAME"=>$fila["NICKNAME"], 
 											 "contenidoTema"=>$fila["contenidoTema"]);
 				}
 			}
@@ -883,7 +955,22 @@
 					$aux = $trozos1[1];
 					$aux=str_replace("##contenido_tema##", $valor["contenidoTema"], $aux);
 					$aux=str_replace("##fecha_tema##", $valor["FECHA_PUBLICACION"], $aux);
-					$aux=str_replace("##foto_perfil##", "foto_perfil", $aux);
+
+					//$aux=str_replace("##foto_perfil##", $codigo_foto, $aux);
+
+					for ($i=0; $i < $count_fila3; $i++) { 
+						$usuario = $usuarios[$i];
+						if ($usuario["NICKNAME"] == $valor["NICKNAME"]) {
+							if ($usuario["FOTO"] == null) {
+								$codigo_foto = "foto_perfil_defecto.jpg";
+								$aux=str_replace("##foto_perfil##", $codigo_foto, $aux);
+							} else {
+								$codigo_foto = $usuario["FOTO"];
+								$aux=str_replace("##foto_perfil##", $codigo_foto, $aux);
+							}
+						}
+					}
+					
 					$aux=str_replace("##titulo_tema##", $valor["NOMBRE"], $aux);
 					$cont2++;
 					$lista_mensaje.= $aux;
@@ -893,14 +980,38 @@
 						$aux = $trozos1[1];
 						$aux=str_replace("##contenido_tema##", $valor["contenidoTema"], $aux);
 						$aux=str_replace("##fecha_tema##", $valor["FECHA_PUBLICACION"], $aux);
-						$aux=str_replace("##foto_perfil##", "foto_perfil", $aux);
+						//$aux=str_replace("##foto_perfil##", $codigo_foto, $aux);
+						for ($i=0; $i < $count_fila3; $i++) { 
+							$usuario = $usuarios[$i];
+							if ($usuario["NICKNAME"] == $valor["NICKNAME"]) {
+								if ($usuario["FOTO"] == null) {
+									$codigo_foto = "foto_perfil_defecto.jpg";
+									$aux=str_replace("##foto_perfil##", $codigo_foto, $aux);
+								} else {
+									$codigo_foto = $usuario["FOTO"];
+									$aux=str_replace("##foto_perfil##", $codigo_foto, $aux);
+								}
+							}
+						}
 						$aux=str_replace("##titulo_tema##", $valor["NOMBRE"], $aux);
 						$cont2++;
 						$lista_mensaje.= $aux;
 						//$aux=str_replace("##idtema##", $fila["IDTEMA"], $aux);
 					} 
 					$aux = $trozos2[1];
-					$aux=str_replace("##foto_perfil##", "foto_perfil", $aux);
+					//$aux=str_replace("##foto_perfil##", $codigo_foto, $aux);
+					for ($i=0; $i < $count_fila3; $i++) { 
+						$usuario = $usuarios[$i];
+						if ($usuario["NICKNAME"] == $valor["NICKNAME"]) {
+							if ($usuario["FOTO"] == null) {
+								$codigo_foto = "foto_perfil_defecto.jpg";
+								$aux=str_replace("##foto_perfil##", $codigo_foto, $aux);
+							} else {
+								$codigo_foto = $usuario["FOTO"];
+								$aux=str_replace("##foto_perfil##", $codigo_foto, $aux);
+							}
+						}
+					}
 					$aux=str_replace("##fecha_tema##", $valor["FECHA_PUBLICACION_MENSAJE"], $aux);
 					$aux=str_replace("##contenido##", $valor["CONTENIDO"], $aux);
 					$aux=str_replace("##idmensaje##", $valor["IDMENSAJE"], $aux);
@@ -911,7 +1022,7 @@
 						$codigo =  "<div id='cardTercera' class='card shadow p-3 mb-5 bg-white rounded' >
 										<div class='row no-gutters'>
 											<div class='col-md-4'>
-												<img id='foto_perfil' class='rounded-circle' src='final_fotos/##foto_perfil_tercera##.jpg'  >
+												<img id='foto_perfil' class='rounded-circle' src='final_fotos_perfil/##foto_perfil_tercera##'  >
 												<p id='fecha'>##fecha_tema_tercera##</p>
 											</div>
 											<div class='col-md-8'>
@@ -928,7 +1039,19 @@
 							if ( ($valor["IDMENSAJE"] == $valor2["IDMENSAJE"]) and ($valor["IDTEMA"] == $valor2["IDTEMA"]) ){
 
 								$aux=str_replace("##cartaTercera##", $codigo, $aux);
-								$aux=str_replace("##foto_perfil_tercera##", "foto_perfil", $aux);
+								//$aux=str_replace("##foto_perfil_tercera##", $codigo_foto, $aux);
+								for ($i=0; $i < $count_fila3; $i++) { 
+									$usuario = $usuarios[$i];
+									if ($usuario["NICKNAME"] == $valor2["NICKNAME"]) {
+										if ($usuario["FOTO"] == null) {
+											$codigo_foto = "foto_perfil_defecto.jpg";
+											$aux=str_replace("##foto_perfil_tercera##", $codigo_foto, $aux);
+										} else {
+											$codigo_foto = $usuario["FOTO"];
+											$aux=str_replace("##foto_perfil_tercera##", $codigo_foto, $aux);
+										}
+									}
+								}
 								$aux=str_replace("##fecha_tema_tercera##", $valor2["FECHA_PUBLICACION_MENSAJE"], $aux);
 								$aux=str_replace("##contenido_tercera##", $valor2["CONTENIDO"], $aux);
 								$contSecundarios++;
@@ -985,5 +1108,33 @@
 		}
 
 		echo $fichero;
+	}
+
+	function vmostrarEstadoPDF($resultado){
+		$fichero = file_get_contents("mensaje.html");
+		$fichero = vmontarbarra_inicio($fichero);
+		$fichero = vmontarbarra_final($fichero);
+
+		if ($resultado==-1) {
+			$fichero = str_replace("##titulo_mensaje##", "Error al abrir el PDF.", $fichero);
+			$fichero = str_replace("##contenido_mensaje##","Ha ocurrido un error con la BBDD. Vuelva a intentarlo en unos minutos.<br>Disculpe las molestias.<br>" , $fichero);
+			echo $fichero;
+		}
+	}
+
+	function vmostarEstado($resultado){
+		$fichero = file_get_contents("mensaje.html");
+		$fichero = vmontarbarra_inicio($fichero);
+		$fichero = vmontarbarra_final($fichero);
+
+		if ($resultado==-1) {
+			$fichero = str_replace("##titulo_mensaje##", "Error al añadir un nuevo tema.", $fichero);
+			$fichero = str_replace("##contenido_mensaje##","Ha ocurrido un error con la BBDD. Vuelva a intentarlo en unos minutos.<br>Disculpe las molestias.<br>" , $fichero);
+			echo $fichero;
+		} else {
+			$fichero = str_replace("##titulo_mensaje##", "Tema nuevo añadido.", $fichero);
+			$fichero = str_replace("##contenido_mensaje##","El tema se ha añadido correctamente.<br>Ya puede verlo en el foro.<br>" , $fichero);
+			echo $fichero;
+		}
 	}
 ?>
