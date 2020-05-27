@@ -52,7 +52,7 @@
     
     */
     width: auto;
-    height: auto;/*altura:250*/
+    height: 250px;/*altura:250*/
     margin-bottom: 10px;
 }
 
@@ -74,8 +74,10 @@
     margin-top: 5px;
 }
 
-
-
+#boton_pdf button{
+    padding-left: 100px;
+    color: #D00B1D;
+}
 
 
 

@@ -27,6 +27,15 @@
 	<!-- responsive style -->
 	<link href="musica/elements-master/css/responsive.css" rel="stylesheet" />
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@9" />
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/dropzone.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/dropzone.js"></script>
 
 	<!--Nuestra carpeta css-->
     <link rel="stylesheet" type="text/css" href="css/perfil.css" />
@@ -34,14 +43,43 @@
 
 </head>
 <body>
-
+	<!-- Modal -->
+	<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLongTitle">Añada una foto de perfil(.jpeg/jpg)</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	      		<div class="container col-12" >
+			        <div class='content'>
+			            <form action="index.php" class="dropzone" >
+			            </form> 
+			        </div>
+			    
+			        <br>
+			        
+			        <!-- <input class="button" type="button" id='uploadfiles' value='Upload Files' > -->
+			    </div>
+	      </div>
+	      <div class="modal-footer">
+	        <div align="center">
+	            <button type="button" class="btn btn-secondary" id="uploadfiles">Upload</button>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
 	<!-- header section strats -->
 	  ##barra_inicio##
   	<!-- end header section -->
 
   	<div id="perfil_foto" class="col-md">
   		<h2>Perfil de ##nickname##</h2>
-  		<img class="rounded-circle"  src="final_fotos/foto_perfil.jpg" data-holder-rendered="true">
+  		<img class="rounded-circle"  src="final_fotos_perfil/##foto_perfil##" data-holder-rendered="true">
 
   	</div>
 
@@ -51,10 +89,15 @@
 		<input type="button" value="Añadir ejercicio" onClick="location.href= 'index.php?accion=perfil&id=2'">
 		<input type="button" value="Añadir rutina" onClick="location.href= 'index.php?accion=perfil&id=3'">
 		-->
+		<div align="center">
+			<button id="subirFotos" type="button" data-toggle="modal" data-target="#exampleModalCenter">
+			  Cambiar foto perfil
+			</button>
+        </div>
 		<input type="button" value="Cambiar contraseña" onClick="location.href= 'index.php?accion=login&id=5'">
 		<input type="button" value="Cerrar sesion" onClick="location.href= 'index.php?accion=cerrarSesion&id=1'">
 	</div>
-
+	
 	<div id="datos_personales">
 		<label>Nombre</label>
 		<p>##nombre##</p>
@@ -70,5 +113,47 @@
 	<!-- Parte final -->
    		##barra_final##
   	<!-- Fisn parte final -->
+
+  	<script>
+  		$('#exampleModalCenter').on('show.bs.modal', function (event) {
+			
+		})
+
+        Dropzone.autoDiscover = false;
+
+        var myDropzone = new Dropzone(".dropzone", { 
+        	type: "POST",
+            autoProcessQueue: false,
+            parallelUploads: 1,
+            acceptedFiles:".jpg,.jpeg",
+            init: function(){
+                myDrop = this;
+                $('#uploadfiles').click(function(){
+                    myDrop.processQueue();
+                });
+
+                this.on('sending', function (file, xhr, formData) {
+                    formData.append('accion','tools');
+                    formData.append('id','1');
+                    formData.append('nickname','##nickname##');
+                    console.log(formData);
+                });
+
+                this.on("complete", function(){
+                    if(this.getQueuedFiles().length == 0 && this.getUploadingFiles().length == 0){
+                        var _this = this;
+                        _this.removeAllFiles();
+                        swal("Foto perfil", "Foto de perfil cambiada con éxito. Recargue la pagina para ver la foto nueva.");
+                    }
+                });
+  
+                this.on("error", function(file, response){
+                    alert("Formato de imagen incorrecta. Use un .jpg o .jpeg.");
+                    
+                });
+            },
+        });
+
+    </script>
 </body>
 </html>

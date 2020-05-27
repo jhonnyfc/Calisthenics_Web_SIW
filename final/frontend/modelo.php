@@ -2,6 +2,8 @@
 	use PHPMailer\PHPMailer\PHPMailer;
 	use PHPMailer\PHPMailer\Exception;
 	require 'phpmailer/vendor/autoload.php';
+	require_once 'dompdf/autoload.inc.php';
+	use Dompdf\Dompdf;
 
 	function conexionbasedatos() {
 		//$conexion = mysqli_connect("http://webalumnos.tlm.unavarra.es:10800/", "grupo33", "KaNgiga9to", "db_grupo33");
@@ -166,7 +168,7 @@
 				return -2;
 			}
 			else {
-				$consulta = "insert into final_USUARIO values ('$nickname', '$nombre', '$apellido1', '$email', '$contraseña', '$sexo');";
+				$consulta = "insert into final_USUARIO (nickname, nombre, apellido, correo, contraseña, sexo) values ('$nickname', '$nombre', '$apellido1', '$email', '$contraseña', '$sexo');";
 
 				if ($resultado = $conexion->query($consulta)) {
 					$_SESSION["nickname"] = $nickname;
@@ -422,12 +424,9 @@
 
 	function mDatosUsuario() {
 		$conexion = conexionbasedatos();
-		
-		$nickname = $_SESSION["nickname"];
 
 		$consulta = "select *
-					from final_USUARIO
-					where nickname='$nickname';";
+					from final_USUARIO;";
 
 		if ($resultado = $conexion->query($consulta)) {
 			return $resultado;
@@ -435,6 +434,20 @@
 			return -1;
 		}
 	}
+	function mDatosUsuarioPerfil(){
+		$conexion = conexionbasedatos();
+		$nickname = $_SESSION["nickname"];
+		$consulta = "select *
+					from final_USUARIO
+					where nickname = '$nickname';";
+
+		if ($resultado = $conexion->query($consulta)) {
+			return $resultado;
+		} else {
+			return -1;
+		}
+	}
+
 
 	function mCerrarSesion(){
 		@session_start();
@@ -591,7 +604,7 @@
 			if ($resultado->num_rows > 0) {
 				return $resultado;
 			} else {
-				$consulta ="select t.IDTEMA, t.FECHA_PUBLICACION, t.NOMBRE, t.contenido as contenidoTema
+				$consulta ="select t.IDTEMA, t.FECHA_PUBLICACION, t.NOMBRE, t.contenido as contenidoTema, t.NICKNAME
 							from final_tema t
 							where t.idtema=$idtema
 							order by t.FECHA_PUBLICACION asc";
@@ -608,20 +621,15 @@
 
 	function mdatosLikes(){
 		$conexion = conexionbasedatos();
-		if (isset($_SESSION["nickname"]) ) {
-			$nickname_usuario = $_SESSION["nickname"];
 
-			$consulta ="select NICKNAME, IDTEMA
-						from final_likes_tema
-						where NICKNAME='$nickname_usuario';";
-
-			if ( $resultado = $conexion->query($consulta) ) {
-				return $resultado;
-			} else {
-				return -1;
-			}
+		$consulta ="select NICKNAME, IDTEMA
+					from final_likes_tema;";
+		$resultado = $conexion->query($consulta);
+			
+		if ( $resultado = $conexion->query($consulta) ) {
+			return $resultado;
 		} else {
-			return -2;
+			return -1;
 		}
 	}
 
@@ -733,5 +741,130 @@
 		}
 
 	}
+	function mdatosPDF(){
+		$conexion = conexionbasedatos();
+		
+		$consulta = "select FE.IDEJERCICIO, FE.NOMBRE_EJERCICIO, FG.NOMBRE_MUSCULO , FE.NIVEL_EJERCICIO, FE.DESCRIPCION, FE.IDFOTO
+					from final_ejercicio FE, final_grupo FG
+					where FE.MUSCULO = FG.IDGRUPO
+                    order by fg.NOMBRE_MUSCULO;";
+
+		if ($resultado = $conexion->query($consulta)) {
+			$content = "";
+			$content = '<html>';
+			$content .= '<head>';
+			$content .= '<style>';
+			$content .= '</style>';
+			$content .= '</head><body>';
+			$content .= '<h1>Lista de ejercicios</h1>';
+			$musculo = "";
+			$cont = 1;
+			$fila = $resultado->fetch_assoc();
+			while($fila = $resultado->fetch_assoc()) {
+				/*
+				$ejercicios[$cont] = array("IDEJERCICIO"=>$fila["IDEJERCICIO"],
+										   "NOMBRE_EJERCICIO"=>$fila["NOMBRE_EJERCICIO"], 
+										   "NOMBRE_MUSCULO"=>$fila["NOMBRE_MUSCULO"], 
+										   "NIVEL_EJERCICIO"=>$fila["NIVEL_EJERCICIO"], 
+										   "DESCRIPCION"=>$fila["DESCRIPCION"],
+										   "IDFOTO"=>$fila["IDFOTO"]);
+				$cont++;
+				*/
+				if ($fila["NOMBRE_MUSCULO"] != $musculo and $cont==0) {
+					$content .= "</ol>";
+				}
+				if ($fila["NOMBRE_MUSCULO"] != $musculo) {
+					
+					//$content .= "<ol>";
+					$content .= "<h3>Músculos implicados: ".$fila['NOMBRE_MUSCULO']. "</h3>";
+					$musculo = $fila["NOMBRE_MUSCULO"];
+					$content .= "<ol>";
+					$cont = 0;
+				}
+				$content .= "<li><h4>Nombre del ejercicio: ".$fila['NOMBRE_EJERCICIO']."<br>Nivel de dificultad: ".$fila['NIVEL_EJERCICIO']."</h4>";
+				$content .= $fila['DESCRIPCION']."<br></li><br>";
+				
+			}
+			
+			
+			$content .= '</body></html>';
+			//echo $content;die();
+			
+			$dompdf = new Dompdf();
+			$dompdf -> loadHtml($content);
+			$dompdf -> setPaper('A4', 'landscape');
+			$dompdf -> render();//Genera el PDF desde contenido HTML
+			$pdf = $dompdf->output();//Obtener el PDF generado
+			$dompdf -> stream();//Enviar el PDF generado
+
+			return 1;
+		} else {
+			return -1;
+		}
+	}
+
+
+	function mactualizarFotoPerfil() {
+		$conexion = conexionbasedatos();
+
+		$nickname = $_POST["nickname"];
+
+		$consulta ="update final_usuario
+					set foto = '$nickname.jpg'
+					where nickname = '$nickname'";
+
+		$resultado = $conexion->query($consulta);
+		
+		$dir = dirname(__FILE__);
+	    $dir .= '\\final_fotos_perfil\\';
+
+	    if(!empty($_FILES)){
+	        $temp_file = $_FILES['file']['tmp_name'];
+	        //$location = $dir . $_FILES['file']['name'];
+	        $location = $dir . $nickname.".jpg";
+
+	        list($ancho, $alto) = getimagesize($temp_file);
+	        $nuevo_ancho = 200;
+	        $nuevo_alto = 200;
+
+	        // Cargar
+	        $thumb = imagecreatetruecolor($nuevo_ancho, $nuevo_alto);
+	        header('Content-type: image/jpg');
+	        	$origen = imagecreatefromjpeg($temp_file);
+	        
+	        // Cambiar el tamaño
+	        imagecopyresized($thumb, $origen, 0, 0, 0, 0, $nuevo_ancho, $nuevo_alto, $ancho, $alto);
+
+	        // move_uploaded_file($thumb , $location);
+	        if (imagepng($thumb , $location)){
+
+	        } else {
+	        	header("HTTP/1.0 400 Bad Request");
+	        	echo 'error1';
+	        } 
+	    } else {
+	    	header("HTTP/1.0 400 Bad Request");
+	    	echo 'error2';
+	    }
+	    
+	}
+
+	function manadirTema(){
+		$conexion = conexionbasedatos();
+
+		$nombre = $_SESSION["nickname"];
+		$titulo = $_POST["titulo"];
+		$contenido = $_POST["contenido"];
+
+		$consulta = "insert into final_tema (nickname, nombre, contenido) values ('$nombre', '$titulo', '$contenido');";
+
+		if ($resultado = $conexion->query($consulta)) {
+			return 1;
+		} else {
+			return -1;
+		}
+
+	}
+
 
 ?>
