@@ -432,8 +432,8 @@
             $location = $dir . $_FILES['file']['name'];
 
             list($ancho, $alto) = getimagesize($temp_file);
-            $nuevo_ancho = 500;
-            $nuevo_alto = 500;
+            $nuevo_ancho = 1000;
+            $nuevo_alto = 1000;
 
             // Cargar
             $thumb = imagecreatetruecolor($nuevo_ancho, $nuevo_alto);
