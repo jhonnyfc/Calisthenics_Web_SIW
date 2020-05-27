@@ -11,7 +11,7 @@
 .navbar img{
     margin-top: 5px;
 }
-.filtrar select{/*No lo aplica*/
+.filtrar {/*No lo aplica*/
     margin-left: 500px;
     height: 50px;
     margin-top: 10px;
@@ -41,13 +41,9 @@
     box-shadow: 0 12px 16px rgba(0, 0, 0, 0.2);
 }
 
-.container_lista_rutinas .card img{
-    width: auto;
-    height: auto;/*altura:250*/
-    margin-bottom: 10px;
-}
 
 .container_lista_rutinas .card h4{
+    margin-top: 15px;
     font-weight: 600;
 }
 

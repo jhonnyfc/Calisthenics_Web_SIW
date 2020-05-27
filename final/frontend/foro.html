@@ -24,6 +24,8 @@
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 	<!--Nuestra carpeta css-->
 	<link rel="stylesheet" type="text/css" href="css/foro.css" />
 
@@ -88,24 +90,36 @@
 			if (imagen=="http://localhost/final/frontend/final_fotos/corazon.png") {
 				$.ajax({
 					url: "index.php?accion=BBDD&id=1&idtema="+idTema,
-					succes:function(resultado){
-
+					dataType: "json",
+					cache: false, 
+					success:function(resultado){
+						if (resultado[0] == 1) {
+							document.getElementById("corazon_imagen"+idTema).src="final_fotos/corazon_lleno.png";
+							valorNumero++;
+							tagNumero.innerHTML = valorNumero;
+						} else {
+							swal("error", "Error con la BBDD", "error");
+						}
 					}
 				});
-				document.getElementById("corazon_imagen"+idTema).src="final_fotos/corazon_lleno.png";
-				valorNumero++;
-				tagNumero.innerHTML = valorNumero;
+				
 				
 			} else if (imagen=="http://localhost/final/frontend/final_fotos/corazon_lleno.png") {
 				$.ajax({
 					url:"index.php?accion=BBDD&id=2&idtema="+idTema,
-					succes:function(){
-						
+					dataType: "json",
+					cache: false, 
+					success:function(resultado){
+						if (resultado[0] == 1) {
+							document.getElementById("corazon_imagen"+idTema).src="final_fotos/corazon.png";
+							valorNumero--;
+							tagNumero.innerHTML = valorNumero;
+						} else {
+							swal("error", "Error con la BBDD", "error");
+						}
 					}
 				});
-				document.getElementById("corazon_imagen"+idTema).src="final_fotos/corazon.png";
-				valorNumero--;
-				tagNumero.innerHTML = valorNumero;
+				
 			}
 		}
 

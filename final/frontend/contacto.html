@@ -24,6 +24,7 @@
     <!-- responsive style -->
     <link href="musica/elements-master/css/responsive.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <!--Nuestra carpeta css-->
     <link rel="stylesheet" type="text/css" href="css/contacto.css" />
@@ -34,7 +35,11 @@
     <!-- header section strats -->
     ##barra_inicio##
     <!-- end header section -->
-  
+    <script type="text/javascript">
+      function ok(){
+        swal("Mensaje", "Mensaje enviado correctamente.", "success");
+      }
+  </script>
 
   
 
@@ -74,7 +79,7 @@
                       Enviar
                     </button>
                   -->
-                    <input type="submit" value="Enviar">
+                    <input type="submit" value="Enviar" onclick="ok()">
                   </div>
                 </div>
               </div>
