@@ -331,7 +331,7 @@
         $skipID = $_POST["saltar"];
 
         switch ($tipo){
-            case '1':
+            case '':
                 header("HTTP/1.0 400 Bad Request");
                 echo 'Tipo de CSV no Selecionadao ';
                 return 0;    
@@ -391,6 +391,7 @@
                 break;
             case '1': # Ulizar Id del Fichero
                 $ini = 0;
+                $offset = 0;
                 switch ($tipo){
                     case '1':
                         $cols = array('#IDeJER#','#Nombre#','#sec#','#Nivel#','#descri#','#IdFoto#');
@@ -403,10 +404,12 @@
                 }
                 break;
             case '2': # Utilizar Id por dEfecto el Fichero no tine Id 
+                $offset = 0;
                 $ini = 0;
                 break;
             case '3': # Saltar la primer columna ID
                 $ini = 1;
+                $offset = -1;
                 if ($tipo == 4 or $tipo == 3){
                     header("HTTP/1.0 400 Bad Request");
                     echo 'El tipo de archivo seleccionado no permite salto de la columna id';
@@ -425,17 +428,16 @@
 
                     $auxInser = $inserCon;
                     if ($fila >= $primeraRow){ // Saltamos head si es necesario
-                        for ($c = $ini; $c < count($cols); $c++) {
-                            $auxInser = str_replace($cols[$c],  $rowDat[$c], $auxInser);
+                        for ($c = $ini; $c < count($rowDat); $c++) {
+                            $auxInser = str_replace($cols[$c + $offset],  $rowDat[$c], $auxInser);
+                        }
+
+                        if (!$conex->query($auxInser)){
+                            header("HTTP/1.0 400 Bad Request");
+                            echo 'Error al subir la fila '.($fila+1). ' <br>'.$conex->error;
+                            return 0;
                         }
                     }
-                    
-                    if (!$conex->query($auxInser)){
-                        header("HTTP/1.0 400 Bad Request");
-                        echo 'Error al subir la fila '.($fila+1);
-                        return 0;
-                    }
-
                     $fila++;
                 }
                 fclose($gestor);
@@ -646,19 +648,18 @@
                 $fotName = $row['IDFOTO'];
                 $dir .= "\\frontend\\fotos_ejercicios\\$fotName";
 
-                $res[0] = -1;
-                $res[1] = "Funcion no Disponible :-( ".$dir.'  ';
-                echo json_encode($res);
+                // $res[0] = -1;
+                // $res[1] = "Funcion no Disponible :-( ".$dir.'  ';
+                // echo json_encode($res);
 
-                // $consDelete = "DELETE FROM $tableName T WHERE T.$campId LIKE '$idData'";
-                // if ($conex->query($consDelete)){
-                //     $res[0] = 1;
-                //     echo json_encode($res);
-                // } else {
-                //     $res[0] = -1;
-                //     $res[1] = "Error al eliminar :-(";
-                //     echo json_encode($res);
-                // }
+                if ($conex->query($consDelete)){
+                    $res[0] = 1;
+                    echo json_encode($res);
+                } else {
+                    $res[0] = -1;
+                    $res[1] = "Error al eliminar :-(";
+                    echo json_encode($res);
+                }
             } else {
                 $res[0] = -1;
                 $res[1] = "Erro de conexion :-(";

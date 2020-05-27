@@ -1,8 +1,8 @@
-id_gr;grup_name;im_code
-0;Full Body;gr0
-1;Chest & Triceps;gr1
-2;Legs;gr2
-3;Back & Biceps;gr3
-4;Core;gr4
-5;Shoulders;gr5
-6;Personalizado;gr6
+id_gr;grup_name
+0;Full Body
+1;Chest & Triceps
+2;Legs
+3;Back & Biceps
+4;Core
+5;Shoulders
+6;Personalizado
