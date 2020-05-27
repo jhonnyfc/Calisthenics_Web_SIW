@@ -89,12 +89,7 @@
 
 		    $mail->send();
 
-		    //header("Refresh:0; url=index.php?accion=contacto&id=3");
-		    //header('Location: index.php?accion=inicio&id=1');
-		//} catch (Exception $exception) {
-		  // return -1;
-		   // echo 'Algo salio mal', $exception->getMessage();
-		//}
+		    header('Location: index.php?accion=contacto&id=1');
 		return 1;
 	}
 
@@ -314,11 +309,7 @@
 				    			   Contraseña nueva: '$nueva_contraseña_usuario'.";
 
 				    $mail->send();
-
-					//} catch (Exception $exception) {
-					  // return -1;
-					   // echo 'Algo salio mal', $exception->getMessage();
-					//}
+				    header('Location: index.php?accion=login&id=3');
 					return 1;
 				} else {
 					return -1;
@@ -331,6 +322,56 @@
 		}
 	}
 
+	function menviarContraseñaNueva() {
+
+		$nickname = $_POST["nickname"];
+		$nueva_contraseña = $_POST["contraseña"];
+		$nueva_contraseña = md5($nueva_contraseña);
+		$email = $_POST["email"];
+		
+		if (!preg_match("/^[a-zA-Z0-9]*$/",$nickname)) {
+			return -2;
+		}
+
+		$conexion = conexionbasedatos();
+		
+		$consulta = "update final_USUARIO SET CONTRASEÑA = '$nueva_contraseña' where nickname = '$nickname';";
+		if ($resultado = $conexion->query($consulta)) {
+			$mail = new PHPMailer(true);
+
+			//try {
+		    $mail->SMTPDebug = 2;
+		    $mail->isSMTP();
+
+		    $mail->Host = 'smtp.gmail.com';
+		    $mail->SMTPAuth = true;
+
+		    $mail->Username = 'danieldbg1Calisteniaweb@gmail.com';
+		    $mail->Password = 'danidbg1CalisteniaWeb';
+
+		    $mail->SMTPSecure = 'tls';
+		    $mail->Port = 587;
+
+		    ## MENSAJE A ENVIAR
+
+		    $mail->setFrom('danieldbg1Calisteniaweb@gmail.com');
+		    $mail->addAddress("$email");
+
+		    $mail->isHTML(true);
+		    $mail->Subject = 'CalisteniaWeb';
+		    $mail->Body = "Buenos días, <br>
+		    			   somos de CalisteniaWeb y le enviamos informamos que su contraseña ha sido modificada con exito.<br> Ya puede entrar y disfrutar de todas las ventajas que ofrece CalisteniaWeb.<br><br>";
+
+		    $mail->send();
+		    header('Location: index.php?accion=login&id=3');
+			return 1;
+		} else {
+			return -1;
+		}
+			
+
+
+	}
 	function mdatosEjercicioActualizar() {
 		$conexion = conexionbasedatos();
 		
@@ -397,7 +438,35 @@
 
 	function mCerrarSesion(){
 		@session_start();
+		unset($_SESSION["nickname"]); 
+		unset($_SESSION["contraseña"]);
 		session_destroy();
+		$conexion = conexionbasedatos();
+
+
+		$consulta1 ="select * from final_publicacion limit 3";
+
+		$consulta2 ="select FE.IDEJERCICIO, FE.NOMBRE_EJERCICIO, FG.NOMBRE_MUSCULO , FE.NIVEL_EJERCICIO, FE.DESCRIPCION, FE.IDFOTO
+					 from final_ejercicio FE, final_grupo FG
+					 where FE.MUSCULO = FG.IDGRUPO;";
+
+		$consulta3 ="select t.IDTEMA, t.NICKNAME, t.FECHA_PUBLICACION, t.NOMBRE, t.CONTENIDO, count(lt.IDTEMA) as likes
+					 from final_tema t, final_likes_tema lt
+					 where t.IDTEMA = lt.IDTEMA
+					 group by t.IDTEMA, t.NICKNAME, t.FECHA_PUBLICACION, t.NOMBRE, t.CONTENIDO
+					 order by likes desc
+					 limit 2;";
+		$res = array();
+		if ( ($resultado1 = $conexion->query($consulta1)) and ($resultado2 = $conexion->query($consulta2)) and ($resultado3 = $conexion->query($consulta3)) ){
+			
+			$res[0] = $resultado1;
+			$res[1] = $resultado2;
+			$res[2] = $resultado3;
+			return $res;
+		} else {
+			$res[0] = -1;
+			return $res;
+		}
 	}
 	
 	function mDatosRutinas() {
@@ -463,7 +532,24 @@
 			return -1;
 		}
 	}
+	function mdatosRutinaInfo() {
+		$conexion = conexionbasedatos();
+		
+		$musculos = "";
+		$nivel = "";
+		$idrutina = $_GET["idrutina"];
+		$consulta ="select FR.NOMBRE_RUTINA, FR.INTERVALO_TIEMPO, FR.NIVEL_RUTINA, FG.NOMBRE_MUSCULO, FR.IDRUTINA 
+						from final_rutina Fr, final_grupo FG
+						where FG.IDGRUPO =FR.IDGRUPO and FR.IDRUTINA = '$idrutina';";
 
+	
+		
+		if ($resultado = $conexion->query($consulta)) {
+			return $resultado;
+		} else {
+			return -1;
+		}
+	}
 	function mdatosForo(){
 		$conexion = conexionbasedatos();
 		$res = array();
@@ -542,13 +628,16 @@
 	function mBorrarLike(){
 		$conexion = conexionbasedatos();
 
+		$resultado1 = array();
 		$nickname_usuario = $_SESSION["nickname"];
 		$idtema = $_GET["idtema"];
 		$consulta ="delete from final_likes_tema where nickname = '$nickname_usuario' and idtema = $idtema;";
 		if ( $resultado = $conexion->query($consulta) ) {
-			return 1;
+			$resultado1[0] = 1;
+			echo json_encode($resultado1);
 		} else {
-			return -1;
+			$resultado1[0] = -1;
+			echo json_encode($resultado1);
 		}
 		
 	}
@@ -556,13 +645,17 @@
 	function mInsertarLike(){
 		$conexion = conexionbasedatos();
 
+		$resultado1 = array();
 		$nickname_usuario = $_SESSION["nickname"];
 		$idtema = $_GET["idtema"];
 		$consulta ="insert into final_likes_tema values ($idtema, '$nickname_usuario');";
+
 		if ( $resultado = $conexion->query($consulta) ) {
-			return 1;
+			$resultado1[0] = 1;
+			echo json_encode($resultado1);
 		} else {
-			return -1;
+			$resultado1[0] = -1;
+			echo json_encode($resultado1);
 		}
 	}
 
@@ -616,19 +709,20 @@
 
 
 		$consulta1 ="select * from final_publicacion limit 3";
+
 		$consulta2 ="select FE.IDEJERCICIO, FE.NOMBRE_EJERCICIO, FG.NOMBRE_MUSCULO , FE.NIVEL_EJERCICIO, FE.DESCRIPCION, FE.IDFOTO
 					 from final_ejercicio FE, final_grupo FG
 					 where FE.MUSCULO = FG.IDGRUPO;";
+
 		$consulta3 ="select t.IDTEMA, t.NICKNAME, t.FECHA_PUBLICACION, t.NOMBRE, t.CONTENIDO, count(lt.IDTEMA) as likes
 					 from final_tema t, final_likes_tema lt
 					 where t.IDTEMA = lt.IDTEMA
 					 group by t.IDTEMA, t.NICKNAME, t.FECHA_PUBLICACION, t.NOMBRE, t.CONTENIDO
 					 order by likes desc
 					 limit 2;";
-
-		if ( ($resultado1 = $conexion->query($consulta1)) and ($resultado2 = $conexion->query($consulta2)) 
-			and ($resultado2 = $conexion->query($consulta2) ) {
-			$res = array();
+		$res = array();
+		if ( ($resultado1 = $conexion->query($consulta1)) and ($resultado2 = $conexion->query($consulta2)) and ($resultado3 = $conexion->query($consulta3)) ){
+			
 			$res[0] = $resultado1;
 			$res[1] = $resultado2;
 			$res[2] = $resultado3;

@@ -116,6 +116,10 @@
 				//Enviar la contraseña
 				vmostrarEstadoEnviarContraseña(menviarContraseña());
 				break;
+			case '7':
+				//Enviar la contraseña
+				vmostrarEstadoEnviarContraseña(menviarContraseñaNueva());
+				break;
 		}
 	}
 
@@ -152,6 +156,10 @@
 		case '2':
 			//Mostrar informacion rutinas
 			vmostrarRutinas(mdatosRutinaActualizar());
+			break;
+		case '3':
+			//Mostrar informacion rutinas
+			vmostrarRutinaInfo(mdatosRutinaInfo());
 			break;
 		}
 	}
@@ -190,7 +198,6 @@
 		}
 	}
 	 
-
 
 
 

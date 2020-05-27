@@ -19,6 +19,14 @@
 #resena_texto{
 	margin-bottom: 10px;
 }
+#carousel-inner img{
+	height: 200px !important;
+	width: 200px !important;	
+}
+#multi-item-example{	
+	border: none;
+	align-content: left ;	
+}
 
 @media (min-width: 768px) {
 .carousel-multi-item-2 .col-md-3 {
@@ -27,7 +35,7 @@ width: 25%;
 max-width: 100%; } }
 
 .carousel-multi-item-2 .card img {
-border-radius: 2px; }
+border-radius: none; }
 
 
 .card{
@@ -42,18 +50,19 @@ border-radius: 2px; }
 }
 
 #botonTema{
-	width: 100px;
-	height: 40px;
-	font-size: 15px;
-	margin-right: 30px;
-	float: right;
-	margin-bottom: 10px;
+	width: 100px !important;
+	height: 40px !important;
+	font-size: 15px !important;
+	margin-right: 30px !important;
+	float: right !important;
+	margin-bottom: 10px !important;
 }
 
 .card #fecha{
 	font-size: 18px;
 	font-style: italic;
 	margin-left: 75px;
+	margin-top: 60px;
 
 }
 

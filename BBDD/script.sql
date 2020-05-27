@@ -58,7 +58,7 @@ CREATE TABLE final_USUARIO(
     CORREO VARCHAR(50) NOT NULL,
     CONTRASEÑA VARCHAR(50) NOT NULL,
     SEXO VARCHAR(4) NOT NULL CHECK (SEXO in ('H', 'M', 'Otro', 'PND')),
-
+    FOTO VARCHAR(30) DEFAULT NULL,
     CONSTRAINT PK_NICKNAME_USUARIO PRIMARY KEY (NICKNAME)
 
 );
@@ -144,7 +144,7 @@ INSERT INTO final_EJERCICIO ( nombre_ejercicio, musculo, nivel_ejercicio, descri
 INSERT INTO final_EJERCICIO ( nombre_ejercicio, musculo, nivel_ejercicio, descripcion, idfoto) VALUES ('Dominadas',3,'Principiante','Subir y bajar.','eb004.jpg');
 
 
-INSERT INTO final_USUARIO VALUES ('danidbg','Dani', 'del Barrio','dani@gmail.com','dani123','M');
+INSERT INTO final_USUARIO (NICKNAME, NOMBRE, APELLIDO, CORREO, CONTRASEÑA, SEXO) VALUES ('danidbg','Dani', 'del Barrio','dani@gmail.com','dani123','M');
 
 INSERT INTO final_RUTINA (NOMBRE_RUTINA, IDGRUPO, IDUSUARIO, INTERVALO_TIEMPO, NIVEL_RUTINA) VALUES ('RUTINA2',2,'Dani2',180, "Intermedio");
 INSERT INTO final_EJERCICIO_RUTINA VALUES (1,004);
