@@ -1,0 +1,12 @@
+id;Nombre;musculos;nivel;descripcion;idFoto
+eb0;Australian chin ups;3;Principiante;En una barra baja, col�cate debajo para hacer un movimiento de remo con agarre supino (las palmas de las manos mirando hacia arriba).;eb001.jpg
+eb1;Australian pull ups;3;Principiante;En una barra baja col�cate por debajo para hacer un movimiento de remo con agarre prono.;eb002.jpg
+eb2;Dead hang;3;Principiante;En una barra alta, qu�date colgado por un tiempo determinado.;eb003.jpg
+eb3;Dominada negativa;3;Principiante;Salta hasta colocarte con la barbilla por encima de la barra y luego baja de forma lenta y controlada;eb004.jpg
+eb4;Pullover;3;Principiante;En una barra baja, da un paso hacia adelante y un peque�o salto flexionando la cadera y elevando los pies por encima de la barra, mientras tanto tira fuerte con los brazos para que coloques tu cadera apoyada en la misma y realices un giro.;eb005.jpg
+eb5;Dominadas;3;Intermedio;Cuelgate con los codos bloqueados y sube hasta pasar la barra con la barbilla.;eb006.jpg
+eb6;Dead hang a una mano;3;Intermedio;Cuelgate de la barra con una mano durante un tiempo determinado;eb007.jpg
+eb7;Dominada b�lgara en anilals;3;Intermedio;Coloca las anilals en altura y cuelgate de las mismas. Realiza una dominada intentando mantener una anchura entre tus manos del doble de la de tus hombors.;eb008.jpg
+eb8;Bandera;3;Avanzado;En unas barras tipo espaldera, coloca una mano a una altura superior a tu cabeza y la otra a la altura de tu cintura. Intenta colocarte en posici�n paralela al suelo utilizando el brazo de abajo como apoyo y tirando un poco con el de arriba.;eb009.jpg
+eb9;Dominadas a un brazo;3;Avanzado;Estando completamente colgado de un brazo, realiza una dominada.;eb010.jpg
+eb10;Dominadas arqueras;3;Avanzado;En cada repetici�n, lleva la barbilla a una de las manos mientr�s mantienes el otro brazo estirado, sin doblarlo en ning�n momento.;eb011.jpg

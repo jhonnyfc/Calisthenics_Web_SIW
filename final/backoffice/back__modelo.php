@@ -434,7 +434,7 @@
 
                         if (!$conex->query($auxInser)){
                             header("HTTP/1.0 400 Bad Request");
-                            echo 'Error al subir la fila '.($fila+1). ' <br>'.$conex->error;
+                            echo 'Error al subir la fila '.($fila+1).' de '.$_FILES['file']['name']. ' <br>'.$conex->error;
                             return 0;
                         }
                     }

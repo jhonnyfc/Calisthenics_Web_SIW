@@ -1,0 +1,14 @@
+id;Nombre;musculos;nivel;descripcion;idFoto
+pet0;Flexiones;1;Principiante;Manos en el suelo, apertura un poco más amplia que la de los hombros, espalda recta.;pt001.jpg
+pet1;Flexiones inclinadas;1;Principiante;Flexiones con los braxos en alto con respecto a las piernas, utiliza un bamco o barra.;pt002.jpg
+pet2;Fondos triceps;1;Principiante;Colócate en las paralelas y realiza fondos en un rango de movimiento de unos 90º. Intenta no encogerte de hombros ni balancearte.;pt003.jpg
+pet3;Fondos en banco;1;Principiante;En un banco que tenga una altura entre tus rodillas y cadera, colocate de espaldas con las manos en el borde y realiza fondos hasta llegar o superar ligeramente los 90º.;pt004.jpg
+pet4;Isométrico de flexiones abajo;1;Principiante;En el suelo, colócate en posición de flexiones y baja hasta que el pecho esté casi a a altura de las manos y aguanta esa posición porun tiempo determinado.;pt005.jpg
+pet5;Flexiones arqueras en anillas;1;Intermedio;Colocar las anillas al suelo y realiza flexiones. Mientras vas bajando, abre uno de tus brazos de manera que quede casi copletamnete estirado y luego vuelve a la posición inicial. Ve alternando los brazos.;pt006.jpg
+pet6;Flexiones diamante;1;Intermedio;Igual que las flexiones pero con las manos unidas formando una figura de diamante.;pt007.jpg
+pet7;Fondos a codos;1;Intermedio;Al flexionar los brazos, deja que tus antebrazos caigan sobre la barra, utiliza un movimiento explosivo para volver a subir y terminiar el fondo.;pt008.jpg
+pet8;Pseudo flexiones;1;Intermedio;Flexiones con las manos a la altura de la cadera en posición neutra o supina.;pt009.jpg
+pet9;Negativa impossible dip;1;Intermedio;Desde ela posición inicial de fondos, inclina el cuerpo hacia atras e intenta bajar lentamente hasta que los antebrazos toquen las barras.;pt010.jpg
+pet10;Korean dip;1;Intermedio;Colócate sentado en una barra, agárrala a los lados de tu cintura y déjate caer por delante de la misma, cuando llegues al punto de máxiima flexibilidad de los hombros vuelve a subir;pt011.jpg
+pet11;Flexiones a codos;1;Avanzado;Cada vez que realizas una repetición, te dejas caer sobre tus antebrazos y luego vuelves a subir.;pt012.jpg
+pet12;Impossible dip;1;Avanzado;Desde una posición de fondos, baja hasta que los antebrazos queden apoyados en las barras y luego vuelve a subir manteniendo el cuerpo inclinado hacia atrás y sin usar ningún impulso.;pt013.jpg

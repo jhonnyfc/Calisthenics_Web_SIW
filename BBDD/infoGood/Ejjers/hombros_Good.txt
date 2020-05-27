@@ -1,0 +1,10 @@
+id;Nombre;musculos;nivel;descripcion;idFoto
+ho0;Flexiones a pino asistidas cortas;5;Principiante;Haz el pino contra la pared y flexiona un poco los brazos;h001.jpg
+ho1;Pino asistido en pared;5;Principiante;Coloca las manos en el suelo e impulsate con las piernas para quedarte haciendo el pino contra la pared. Aguanta en esta posición un tiempo determinado;h002.jpg
+ho2;Pica en barra;5;Principiante;Colocate en la barra y pasa las piernas entre las manos, estirate de forma que quedes en vertical y separa las piernas de la barra unos 10cm. Aguanta en esta posición un tiempo determinado;h003.jpg
+ho3;Rotacion de hombro externa;5;Principiante;De lado delante de la barra, agarra la cinta elastica con el brazo mas alejado y sin despegarlo del cuerpo tira de la cinta;h004.jpg
+ho4;Skin the cat;5;Principiante;Cuelgate de la barra y encoge las piernas pasando los pies entre tus brazos hasta girar sobre tus hombros, luego vuelve a girar hasta volver a la posicion inicial;h005.jpg
+ho5;Advanced tucked planche;5;Intermedio;Colocate en posicion de tucked planche pero intenta levantar el culo lo mas posible de manera que el tronco quede como minimo paralelo al suelo;h006.jpg
+ho6;Escalar la pared;5;Intermedio;En posicion de flexiones, coloca los pies en la pared y vete subiendo hasta quedar haciendo un pino de cara a la pared. Utiliza la fuerza de tus brazos para controlar tanto la subida como la bajada;h007.jpg
+ho7;Back lever;5;Avanzado;En barra con agarre prono, pasa las piernas entre las manos e intenta quedarte paralelo al suelo. Aprieta abdominales y pectoral para evitar que tu cuerpo caiga tenga una posicion arqueada;h008.jpg
+ho8;Flexiones a pino;5;Avanzado;Haz el pino y realiza flesxiones con los brazos, al principio el rango sera corto, pero con el tiempo intenta aumentar y realizar el rango completo;h009.jpg
