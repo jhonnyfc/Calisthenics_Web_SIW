@@ -463,7 +463,8 @@
 			$fichero = vmontarbarra_inicio($fichero);
 			$fichero = vmontarbarra_final($fichero);
 			$codigo = "<div class='img-box'>
-			            <img style='width: 400px;height: 400px;'src='fotos_ejercicios/##ejercicio_idfoto##'>
+			            <img style='width: 400px;height: 400px;'src='fotos_ejercicios/##ejercicio_idfoto##' onclick='poIma(this.src)'>
+			            <p style= 'margin-left: 80px'>Haz click en la foto para ampliar</p>			      
 			          </div>";
 			$fila = mysqli_fetch_assoc($resultado);
 			$fichero=str_replace("##ejercicio_nombre##", $fila["NOMBRE_EJERCICIO"], $fichero);
@@ -639,9 +640,9 @@
 		$fichero=str_replace("##apellidos##", $fila["APELLIDO"], $fichero);
 		$fichero=str_replace("##email##", $fila["CORREO"], $fichero);
 		if ($fila["FOTO"] == null) {
-			$fichero=str_replace("##foto_perfil##", "foto_perfil_defecto.jpg", $fichero);
+			$fichero=str_replace("##foto_perfil##", "final_fotos/foto_perfil_defecto.jpg", $fichero);
 		} else {
-			$fichero=str_replace("##foto_perfil##", $fila["FOTO"], $fichero);
+			$fichero=str_replace("##foto_perfil##", "final_fotos_perfil/".$fila["FOTO"], $fichero);
 		}
 		
 
@@ -757,7 +758,7 @@
 		$fichero = vmontarbarra_inicio($fichero);
 		$fichero = vmontarbarra_final($fichero);
 		if (isset($_SESSION["nickname"])) {
-			$codigo_boton = "<button id='anadirTema' type='button' class='btn btn-secondary' data-toggle='modal' data-target='#exampleModalCenter1'>Cambiar foto perfil</button>";
+			$codigo_boton = "<button id='anadirTema' type='button' class='btn btn-secondary' data-toggle='modal' data-target='#exampleModalCenter1'>Añadir tema</button>";
 			$fichero = str_replace("##anadir_tema##", $codigo_boton, $fichero);
 			$codigo_corazon = "<b id='numero##idtema##' class='numero' >##numero##</b><button id='corazon' type='submit'><img id='corazon_imagen##idtema##' src = ##corazon##  onclick='cambiarCorazon(##idtema##)'/></button>";
 		} else {
@@ -808,10 +809,10 @@
 					$usuario = $usuarios[$i];
 					if ($usuario["NICKNAME"] == $fila["NICKNAME"]) {
 						if ($usuario["FOTO"] == null) {
-							$codigo_foto = "foto_perfil_defecto.jpg";
+							$codigo_foto = "final_fotos/foto_perfil_defecto.jpg";
 							$aux=str_replace("##foto_perfil##", $codigo_foto, $aux);
 						} else {
-							$codigo_foto = $usuario["FOTO"];
+							$codigo_foto = "final_fotos_perfil/".$usuario["FOTO"];
 							$aux=str_replace("##foto_perfil##", $codigo_foto, $aux);
 						}
 					}
@@ -917,18 +918,18 @@
 				$count_fila3++;
 			}
 
-			$cont=0;
+			$cont22=0;
 
 			//mensajes secundarios
 			if (is_object($resultado2)) {
 				while($fila = $resultado2->fetch_assoc()) {
-					$valores2[$cont] = array("IDMENSAJE_SECUNDARIO"=>$fila["IDMENSAJE_SECUNDARIO"],
+					$valores2[$cont22] = array("IDMENSAJE_SECUNDARIO"=>$fila["IDMENSAJE_SECUNDARIO"],
 											"IDMENSAJE"=>$fila["IDMENSAJE"], 
 											 "IDTEMA"=>$fila["IDTEMA"], 
 											 "NICKNAME"=>$fila["NICKNAME"], 
 											 "FECHA_PUBLICACION_MENSAJE"=>$fila["FECHA_PUBLICACION_MENSAJE"],
 											 "CONTENIDO"=>$fila["CONTENIDO"]);
-					$cont++;
+					$cont22++;
 				}
 			}
 			$cont=0;
@@ -991,10 +992,10 @@
 						$usuario = $usuarios[$i];
 						if ($usuario["NICKNAME"] == $valor["NICKNAME"]) {
 							if ($usuario["FOTO"] == null) {
-								$codigo_foto = "foto_perfil_defecto.jpg";
+								$codigo_foto = "final_fotos/foto_perfil_defecto.jpg";
 								$aux=str_replace("##foto_perfil##", $codigo_foto, $aux);
 							} else {
-								$codigo_foto = $usuario["FOTO"];
+								$codigo_foto = "final_fotos_perfil/".$usuario["FOTO"];
 								$aux=str_replace("##foto_perfil##", $codigo_foto, $aux);
 							}
 						}
@@ -1014,10 +1015,10 @@
 							$usuario = $usuarios[$i];
 							if ($usuario["NICKNAME"] == $valor["NICKNAME"]) {
 								if ($usuario["FOTO"] == null) {
-									$codigo_foto = "foto_perfil_defecto.jpg";
+									$codigo_foto = "final_fotos/foto_perfil_defecto.jpg";
 									$aux=str_replace("##foto_perfil##", $codigo_foto, $aux);
 								} else {
-									$codigo_foto = $usuario["FOTO"];
+									$codigo_foto = "final_fotos_perfil/".$usuario["FOTO"];
 									$aux=str_replace("##foto_perfil##", $codigo_foto, $aux);
 								}
 							}
@@ -1033,10 +1034,10 @@
 						$usuario = $usuarios[$i];
 						if ($usuario["NICKNAME"] == $valor["NICKNAME"]) {
 							if ($usuario["FOTO"] == null) {
-								$codigo_foto = "foto_perfil_defecto.jpg";
+								$codigo_foto = "final_fotos/foto_perfil_defecto.jpg";
 								$aux=str_replace("##foto_perfil##", $codigo_foto, $aux);
 							} else {
-								$codigo_foto = $usuario["FOTO"];
+								$codigo_foto = "final_fotos_perfil/".$usuario["FOTO"];
 								$aux=str_replace("##foto_perfil##", $codigo_foto, $aux);
 							}
 						}
@@ -1046,12 +1047,12 @@
 					$aux=str_replace("##idmensaje##", $valor["IDMENSAJE"], $aux);
 					
 
-					if (count($valores2)>0) {
+					if ($cont22>0) {
 						$contSecundarios = 0;
 						$codigo =  "<div id='cardTercera' class='card shadow p-3 mb-5 bg-white rounded' >
 										<div class='row no-gutters'>
 											<div class='col-md-4'>
-												<img id='foto_perfil' class='rounded-circle' src='final_fotos_perfil/##foto_perfil_tercera##'  >
+												<img id='foto_perfil' class='rounded-circle' src='##foto_perfil_tercera##'  >
 												<p id='fecha'>##fecha_tema_tercera##</p>
 											</div>
 											<div class='col-md-8'>
@@ -1073,10 +1074,10 @@
 									$usuario = $usuarios[$i];
 									if ($usuario["NICKNAME"] == $valor2["NICKNAME"]) {
 										if ($usuario["FOTO"] == null) {
-											$codigo_foto = "foto_perfil_defecto.jpg";
+											$codigo_foto = "final_fotos/foto_perfil_defecto.jpg";
 											$aux=str_replace("##foto_perfil_tercera##", $codigo_foto, $aux);
 										} else {
-											$codigo_foto = $usuario["FOTO"];
+											$codigo_foto = "final_fotos_perfil/".$usuario["FOTO"];
 											$aux=str_replace("##foto_perfil_tercera##", $codigo_foto, $aux);
 										}
 									}
@@ -1088,6 +1089,7 @@
 						}
 						$aux=str_replace("##cartaTercera##","", $aux);
 					} 
+					$aux=str_replace("##cartaTercera##","", $aux);
 					$lista_mensaje.= $aux;
 				}
 				

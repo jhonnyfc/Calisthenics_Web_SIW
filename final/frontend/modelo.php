@@ -21,7 +21,7 @@
 	function mdatosPublicaciones(){
 		$conexion = conexionbasedatos();
 
-		$consulta = "select * from final_publicacion";
+		$consulta = "select * from final_publicacion order by FECHA_PUBLICACION desc; ";
 		if ($resultado = $conexion->query($consulta)) {
 			return $resultado;
 		} else {
@@ -727,7 +727,7 @@
 		$conexion = conexionbasedatos();
 
 
-		$consulta1 ="select * from final_publicacion limit 3";
+		$consulta1 ="select * from final_publicacion order by FECHA_PUBLICACION desc";
 
 		$consulta2 ="select FE.IDEJERCICIO, FE.NOMBRE_EJERCICIO, FG.NOMBRE_MUSCULO , FE.NIVEL_EJERCICIO, FE.DESCRIPCION, FE.IDFOTO
 					 from final_ejercicio FE, final_grupo FG
