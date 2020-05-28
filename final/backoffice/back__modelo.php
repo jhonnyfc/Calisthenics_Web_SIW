@@ -92,6 +92,7 @@
                 if (password_verify($pass, $row["PASSWORDA"])) {
                     // if ($check == 'on'){
                         $_SESSION["id"] = $email;
+                        $_SESSION["fisrt"] = false;
                     // }
                     return 1;
                 } else {

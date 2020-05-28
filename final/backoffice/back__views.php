@@ -81,7 +81,13 @@
         $view = str_replace("##CoutTem##",  $data["countem"], $view);
         
         $alert = viw_createAlert("Succes","Session correcta ","success");
-        $view = str_replace("##PutAlterHere##", $alert, $view);
+
+        if($_SESSION["fisrt"]){
+            $view = str_replace("##PutAlterHere##", $alert, $view);
+            $_SESSION["fisrt"] = false;
+        } else {
+            $view = str_replace("##PutAlterHere##", '', $view);
+        }
 
         $pieData = $data["pie"];
         $view = str_replace("##LISTA_LABES##", $pieData["nombres"], $view);
