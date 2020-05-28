@@ -51,7 +51,7 @@
 						<div class="d-sm-flex align-items-center justify-content-between mb-4">
                             <h1 class="h3 mb-0 text-gray-800">Subir Foto (max 51 fotos a la vez)</h1>
                             <h1 class="h5 mb-0 text-gray-800">(Si se ha click en la foto se aumenta la vista)</h1>
-						</div>
+                        </div>
 
                         <br>
                         <div class="container col-12" ">
@@ -111,7 +111,7 @@
             var myDropzone = new Dropzone(".dropzone", { 
                 autoProcessQueue: false,
                 parallelUploads: 51,
-                acceptedFiles:".png,.jpg,.gif,.bmp,.jpeg",
+                acceptedFiles:".jpg,.jpeg",
                 init: function(){
                     myDrop = this;
                     $('#uploadfiles').click(function(){
@@ -128,9 +128,14 @@
                         if(this.getQueuedFiles().length == 0 && this.getUploadingFiles().length == 0){
                             var _this = this;
                             _this.removeAllFiles();
-                            alert("lod ");
+                            Swal.fire('Good job!','Foto subida correctamente','success');
                         }
                         list_image();
+                    });
+
+                    this.on('error', function(file, response) {
+                        Swal.fire('Bad job!',response,'error');
+                        // $(file.previewElement).find('.dz-error-message').text(response);
                     });
                 },
             });

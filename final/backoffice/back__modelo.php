@@ -564,26 +564,24 @@
             $temp_file = $_FILES['file']['tmp_name'];
             $location = $dir . $_FILES['file']['name'];
 
-            list($ancho, $alto) = getimagesize($temp_file);
             $nuevo_ancho = 1000;
             $nuevo_alto = 1000;
-
-            // Cargar
-            $thumb = imagecreatetruecolor($nuevo_ancho, $nuevo_alto);
             header('Content-type: image/jpeg');
-            $origen = imagecreatefromjpeg($temp_file);
-
-
-            // Cambiar el tamaño
-            imagecopyresized($thumb, $origen, 0, 0, 0, 0, $nuevo_ancho, $nuevo_alto, $ancho, $alto);
-
+            $thumb = mo_resizeImage($temp_file,$nuevo_ancho,$nuevo_alto);
             // move_uploaded_file($thumb , $location);
-            imagepng($thumb , $location);
+            if (!imagejpeg($thumb , $location)){
+                header("HTTP/1.0 400 Bad Request");
+                echo 'Erro camibar redmimensioanar archivo';
+            }
+        } else {
+            header("HTTP/1.0 400 Bad Request");
+            echo 'Erro al subir archivo';
         }
     }
 
     # Get list Fotos
     function mo_listaFotos(){
+        header('Content-type: image/jpeg');
         $dir = dirname( dirname(__FILE__) );
         $dir .= '\\frontend\\fotos_ejercicios\\';
         $files = scandir($dir);
@@ -595,10 +593,14 @@
             foreach($files as $file){
                 if('.' !=  $file && '..' != $file){
                     $dirAu = $direc.$file;
+
+                    $fot = mo_resizeImageTempFile($dir.$file,175,175);
+
                     $output .= '<div class="col-md-2">
-                                <img src="'.$dirAu.'"  alt="Nada Xd" class="img-thumbnail" width="175" height="175" style="height:175px;" onclick="poIma(this.src)"/>
+                                <img src="data:image/png;base64,'.$fot.'"  alt="Nada Xd" class="img-thumbnail"  style="height:175px;" onclick="poIma(this.src)"/>
                                 <button type="button" class="btn btn-link remove_image" id="'.$file.'">Remove</button>
                             </div> ';
+                    
                 }
             }
         }
@@ -792,5 +794,38 @@
             return false;
         }
         return true;
+    }
+
+    function mo_resizeImage($temp_file,$nuevo_ancho,$nuevo_alto){
+        list($ancho, $alto) = getimagesize($temp_file);
+
+        // Cargar
+        $thumb = imagecreatetruecolor($nuevo_ancho, $nuevo_alto);
+        
+        $origen = imagecreatefromjpeg($temp_file);
+
+
+        // Cambiar el tamaño
+        imagecopyresized($thumb, $origen, 0, 0, 0, 0, $nuevo_ancho, $nuevo_alto, $ancho, $alto);
+
+        return $thumb;
+    }
+
+    function mo_resizeImageTempFile($dirFoto,$nuevo_ancho,$nuevo_alto){
+        $dir = dirname(__FILE__);
+        $auxFoto = $dir."\\tools\\aux1.jpg";
+
+        $thumb = mo_resizeImage($dirFoto,$nuevo_ancho,$nuevo_alto);
+        imagejpeg($thumb , $auxFoto);
+
+        $temp = tempnam("/tmp", "UL_IMAGE");
+
+        $img = file_get_contents($auxFoto);
+        file_put_contents($temp, $img);
+
+        $sal = base64_encode(file_get_contents($temp));
+        fclose($temp);
+
+        return $sal;
     }
 ?>
