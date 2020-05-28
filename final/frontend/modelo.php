@@ -548,19 +548,30 @@
 	function mdatosRutinaInfo() {
 		$conexion = conexionbasedatos();
 		
-		$musculos = "";
-		$nivel = "";
+		$res = array();
 		$idrutina = $_GET["idrutina"];
 		$consulta ="select FR.NOMBRE_RUTINA, FR.INTERVALO_TIEMPO, FR.NIVEL_RUTINA, FG.NOMBRE_MUSCULO, FR.IDRUTINA 
-						from final_rutina Fr, final_grupo FG
-						where FG.IDGRUPO =FR.IDGRUPO and FR.IDRUTINA = '$idrutina';";
+					from final_rutina Fr, final_grupo FG
+					where FG.IDGRUPO =FR.IDGRUPO and FR.IDRUTINA = '$idrutina';";
 
 	
 		
 		if ($resultado = $conexion->query($consulta)) {
-			return $resultado;
+			$res[0] = $resultado;
+			$consulta = "select fe.NOMBRE_EJERCICIO, fe.DESCRIPCION, fg.NOMBRE_MUSCULO, fe.NIVEL_EJERCICIO, fe.IDFOTO, fe.IDEJERCICIO
+						from final_ejercicio_rutina fer, final_ejercicio fe, final_grupo fg
+						where fer.IDRUTINA = $idrutina and fer.IDEJERCICIO =  fe.IDEJERCICIO and fg.IDGRUPO = fe.MUSCULO ;";
+
+			if ($resultado = $conexion->query($consulta)) {
+				$res[1] = $resultado;
+				return $res;
+			} else {
+				$res[0] = -1;
+				return $res;
+			}
 		} else {
-			return -1;
+			$res[0] = -1;
+			return $res;
 		}
 	}
 	function mdatosForo(){
