@@ -80,7 +80,7 @@
         $view = str_replace("##CoutUs##",  $data["countuser"], $view);
         $view = str_replace("##CoutTem##",  $data["countem"], $view);
         
-        $alert = viw_createAlert("Succes","Contraseña cambiada correctamente revise su bandeja de entrada ","success");
+        $alert = viw_createAlert("Succes","Session correcta ","success");
         $view = str_replace("##PutAlterHere##", $alert, $view);
 
         $pieData = $data["pie"];

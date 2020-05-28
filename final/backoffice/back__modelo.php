@@ -732,9 +732,13 @@
     #OUT:
     # 1: all right
     function mo_cerrarSesion(){
-        @session_start();
-        session_destroy();
-        return 0;
+        if (isset($_SESSION["id"])){
+            session_unset();
+            session_destroy();
+            return 0;
+        } else {
+            return 999;
+        }
     }
 
     # Envio de mensaje
@@ -779,5 +783,13 @@
             $randomString .= $characters[rand(0, strlen($characters) - 1)];
         }
         return $randomString;
+    }
+
+    function mo_SessionActive($accion){
+        $goodACC = array('ini_sesi','recuperarKey');
+        if (!isset($_SESSION["id"]) and !in_array($accion, $goodACC)){
+            return false;
+        }
+        return true;
     }
 ?>

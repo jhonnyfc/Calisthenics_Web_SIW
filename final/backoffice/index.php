@@ -21,11 +21,16 @@
         }
     }
 
+    if (!mo_SessionActive($accion)){
+        $accion = "ini_sesi";
+        $id = 1;
+    }
+
     switch ($accion) {
         case "ini_sesi":
             switch ($id) {
                 case '1':# mostrar inicio sesion por primer vez
-                    viw_mostrar_iniSesion(null);
+                    viw_mostrar_iniSesion(999);
                     break;
                 case '2':# verificacion de los datos de sesion
                     $code = mo_verificaConstrasena();
