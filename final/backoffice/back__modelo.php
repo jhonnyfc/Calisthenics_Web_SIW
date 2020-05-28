@@ -23,9 +23,9 @@
         }
     }
 
-    #####################################################
+    ####################################################################
     ## LogIn & RestPa ###############
-    #####################################################
+    ####################################################################
 
     # Cambio de contraseña de usuario
     #IN:
@@ -104,9 +104,9 @@
         }
     }
 
-    #####################################################
+    ####################################################################
     ## DashBoard ###############
-    #####################################################
+    ####################################################################
 
     # Obtención de los datos necesarios para la creacion del dashBoard
     #OUT:
@@ -197,9 +197,9 @@
         return $pieData;
     }
 
-    #####################################################
+    ####################################################################
     ## GESTBBDD ###############
-    #####################################################
+    ####################################################################
 
     # Obtencion de la tabla de Usuarios con Datos
     #OUT:
@@ -276,9 +276,9 @@
         return mo_getTablaData($con_numRows,$consulta1,$colNames,$colnamesSQL,$orderBy);
     }
 
-    #####################################################
+    ####################################################################
     ## Insert BBDD ###############
-    #####################################################
+    ####################################################################
 
     # Subir Ejrrcio Nuevo
     function mo_subirEjer(){
@@ -488,9 +488,9 @@
         }
     }
 
-    #####################################################
+    ####################################################################
     ## GESTADMINS ###############
-    #####################################################
+    ####################################################################
 
     # Creacion de la tabla de Adminstradores
     #OUT:
@@ -550,9 +550,9 @@
         }
     }
 
-#####################################################
+##########################################################################################################
 ## TOOLS ###############
-#####################################################
+##########################################################################################################
 
     # Add Files of drop to Foldrs
     #OUT:
@@ -587,25 +587,26 @@
         $files = scandir($dir);
 
         $direc = "../frontend/fotos_ejercicios/";
-        $output = '<div class="row">';
 
+        $resul = array();
+        $resulImg = array();
+        $resulName = array();
+
+        $i = 0;
         if(false !== $files) {
             foreach($files as $file){
                 if('.' !=  $file && '..' != $file){
-                    $dirAu = $direc.$file;
-
-                    $fot = mo_resizeImageTempFile($dir.$file,175,175);
-
-                    $output .= '<div class="col-md-2">
-                                <img src="data:image/png;base64,'.$fot.'"  alt="Nada Xd" class="img-thumbnail"  style="height:175px;" onclick="poIma(this.src)"/>
-                                <button type="button" class="btn btn-link remove_image" id="'.$file.'">Remove</button>
-                            </div> ';
-                    
+                    $aux = '';
+                    $aux .=  mo_resizeImageTempFile($dir.$file,175,175);
+                    $resulImg[$i] = $aux;
+                    $resulName[$i] = $file;
+                    $i++;
                 }
             }
         }
-        $output .= '</div>';
-        echo $output;
+        $resul[0] = $resulImg;
+        $resul[1] = $resulName;
+        return $resul;
     }
 
     # Delelte Fotos
@@ -828,4 +829,28 @@
 
         return $sal;
     }
+
+    function mo_getFotoHtml(){
+        $name =  $_POST["name"];
+        $tam = $_POST["tam"];
+
+        if ($tam == 1){
+            $nuevo_ancho = 300; 
+            $nuevo_alto = 300;
+        } else {
+            $nuevo_ancho = 700; 
+            $nuevo_alto = 700;
+        }
+
+        $dir = dirname(dirname(__FILE__));
+        $dirFoto = $dir.'\\frontend\\fotos_ejercicios\\'.$name;
+
+        $resu = array();
+        $resu[0] = mo_resizeImageTempFile($dirFoto,$nuevo_ancho,$nuevo_alto);
+        $resu[1] = $name;
+        $resu[2] = $tam;
+
+        return $resu;
+    }
+    
 ?>

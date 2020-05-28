@@ -25,6 +25,7 @@
         <script src="tools/bakc_jsTools.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/dropzone.css" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/dropzone.js"></script>
+        <link rel="stylesheet" href="tools/stilo.css" />
 
 	</head>
 	<body id="page-top">
@@ -67,9 +68,13 @@
                             <!-- <input class="button" type="button" id='uploadfiles' value='Upload Files' > -->
                         </div>
 
+                        <br>
+                        <br>
+                        <div class="row" id="fotoMedia"></div>
 
                         <br />
                         <br />
+                        <p>Haga Click sobre la foto pequeña para mostrar la mediana</p>
                         <div id="preview"></div>
                         <br />
 					</div>
@@ -141,17 +146,6 @@
             });
 
             list_image();
-
-            function list_image(){
-                $.ajax({
-                    url:"index.php",
-                    type: "POST",
-                    data: {accion:'tools', id:'2'},
-                     success:function(data){
-                         $('#preview').html(data);
-                     }
-                });
-            }
 
             $(document).on('click', '.remove_image', function(){
                 var name = $(this).attr('id');

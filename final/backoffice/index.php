@@ -155,10 +155,13 @@
                     mo_uploadFile();
                     break;
                 case '2':
-                    mo_listaFotos();
+                    viw_listaIamgens(mo_listaFotos());
                     break;
                 case '3':
                     mo_deleteFoto();
+                    break;
+                case '4':
+                    viw_buildFotoGalery(mo_getFotoHtml());
                     break;
             }
     }

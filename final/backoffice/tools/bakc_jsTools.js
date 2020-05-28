@@ -98,3 +98,45 @@ function poIma(name){
         confirmButtonText: "Go Back", 
     });
 }
+
+function gatFotoEx(nameEj,tamano) {
+    $.ajax({
+        type: "POST",
+        url: "index.php",
+        data: {accion:'tools', id:'4', tam:tamano, name:nameEj},
+        cache: false,
+        dataType: "json",
+        success: function(result) {
+            if (tamano == 1){
+                $("#fotoMedia").html(result[0]);
+            } else {
+                Swal.fire({
+                    width: 'auto',
+                    html: result[0],
+                    confirmButtonText: "Go Back",
+                });
+                $(".swal2-modal").css('background-color', '#000');//Optional changes the color of the sweetalert 
+                $(".swal2-container.in").css('background-color', 'rgba(43, 165, 137, 0.1)');//changes the color of the overlay
+            }
+        },
+        error: function (request, status, error) {
+            swal("error", "Error al procesar la foto", "error");
+        }
+    });
+}
+
+function list_image(){
+    $.ajax({
+        url:"index.php",
+        type: "POST",
+        data: {accion:'tools', id:'2'},
+        cache: false,
+        dataType: "json",
+        success:function(data){
+            $('#preview').html(data[0]);
+        },
+        error: function (request, status, error) {
+            swal("error", "Error al crar las vistas", "error");
+        }
+    });
+}

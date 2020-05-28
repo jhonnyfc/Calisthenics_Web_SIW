@@ -486,4 +486,42 @@
         $alert = "<script> swal(\"$titulo\", \"$mesaje\", \"$tipoAlerta\");</script>";
         return $alert;
     }
+
+    function viw_buildFotoGalery($datos){
+        $res = array();
+        if ($datos[2] == 1){
+            $output = "<div class='text-center'>
+                <img src='data:image/png;base64,$datos[0]' id ='fotoMedi' alt='Nada Xd' onclick=\"gatFotoEx('$datos[1]',2)\"/>
+                <p>Haga Click sobre la mediana para expandir</p>
+                </div> ";
+            // $output = '<div class="text-center">
+            //         <img src="data:image/png;base64,'.$datos[0].'" id ="fotoMedi" alt="Nada Xd" onclick="poIma(this.src)"/>
+            //         <p>Haga Click sobre la mediana para expandir</p>
+            //     </div> ';
+        } else {
+            $output = "<img src='data:image/png;base64,$datos[0]' alt='Nada Xd'/>";
+        }
+
+        $res[0] = $output;
+        echo json_encode($res);
+    }
+
+    function viw_listaIamgens($datos){
+        $res = array();
+
+        $output = '<div class="row">';
+
+        $imgs = $datos[0];
+        $names = $datos[1]; 
+        for ($i = 0; $i < count($imgs); $i++){
+            $output .= "<div class='col-md-2'>
+                        <img src='data:image/png;base64,$imgs[$i]'  alt='Nada Xd' class='img-thumbnail'  onclick=\"gatFotoEx('$names[$i]',1)\"/>
+                        <button type='button' class='btn btn-link remove_image' id='$names[$i]'>Remove</button>
+                    </div> ";
+        }
+        $output .= '</div>';
+
+        $res[0] = $output;
+        echo json_encode($res);
+    }
 ?>
