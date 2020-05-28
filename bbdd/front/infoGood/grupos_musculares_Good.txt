@@ -1,8 +1,8 @@
 id_gr;grup_name
 0;Full Body
-1;Chest & Triceps
-2;Legs
-3;Back & Biceps
+1;Pecho y Triceps
+2;Piernas
+3;Espalda y biceps
 4;Core
-5;Shoulders
+5;Hombros
 6;Personalizado

@@ -205,13 +205,13 @@
     #OUT:
     # data: datos de los usuarios
     function mo_creaTAblaUsers(){
-        $con_numRows = "SELECT COUNT(T.NICKNAME) NUM_FIL FROM final_USUARIO T WHERE T.NICKNAME";
+        $con_numRows = "SELECT COUNT(T.NICKNAME) NUM_FIL FROM FINAL_USUARIO T WHERE T.NICKNAME";
         
-        $consulta1 = "SELECT T.NICKNAME, T.NOMBRE, T.APELLIDO, T.CORREO, T.SEXO FROM final_USUARIO T WHERE T.NICKNAME";
+        $consulta1 = "SELECT T.NICKNAME, T.NOMBRE, T.APELLIDO, T.CORREO, T.SEXO FROM FINAL_USUARIO T WHERE T.NICKNAME";
         $orderBy = "T.NICKNAME";
 
-        $colNames = array('NICKNAME', 'NOMBRE', 'APELLIDO', 'CORREO', 'SEXO','','final_USUARIO');
-        $colnamesSQL = array('NICKNAME', 'NOMBRE', 'APELLIDO', 'CORREO', 'SEXO');
+        $colNames = array('NICKNAME', 'NOMBRE', 'APELLIDO', 'CORREO', 'SEXO','ID_FOTO','','FINAL_USUARIO');
+        $colnamesSQL = array('NICKNAME', 'NOMBRE', 'APELLIDO', 'CORREO', 'SEXO','FOTO');
         
         return mo_getTablaData($con_numRows,$consulta1,$colNames,$colnamesSQL,$orderBy);
     }
@@ -630,17 +630,20 @@
         $consDelete = "DELETE FROM $tableName WHERE $campId=$idData";
 
         if ($tableName == 'FINAL_USUARIO'){
-            $consDelete = "DELETE FROM $tableName T WHERE T.$campId LIKE '$idData'";
-            # Do somethig
-            // $dir = dirname( dirname(__FILE__) );
+            $dir = dirname( dirname(__FILE__) );
+            $dir .= "\\frontend\\final_fotos_perfil\\$idData";
 
-            // $ConsNameFoto = "SELECT T.IDFOTO FROM $tableName T WHERE $campId LIKE '$idData'"; 
-
-            $res[0] = -1;
-            $res[1] = "Funcion no Disponible :-(";
-            echo json_encode($res);
+            $consDelete = "DELETE FROM $tableName WHERE $campId LIKE '%$idData%';";
+            if ($conex->query($consDelete)){
+                $res[0] = 1;
+                unlink($dir);
+                echo json_encode($res);
+            } else {
+                $res[0] = -1;
+                $res[1] = "Error al eliminar :-( \n".$conex->error;
+                echo json_encode($res);
+            }
         }elseif ($tableName == 'FINAL_EJERCICIO'){
-            # Do somethig
             $dir = dirname( dirname(__FILE__) );
 
             $ConsNameFoto = "SELECT T.IDFOTO FROM $tableName T WHERE T.$campId = $idData";
@@ -649,21 +652,18 @@
                 $fotName = $row['IDFOTO'];
                 $dir .= "\\frontend\\fotos_ejercicios\\$fotName";
 
-                // $res[0] = -1;
-                // $res[1] = "Funcion no Disponible :-( ".$dir.'  ';
-                // echo json_encode($res);
-
                 if ($conex->query($consDelete)){
                     $res[0] = 1;
+                    unlink($dir);
                     echo json_encode($res);
                 } else {
                     $res[0] = -1;
-                    $res[1] = "Error al eliminar :-(";
+                    $res[1] = "Error al eliminar :-(<br>".$conex->error;
                     echo json_encode($res);
                 }
             } else {
                 $res[0] = -1;
-                $res[1] = "Erro de conexion :-(";
+                $res[1] = "Erro de conexion :-( <br>".$conex->error;
                 echo json_encode($res);
             }
         } else {
@@ -672,7 +672,7 @@
                 echo json_encode($res);
             } else {
                 $res[0] = -1;
-                $res[1] = "Error al eliminar :-(";
+                $res[1] = "Error al eliminar :-( <br>".$conex->error;
                 echo json_encode($res);
             }
         }
