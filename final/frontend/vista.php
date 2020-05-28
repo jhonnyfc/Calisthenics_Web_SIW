@@ -463,8 +463,8 @@
 			$fichero = vmontarbarra_inicio($fichero);
 			$fichero = vmontarbarra_final($fichero);
 			$codigo = "<div class='img-box'>
-		            <img src='fotos_ejercicios/##ejercicio_idfoto##'>
-		          </div>";
+			            <img style='width: 400px;height: 400px;'src='fotos_ejercicios/##ejercicio_idfoto##'>
+			          </div>";
 			$fila = mysqli_fetch_assoc($resultado);
 			$fichero=str_replace("##ejercicio_nombre##", $fila["NOMBRE_EJERCICIO"], $fichero);
 			$fichero=str_replace("##ejercicio_descripcion##", $fila["DESCRIPCION"], $fichero);
@@ -691,16 +691,41 @@
 
 	function vmostrarRutinaInfo($resultado){
 		
-		if (is_object($resultado)) {
-			$fichero = file_get_contents("info_ejercicio.html");
+		if (is_object($resultado[0])) {
+			$fichero = file_get_contents("info_rutina.html");
 			$fichero = vmontarbarra_inicio($fichero);
 			$fichero = vmontarbarra_final($fichero);
 
-			$fila = mysqli_fetch_assoc($resultado);
+			$fila = mysqli_fetch_assoc($resultado[0]);
 			$fichero=str_replace("##ejercicio_nombre##", $fila["NOMBRE_RUTINA"], $fichero);
-			$aux = "Intervalo de descando: &nbsp&nbsp".$fila["INTERVALO_TIEMPO"]."<br>Nivel de la rutina: &nbsp&nbsp".$fila["NIVEL_RUTINA"]."<br> Musculos implicados: &nbsp&nbsp".$fila["NOMBRE_MUSCULO"]."<br>" ;
+			$aux = "Intervalo de descando: &nbsp&nbsp".$fila["INTERVALO_TIEMPO"]."<br><br>Nivel de la rutina: &nbsp&nbsp".$fila["NIVEL_RUTINA"]."<br><br> Musculos implicados: &nbsp&nbsp".$fila["NOMBRE_MUSCULO"]."<br>" ;
 			$fichero=str_replace("##ejercicio_descripcion##", $aux, $fichero);
 			$fichero=str_replace("##ejercicio_idfoto##", "", $fichero);
+			
+			$trozos=explode("##carta_ejercicio##", $fichero);
+
+			$lista_ejercicios = "";
+			$aux = "";
+			
+			while($fila = mysqli_fetch_assoc($resultado[1])) {	
+
+				$aux = $trozos[1];
+				$aux=str_replace("##nombreejercicio##", $fila["NOMBRE_EJERCICIO"], $aux);
+				$aux=str_replace("##nombre_nivel##", $fila["NIVEL_EJERCICIO"], $aux);
+				$aux=str_replace("##nombre_musculo##", $fila["NOMBRE_MUSCULO"], $aux);
+				$aux=str_replace("##idfoto##", $fila["IDFOTO"], $aux);
+				$aux=str_replace("##idejercicio##", $fila["IDEJERCICIO"], $aux);
+				
+				if ($fila["NIVEL_EJERCICIO"] == "Principiante") {
+					$aux=str_replace("##nombre_color##", "primary", $aux);
+				} else if ($fila["NIVEL_EJERCICIO"] == "Intermedio") {
+					$aux=str_replace("##nombre_color##", "warning", $aux);
+				} else {
+					$aux=str_replace("##nombre_color##", "danger", $aux);
+				}
+				
+				$lista_ejercicios.= $aux;
+			}
 			/*
 			if ($fila["NIVEL_EJERCICIO"] == "Principiante") {
 				$aux=str_replace("##nombre_color##", "primary", $aux);
@@ -710,7 +735,7 @@
 				$aux=str_replace("##nombre_color##", "danger", $aux);
 			}
 			*/
-			echo $fichero;
+			echo $trozos[0] . $lista_ejercicios . $trozos[2];
 		} else {
 			$fichero = file_get_contents("mensaje.html");
 			$fichero = vmontarbarra_inicio($fichero);
