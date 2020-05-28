@@ -6,8 +6,8 @@
 	use Dompdf\Dompdf;
 
 	function conexionbasedatos() {
-		//$conexion = mysqli_connect("http://webalumnos.tlm.unavarra.es:10800/", "grupo33", "KaNgiga9to", "db_grupo33");
-		$conexion = mysqli_connect("localhost", "root", "", "grupo33");
+		$conexion = mysqli_connect("dbserver", "grupo33","KaNgiga9to","db_grupo33");
+		//$conexion = mysqli_connect("localhost", "root", "", "grupo33");
 
 		return $conexion;
 	}

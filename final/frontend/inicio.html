@@ -325,37 +325,7 @@
 
     ##cartaTema##
 
-    <script type="text/javascript">
-      function cambiarCorazon(idTema){
-        var imagen = document.getElementById("corazon_imagen"+idTema).src;
-        //alert(document.getElementById("numero").);
-        var tagNumero = document.getElementById('numero'+idTema);
-        var valorNumero = tagNumero.innerHTML;
-
-        if (imagen=="http://localhost/Calisthenics_Web_SIW/final/frontend/final_fotos/corazon.png") {
-          $.ajax({
-            url: "index.php?accion=BBDD&id=1&idtema="+idTema,
-            succes:function(resultado){
-
-            }
-          });
-          document.getElementById("corazon_imagen"+idTema).src="final_fotos/corazon_lleno.png";
-          valorNumero++;
-          tagNumero.innerHTML = valorNumero;
-          
-        } else if (imagen=="http://localhost/Calisthenics_Web_SIW/final/frontend/final_fotos/corazon_lleno.png") {
-          $.ajax({
-            url:"index.php?accion=BBDD&id=2&idtema="+idTema,
-            succes:function(){
-              
-            }
-          });
-          document.getElementById("corazon_imagen"+idTema).src="final_fotos/corazon.png";
-          valorNumero--;
-          tagNumero.innerHTML = valorNumero;
-        }
-      }
-    </script>
+    
 
   <!--/.Carousel Wrapper-->
   <script type="text/javascript" src="https://mdbootstrap.com/api/snippets/static/download/MDB-Pro_4.19.0/js/jquery.min.js"></script>

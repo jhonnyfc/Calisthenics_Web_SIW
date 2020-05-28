@@ -93,24 +93,24 @@
 		$aux = $reseñas[0];
 		$aux_descripcion2 = substr($aux["CONTENIDO"], 0, 30);
 		$fichero=str_replace("##resena_titulo1##", $aux["TITULO"], $fichero);
-		$fichero=str_replace("##resena_texto1##", $aux["CONTENIDO"], $fichero);
-		$fichero=str_replace("##resena_texto11##", $aux_descripcion2, $fichero);
+		$fichero=str_replace("##resena_texto1##", $aux_descripcion2, $fichero);
+		$fichero=str_replace("##resena_texto11##", $aux["CONTENIDO"], $fichero);
 		$fichero=str_replace("##resena_autor1##", $aux["AUTOR"], $fichero);
 		$fichero=str_replace("##resena_fecha1##", $aux["FECHA_PUBLICACION"], $fichero);
 		
 		$aux = $reseñas[1];
 		$aux_descripcion2 = substr($aux["CONTENIDO"], 0, 30);
 		$fichero=str_replace("##resena_titulo2##", $aux["TITULO"], $fichero);
-		$fichero=str_replace("##resena_texto2##", $aux["CONTENIDO"], $fichero);
-		$fichero=str_replace("##resena_texto22##", $aux_descripcion2, $fichero);
+		$fichero=str_replace("##resena_texto2##", $aux_descripcion2, $fichero);
+		$fichero=str_replace("##resena_texto22##", $aux["CONTENIDO"], $fichero);
 		$fichero=str_replace("##resena_autor2##", $aux["AUTOR"], $fichero);
 		$fichero=str_replace("##resena_fecha2##", $aux["FECHA_PUBLICACION"], $fichero);
 
 		$aux = $reseñas[2];
 		$aux_descripcion2 = substr($aux["CONTENIDO"], 0, 30);
 		$fichero=str_replace("##resena_titulo3##", $aux["TITULO"], $fichero);
-		$fichero=str_replace("##resena_texto3##", $aux["CONTENIDO"], $fichero);
-		$fichero=str_replace("##resena_texto33##", $aux_descripcion2, $fichero);
+		$fichero=str_replace("##resena_texto3##", $aux_descripcion2, $fichero);
+		$fichero=str_replace("##resena_texto33##", $aux["CONTENIDO"], $fichero);
 		$fichero=str_replace("##resena_fecha3##", $aux["FECHA_PUBLICACION"], $fichero);
 
 
@@ -472,15 +472,7 @@
 			
 			$fichero=str_replace("##ejercicio_idfoto##", $codigo, $fichero);
 			$fichero=str_replace("##ejercicio_idfoto##", $fila["IDFOTO"], $fichero);
-			/*
-			if ($fila["NIVEL_EJERCICIO"] == "Principiante") {
-				$aux=str_replace("##nombre_color##", "primary", $aux);
-			} else if ($fila["NINIVEL_EJERCICIOVEL"] == "Intermedio") {
-				$aux=str_replace("##nombre_color##", "warning", $aux);
-			} else {
-				$aux=str_replace("##nombre_color##", "danger", $aux);
-			}
-			*/
+			
 			echo $fichero;
 		} else {
 			$fichero = file_get_contents("mensaje.html");
@@ -624,7 +616,7 @@
 		$fichero = vmontarbarra_final($fichero);
 
 		$fichero = str_replace("##titulo_mensaje##", "Necesitas estar registrado.", $fichero);
-		$fichero = str_replace("##contenido_mensaje##","Para poder disfrutar de todas las ventajas que ofrece nuestra página web, deberás estar registrado y haber iniciado sesión previamente.<br> Puedo iniciar sesión en el haciendo click <a href='index.php?accion=login&id=3' >aquí.</a>" , $fichero);
+		$fichero = str_replace("##contenido_mensaje##","Para poder disfrutar de todas las ventajas que ofrece nuestra página web, deberás estar registrado y haber iniciado sesión previamente.<br> Puedes iniciar sesión haciendo click <a href='index.php?accion=login&id=3' >aquí.</a>" , $fichero);
 
 		echo $fichero;
 	}
