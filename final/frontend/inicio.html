@@ -332,7 +332,7 @@
         var tagNumero = document.getElementById('numero'+idTema);
         var valorNumero = tagNumero.innerHTML;
 
-        if (imagen=="http://localhost/final/frontend/final_fotos/corazon.png") {
+        if (imagen=="http://localhost/Calisthenics_Web_SIW/final/frontend/final_fotos/corazon.png") {
           $.ajax({
             url: "index.php?accion=BBDD&id=1&idtema="+idTema,
             succes:function(resultado){
@@ -343,7 +343,7 @@
           valorNumero++;
           tagNumero.innerHTML = valorNumero;
           
-        } else if (imagen=="http://localhost/final/frontend/final_fotos/corazon_lleno.png") {
+        } else if (imagen=="http://localhost/Calisthenics_Web_SIW/final/frontend/final_fotos/corazon_lleno.png") {
           $.ajax({
             url:"index.php?accion=BBDD&id=2&idtema="+idTema,
             succes:function(){
