@@ -109,16 +109,16 @@
 				vmostrarEstadoLogin(mvalidarLogin());
 				break;
 			case '5':
-				//Cambiar contraseña
 				vcambiarContraseña();
 				break;
 			case '6':
-				//Enviar la contraseña
 				vmostrarEstadoEnviarContraseña(menviarContraseña());
 				break;
 			case '7':
-				//Enviar la contraseña
 				vmostrarEstadoEnviarContraseña(menviarContraseñaNueva());
+				break;
+			case '8':
+				vcambiarContraseñaNueva();
 				break;
 		}
 	}

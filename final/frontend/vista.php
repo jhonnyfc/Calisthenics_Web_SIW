@@ -569,6 +569,10 @@
 	}
 
 	function vcambiarContraseña() {
+		$fichero = file_get_contents("contrasena_nueva_aleatoria.html");
+		echo $fichero;
+	}
+	function vcambiarContraseñaNueva() {
 		$fichero = file_get_contents("cambiar_contrasena.html");
 		echo $fichero;
 	}
